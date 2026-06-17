@@ -98,35 +98,16 @@ h2 {
   background: linear-gradient(135deg, #f4f4f6, #dedee4);
   box-shadow: var(--shadow);
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
 }
 
-.daily-date-block {
-  min-width: 102px;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.daily-label,
 .daily-message span {
   display: block;
   color: var(--panel-muted);
   font-size: 12px;
   font-weight: 750;
   white-space: nowrap;
-}
-
-.daily-date-block strong {
-  display: none;
 }
 
 .daily-message p {
@@ -346,17 +327,6 @@ h2 {
   .daily-note {
     padding: 14px;
     grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .daily-date-block {
-    width: fit-content;
-    min-width: 0;
-    padding: 10px 12px;
-  }
-
-  .daily-date-block strong {
-    font-size: 24px;
   }
 
   .daily-message p {

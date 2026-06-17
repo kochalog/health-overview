@@ -99,17 +99,14 @@ function sparkline(points, color) {
 function renderSummary() {
   const latest = latestDay();
   const updated = document.getElementById("updatedAt");
-  const latestDate = document.getElementById("latestDate");
   const summaryText = document.getElementById("summaryText");
   if (!latest) {
     updated.textContent = "データなし";
-    latestDate.textContent = "-";
     summaryText.textContent = "まだ表示できるデータがありません。";
     return;
   }
 
   updated.textContent = `生成 ${new Date(data.generatedAt).toLocaleString("ja-JP", { dateStyle: "short", timeStyle: "short" })}`;
-  latestDate.textContent = labelDate(latest.date);
 
   const sleep = latest.sleepMinutes;
   const steps = latest.steps;
