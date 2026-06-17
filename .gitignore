@@ -1,0 +1,16 @@
+.gradle/
+.android-sdk/
+.android-user/
+.idea/
+build/
+**/build/
+local.properties
+*.iml
+server/*.sqlite3
+__pycache__/
+*.pyc
+deploy/.env
+cloudflare-worker/node_modules/
+cloudflare-worker/.wrangler/
+cloudflare-worker/.wrangler-home/
+cloudflare-worker/.receiver-token

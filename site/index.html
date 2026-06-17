@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Health Overview</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Health Connect</p>
+          <h1>Health Overview</h1>
+        </div>
+        <div class="updated" id="updatedAt">更新待ち</div>
+      </header>
+
+      <section class="summary-band" aria-label="最新サマリー">
+        <div class="daily-note">
+          <div class="daily-date-block">
+            <span class="daily-label">対象データ</span>
+            <strong id="latestDate">-</strong>
+          </div>
+          <div class="daily-message">
+            <span>コンディション</span>
+            <p id="summaryText">データを読み込んでいます。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="chart-section" aria-label="主要グラフ">
+        <div class="section-heading">
+          <h2>Metric Trends</h2>
+          <span id="rangeLabel">-</span>
+        </div>
+        <div class="chart-strip" id="chartStrip"></div>
+      </section>
+
+      <section class="detail-section" aria-label="Daily Snapshot">
+        <div class="section-heading">
+          <h2>Daily Snapshot</h2>
+          <span id="detailDate">-</span>
+        </div>
+        <div class="detail-table-wrap">
+          <table class="detail-table">
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>値</th>
+                <th>前日比</th>
+                <th>7日平均との差</th>
+              </tr>
+            </thead>
+            <tbody id="detailBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="history-section" aria-label="Daily Log">
+        <div class="section-heading">
+          <h2>Daily Log</h2>
+          <span>直近14日</span>
+        </div>
+        <div class="history-table-wrap">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>日付</th>
+                <th>睡眠</th>
+                <th>歩数</th>
+                <th>体重</th>
+                <th>体脂肪率</th>
+              </tr>
+            </thead>
+            <tbody id="historyBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="assets/app.js"></script>
+  </body>
+</html>
