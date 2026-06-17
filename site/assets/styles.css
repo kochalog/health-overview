@@ -1,6 +1,6 @@
 :root {
-  --bg: #242429;
-  --bg-soft: #2a2a30;
+  --bg: #0e244f;
+  --bg-soft: #183c72;
   --panel: #ececef;
   --panel-2: #f7f7f8;
   --panel-3: #d9d9df;
@@ -9,10 +9,10 @@
   --panel-muted: #62636b;
   --muted: #c0c0c7;
   --faint: #91929a;
-  --line: rgba(245, 245, 248, 0.16);
-  --line-strong: rgba(245, 245, 248, 0.28);
-  --brand: #d7d7dc;
-  --brand-soft: rgba(255, 255, 255, 0.08);
+  --line: rgba(218, 237, 255, 0.18);
+  --line-strong: rgba(218, 237, 255, 0.32);
+  --brand: #b9e3ff;
+  --brand-soft: rgba(125, 190, 255, 0.12);
   --amber: #e5b96f;
   --rose: #de7c8d;
   --blue: #84a9f4;
@@ -27,8 +27,9 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.12), transparent 32%),
-    linear-gradient(180deg, #303038 0%, var(--bg) 48%, #1f1f24 100%);
+    radial-gradient(circle at 15% 0%, rgba(82, 187, 255, 0.36), transparent 30%),
+    radial-gradient(circle at 88% 12%, rgba(99, 102, 241, 0.32), transparent 34%),
+    linear-gradient(145deg, #07172f 0%, var(--bg) 42%, #145c91 100%);
   color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   letter-spacing: 0;
