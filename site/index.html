@@ -33,6 +33,41 @@
         <div class="chart-strip" id="chartStrip"></div>
       </section>
 
+      <section class="training-section" aria-label="筋トレとアクティビティ">
+        <div class="section-heading">
+          <h2>Training &amp; Activity</h2>
+          <div class="activity-legend" aria-label="カレンダー凡例">
+            <span><i class="legend-dot strength"></i>筋トレ</span>
+            <span><i class="legend-dot walking"></i>ウォーキング</span>
+          </div>
+        </div>
+        <div class="activity-grid">
+          <article class="calendar-card">
+            <div class="calendar-head">
+              <button type="button" id="calendarPrev" aria-label="前の月">&#8249;</button>
+              <strong id="calendarMonth">-</strong>
+              <button type="button" id="calendarNext" aria-label="次の月">&#8250;</button>
+            </div>
+            <div class="calendar-summary" id="calendarSummary"></div>
+            <div class="calendar-weekdays" aria-hidden="true">
+              <span>日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span>
+            </div>
+            <div class="calendar-days" id="calendarDays"></div>
+          </article>
+
+          <article class="workout-card">
+            <div class="workout-card-head">
+              <div>
+                <span class="panel-kicker">Workout Log</span>
+                <h3>最近の筋トレ</h3>
+              </div>
+              <span id="workoutCount">-</span>
+            </div>
+            <div class="workout-list" id="workoutList"></div>
+          </article>
+        </div>
+      </section>
+
       <section class="detail-section" aria-label="Daily Snapshot">
         <div class="section-heading">
           <h2>Daily Snapshot</h2>

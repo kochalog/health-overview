@@ -2,6 +2,13 @@ const data = window.HEALTH_SITE_DATA || { metrics: [], days: [] };
 const days = data.days || [];
 const metrics = data.metrics || [];
 const detailMetrics = data.detailMetrics || [];
+const activityDays = data.activityDays || [];
+const activityByDate = new Map(activityDays.map((day) => [day.date, day]));
+let calendarCursor = (() => {
+  const sourceDate = days.length ? days[days.length - 1].date : new Date().toISOString().slice(0, 10);
+  const [year, month] = sourceDate.split("-").map(Number);
+  return new Date(year, month - 1, 1);
+})();
 
 const formatters = {
   weight: (v) => formatNumber(v, 1, "kg"),
@@ -50,6 +57,32 @@ function deltaCell(value, metric) {
 function labelDate(value) {
   const date = new Date(`${value}T00:00:00+09:00`);
   return date.toLocaleDateString("ja-JP", { month: "numeric", day: "numeric" });
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function localDateKey(year, month, day) {
+  return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
+function formatDuration(minutes) {
+  if (!minutes) return "0分";
+  const hours = Math.floor(minutes / 60);
+  const rest = minutes % 60;
+  if (!hours) return `${rest}分`;
+  return rest ? `${hours}時間${rest}分` : `${hours}時間`;
+}
+
+function formatWorkoutDate(value) {
+  const date = new Date(value);
+  return date.toLocaleDateString("ja-JP", { month: "numeric", day: "numeric", weekday: "short" });
 }
 
 function latestDay() {
@@ -179,7 +212,84 @@ function renderHistory() {
   </tr>`).join("");
 }
 
+function renderCalendar() {
+  const year = calendarCursor.getFullYear();
+  const month = calendarCursor.getMonth();
+  const monthLabel = document.getElementById("calendarMonth");
+  const calendarDays = document.getElementById("calendarDays");
+  const summary = document.getElementById("calendarSummary");
+  const firstWeekday = new Date(year, month, 1).getDay();
+  const dayCount = new Date(year, month + 1, 0).getDate();
+  const latestKey = days.length ? days[days.length - 1].date : "";
+  const cells = [];
+  let strengthDays = 0;
+  let walkingDays = 0;
+  let strengthMinutes = 0;
+
+  monthLabel.textContent = `${year}年 ${month + 1}月`;
+  for (let index = 0; index < firstWeekday; index += 1) {
+    cells.push('<span class="calendar-day is-empty" aria-hidden="true"></span>');
+  }
+  for (let dayNumber = 1; dayNumber <= dayCount; dayNumber += 1) {
+    const key = localDateKey(year, month, dayNumber);
+    const activity = activityByDate.get(key);
+    const hasStrength = Boolean(activity?.workouts?.length);
+    const hasWalking = Boolean(activity?.walks?.length);
+    if (hasStrength) {
+      strengthDays += 1;
+      strengthMinutes += activity.strengthMinutes || 0;
+    }
+    if (hasWalking) walkingDays += 1;
+    const labels = [hasStrength ? `筋トレ ${formatDuration(activity.strengthMinutes)}` : "", hasWalking ? `ウォーキング ${formatDuration(activity.walkingMinutes)}` : ""].filter(Boolean);
+    cells.push(`<span class="calendar-day ${key === latestKey ? "is-latest" : ""} ${hasStrength || hasWalking ? "has-activity" : ""}" aria-label="${month + 1}月${dayNumber}日${labels.length ? ` ${labels.join(" / ")}` : ""}">
+      <b>${dayNumber}</b>
+      <span class="day-markers">
+        ${hasStrength ? '<i class="marker strength" title="筋トレ"></i>' : ""}
+        ${hasWalking ? '<i class="marker walking" title="ウォーキング"></i>' : ""}
+      </span>
+    </span>`);
+  }
+  calendarDays.innerHTML = cells.join("");
+  summary.innerHTML = `<span><b>${strengthDays}</b>日・${formatDuration(strengthMinutes)}</span><span>ウォーキング <b>${walkingDays}</b>日</span>`;
+}
+
+function renderWorkouts() {
+  const workoutList = document.getElementById("workoutList");
+  const count = document.getElementById("workoutCount");
+  const workouts = activityDays.flatMap((day) => (day.workouts || []).map((workout) => ({ ...workout, date: day.date })))
+    .sort((a, b) => b.startTime.localeCompare(a.startTime));
+  count.textContent = `${workouts.length}セッション`;
+  if (!workouts.length) {
+    workoutList.innerHTML = '<div class="workout-empty">筋トレ記録は、次回のデータ更新後にここへ表示されます。</div>';
+    return;
+  }
+  workoutList.innerHTML = workouts.slice(0, 8).map((workout) => {
+    const bodyParts = (workout.bodyParts || ["全身"]).map((part) => `<span>${escapeHtml(part)}</span>`).join("");
+    const menus = (workout.menus || [workout.title]).map((menu) => `<li>${escapeHtml(menu)}</li>`).join("");
+    return `<section class="workout-entry">
+      <div class="workout-meta">
+        <time datetime="${escapeHtml(workout.startTime)}">${formatWorkoutDate(workout.startTime)}</time>
+        <strong>${formatDuration(workout.minutes)}</strong>
+      </div>
+      <div class="body-part-list">${bodyParts}</div>
+      <ul class="menu-list">${menus}</ul>
+    </section>`;
+  }).join("");
+}
+
+document.getElementById("calendarPrev")?.addEventListener("click", () => {
+  calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth() - 1, 1);
+  renderCalendar();
+});
+
+document.getElementById("calendarNext")?.addEventListener("click", () => {
+  calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth() + 1, 1);
+  renderCalendar();
+});
+
 renderSummary();
 renderCharts();
 renderDetail();
 renderHistory();
+renderCalendar();
+renderWorkouts();

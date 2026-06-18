@@ -1,5 +1,5 @@
 window.HEALTH_SITE_DATA = {
-  "generatedAt": "2026-06-17T10:24:06.953885+09:00",
+  "generatedAt": "2026-06-18T11:18:04.662533+09:00",
   "metrics": [
     {
       "key": "weight",
@@ -1359,6 +1359,205 @@ window.HEALTH_SITE_DATA = {
           "avg7Delta": -0.3
         }
       }
+    }
+  ],
+  "activityDays": [
+    {
+      "date": "2026-06-01",
+      "strengthMinutes": 41,
+      "walkingMinutes": 0,
+      "workouts": [
+        {
+          "id": "ea348a43-f998-4f62-b764-d6e1a7ad8f08",
+          "startTime": "2026-06-01T06:56:55Z",
+          "endTime": "2026-06-01T07:48:09Z",
+          "minutes": 41,
+          "sourcePackage": "com.hevy",
+          "title": "午後のトレーニング💪",
+          "menus": [
+            "ベンチプレス",
+            "インクラインベンチプレス",
+            "チェストフライ",
+            "クランチ",
+            "クロスオーバー",
+            "ダンベルデクラインフライ"
+          ],
+          "bodyParts": [
+            "胸",
+            "体幹"
+          ]
+        }
+      ],
+      "walks": []
+    },
+    {
+      "date": "2026-06-03",
+      "strengthMinutes": 54,
+      "walkingMinutes": 0,
+      "workouts": [
+        {
+          "id": "715cd3a2-9bbd-4072-83f0-bd101c5e2260",
+          "startTime": "2026-06-03T06:55:18Z",
+          "endTime": "2026-06-03T07:49:16Z",
+          "minutes": 54,
+          "sourcePackage": "com.hevy",
+          "title": "午後のトレーニング💪",
+          "menus": [
+            "オーバーヘッドプレス",
+            "ラテラルレイズ",
+            "シーテッドケーブルロウ",
+            "Tバーロウ",
+            "チンアップ"
+          ],
+          "bodyParts": [
+            "肩",
+            "背中"
+          ]
+        }
+      ],
+      "walks": []
+    },
+    {
+      "date": "2026-06-08",
+      "strengthMinutes": 0,
+      "walkingMinutes": 20,
+      "workouts": [],
+      "walks": [
+        {
+          "id": "54f79583-1773-4242-af2d-59f601772bad",
+          "startTime": "2026-06-08T03:41:24Z",
+          "endTime": "2026-06-08T04:01:44Z",
+          "minutes": 20,
+          "sourcePackage": "com.gdjztech.ringconn"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-09",
+      "strengthMinutes": 0,
+      "walkingMinutes": 23,
+      "workouts": [],
+      "walks": [
+        {
+          "id": "20323a51-b411-4ef9-a82f-ca0fb92fa0e5",
+          "startTime": "2026-06-09T03:12:12Z",
+          "endTime": "2026-06-09T03:34:52Z",
+          "minutes": 23,
+          "sourcePackage": "com.gdjztech.ringconn"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-10",
+      "strengthMinutes": 0,
+      "walkingMinutes": 16,
+      "workouts": [],
+      "walks": [
+        {
+          "id": "b3766c9a-2801-49fa-9cbf-ea2047369ca4",
+          "startTime": "2026-06-10T03:27:30Z",
+          "endTime": "2026-06-10T03:44:00Z",
+          "minutes": 16,
+          "sourcePackage": "com.gdjztech.ringconn"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-11",
+      "strengthMinutes": 0,
+      "walkingMinutes": 12,
+      "workouts": [],
+      "walks": [
+        {
+          "id": "cf34ca6d-7690-4ea3-8abd-4f4cb0d339ae",
+          "startTime": "2026-06-11T03:39:35Z",
+          "endTime": "2026-06-11T03:51:45Z",
+          "minutes": 12,
+          "sourcePackage": "com.gdjztech.ringconn"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-13",
+      "strengthMinutes": 0,
+      "walkingMinutes": 17,
+      "workouts": [],
+      "walks": [
+        {
+          "id": "9e8abdb2-cc7e-4622-bdb9-e07dfe4cbfc5",
+          "startTime": "2026-06-13T06:18:17Z",
+          "endTime": "2026-06-13T06:35:37Z",
+          "minutes": 17,
+          "sourcePackage": "com.gdjztech.ringconn"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-14",
+      "strengthMinutes": 44,
+      "walkingMinutes": 20,
+      "workouts": [
+        {
+          "id": "df189c16-2269-4b7f-8a4b-2ae5fa041ef9",
+          "startTime": "2026-06-14T06:20:24Z",
+          "endTime": "2026-06-14T07:04:20Z",
+          "minutes": 44,
+          "sourcePackage": "com.hevy",
+          "title": "午後のトレーニング💪",
+          "menus": [
+            "グッドモーニング",
+            "ハックスクワット",
+            "カーフレイズ"
+          ],
+          "bodyParts": [
+            "脚"
+          ]
+        }
+      ],
+      "walks": [
+        {
+          "id": "1ed738dc-3ea0-4d4a-91ec-d97d08380c5c",
+          "startTime": "2026-06-14T00:47:02Z",
+          "endTime": "2026-06-14T01:06:42Z",
+          "minutes": 20,
+          "sourcePackage": "com.gdjztech.ringconn"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "strengthMinutes": 44,
+      "walkingMinutes": 15,
+      "workouts": [
+        {
+          "id": "1171075c-bc65-4016-9870-4c4bb980e0c9",
+          "startTime": "2026-06-16T07:07:07Z",
+          "endTime": "2026-06-16T07:50:58Z",
+          "minutes": 44,
+          "sourcePackage": "com.hevy",
+          "title": "午後のトレーニング💪",
+          "menus": [
+            "オーバーヘッドプレス",
+            "ベンチプレス",
+            "ダンベルデクラインフライ",
+            "インクラインベンチプレス",
+            "ディップス"
+          ],
+          "bodyParts": [
+            "肩",
+            "胸"
+          ]
+        }
+      ],
+      "walks": [
+        {
+          "id": "d6d34aa2-a421-4d6e-a9eb-a0b6bd63a0d9",
+          "startTime": "2026-06-16T03:19:47Z",
+          "endTime": "2026-06-16T03:35:07Z",
+          "minutes": 15,
+          "sourcePackage": "com.gdjztech.ringconn"
+        }
+      ]
     }
   ],
   "exports": {

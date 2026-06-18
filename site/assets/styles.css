@@ -16,6 +16,10 @@
   --amber: #e5b96f;
   --rose: #de7c8d;
   --blue: #84a9f4;
+  --strength: #b94d78;
+  --strength-soft: #f4dbe5;
+  --walking: #2f8a72;
+  --walking-soft: #d8eee8;
   --shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
 }
 
@@ -204,6 +208,265 @@ h2 {
   font-size: 11px;
 }
 
+.activity-legend,
+.activity-legend span {
+  display: flex;
+  align-items: center;
+}
+
+.activity-legend {
+  gap: 14px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.activity-legend span {
+  gap: 6px;
+}
+
+.legend-dot,
+.marker {
+  display: inline-block;
+  border-radius: 999px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+}
+
+.strength {
+  background: var(--strength);
+}
+
+.walking {
+  background: var(--walking);
+}
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.35fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.calendar-card,
+.workout-card {
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f4f4f6, #dfdfe5);
+  color: var(--panel-ink);
+  box-shadow: var(--shadow);
+}
+
+.calendar-card {
+  padding: 15px;
+}
+
+.calendar-head,
+.workout-card-head,
+.workout-meta,
+.calendar-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.calendar-head strong {
+  font-size: 16px;
+}
+
+.calendar-head button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #cbccd2;
+  border-radius: 7px;
+  background: #fff;
+  color: #383941;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.calendar-head button:hover {
+  border-color: #9d9ea6;
+  background: #f7f7f9;
+}
+
+.calendar-summary {
+  margin: 12px 0 13px;
+  padding: 9px 11px;
+  border-radius: 7px;
+  background: #d9d9df;
+  color: #505159;
+  font-size: 12px;
+}
+
+.calendar-summary b {
+  color: var(--panel-ink);
+  font-size: 15px;
+}
+
+.calendar-weekdays,
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.calendar-weekdays {
+  margin-bottom: 4px;
+  color: #73747c;
+  font-size: 11px;
+  text-align: center;
+}
+
+.calendar-day {
+  position: relative;
+  min-height: 47px;
+  margin: 2px;
+  padding: 7px 5px 5px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: #74757d;
+  text-align: center;
+}
+
+.calendar-day b {
+  font-size: 12px;
+  font-weight: 680;
+}
+
+.calendar-day.has-activity {
+  border-color: #c9cad0;
+  background: #fff;
+  color: #222329;
+}
+
+.calendar-day.is-latest {
+  box-shadow: inset 0 0 0 1px #5278b7;
+}
+
+.calendar-day.is-empty {
+  visibility: hidden;
+}
+
+.day-markers {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  min-height: 8px;
+  margin-top: 5px;
+}
+
+.marker {
+  width: 7px;
+  height: 7px;
+}
+
+.workout-card {
+  padding: 15px 0 0;
+  overflow: hidden;
+}
+
+.workout-card-head {
+  padding: 0 15px 13px;
+}
+
+.workout-card-head h3 {
+  margin: 3px 0 0;
+  font-size: 18px;
+}
+
+.workout-card-head > span {
+  color: #686971;
+  font-size: 12px;
+}
+
+.panel-kicker {
+  color: #777881;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.workout-list {
+  max-height: 374px;
+  overflow: auto;
+}
+
+.workout-entry {
+  display: grid;
+  grid-template-columns: 112px 120px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 13px 15px;
+  border-top: 1px solid #d0d1d6;
+}
+
+.workout-entry:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.36);
+}
+
+.workout-meta {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.workout-meta time {
+  color: #62636b;
+  font-size: 12px;
+}
+
+.workout-meta strong {
+  font-size: 15px;
+}
+
+.body-part-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.body-part-list span {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--strength-soft);
+  color: #8e3155;
+  font-size: 11px;
+  font-weight: 760;
+}
+
+.menu-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #393a41;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.menu-list li::before {
+  content: "\2022";
+  margin-right: 5px;
+  color: var(--strength);
+}
+
+.workout-empty {
+  padding: 28px 18px;
+  border-top: 1px solid #d0d1d6;
+  color: #777881;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
 .detail-table-wrap,
 .history-table-wrap {
   margin-top: 10px;
@@ -336,6 +599,41 @@ h2 {
   .chart-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 9px;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+  }
+
+  .training-section .section-heading {
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .activity-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .calendar-card {
+    padding: 12px;
+  }
+
+  .calendar-day {
+    min-height: 43px;
+    margin: 1px;
+    padding-top: 6px;
+  }
+
+  .workout-entry {
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .menu-list {
+    grid-column: 1 / -1;
+    padding-left: 100px;
   }
 
   .chart-card {
