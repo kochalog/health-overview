@@ -1,5 +1,5 @@
 window.HEALTH_SITE_DATA = {
-  "generatedAt": "2026-06-18T11:18:04.662533+09:00",
+  "generatedAt": "2026-06-18T12:01:49.521848+09:00",
   "metrics": [
     {
       "key": "weight",
@@ -119,60 +119,60 @@ window.HEALTH_SITE_DATA = {
     }
   ],
   "latest": {
-    "date": "2026-06-16",
-    "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-    "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
-    "weight": 55.9,
-    "bodyFat": 11.6,
-    "activeCalories": 565.99,
-    "heartRateAvg": 61.01,
-    "sleepMinutes": 8.33,
-    "steps": 7964.0,
-    "exerciseMinutes": 0.99,
-    "restingHeartRate": 47.0,
+    "date": "2026-06-17",
+    "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+    "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
+    "weight": 56.1,
+    "bodyFat": 11.3,
+    "activeCalories": 237.25,
+    "heartRateAvg": 59.59,
+    "sleepMinutes": 7.67,
+    "steps": 5989.0,
+    "exerciseMinutes": 0.27,
+    "restingHeartRate": 48.0,
     "hrv": null,
     "respiratoryRate": null,
-    "oxygenAvg": 97.81,
+    "oxygenAvg": 98.18,
     "comparisons": {
       "weight": {
         "previousDelta": 0.2,
-        "avg7": 56.22,
-        "avg7Delta": -0.32
+        "avg7": 56.04,
+        "avg7Delta": 0.06
       },
       "bodyFat": {
-        "previousDelta": -0.1,
-        "avg7": 12.44,
-        "avg7Delta": -0.84
+        "previousDelta": -0.3,
+        "avg7": 12.18,
+        "avg7Delta": -0.88
       },
       "activeCalories": {
-        "previousDelta": 246.99,
-        "avg7": 384.85,
-        "avg7Delta": 181.14
+        "previousDelta": -328.74,
+        "avg7": 384.67,
+        "avg7Delta": -147.42
       },
       "heartRateAvg": {
-        "previousDelta": -1.94,
-        "avg7": 64.39,
-        "avg7Delta": -3.38
+        "previousDelta": -1.42,
+        "avg7": 63.48,
+        "avg7Delta": -3.89
       },
       "sleepMinutes": {
-        "previousDelta": 1.33,
-        "avg7": 7.78,
-        "avg7Delta": 0.55
+        "previousDelta": -0.66,
+        "avg7": 7.75,
+        "avg7Delta": -0.08
       },
       "steps": {
-        "previousDelta": 674.0,
-        "avg7": 7901.57,
-        "avg7Delta": 62.43
+        "previousDelta": -1975.0,
+        "avg7": 7500.0,
+        "avg7Delta": -1511.0
       },
       "exerciseMinutes": {
-        "previousDelta": null,
-        "avg7": 0.56,
-        "avg7Delta": 0.43
+        "previousDelta": -0.72,
+        "avg7": 0.63,
+        "avg7Delta": -0.36
       },
       "restingHeartRate": {
-        "previousDelta": -1.0,
-        "avg7": 50.86,
-        "avg7Delta": -3.86
+        "previousDelta": 1.0,
+        "avg7": 49.29,
+        "avg7Delta": -1.29
       },
       "hrv": {
         "previousDelta": null,
@@ -185,17 +185,17 @@ window.HEALTH_SITE_DATA = {
         "avg7Delta": null
       },
       "oxygenAvg": {
-        "previousDelta": -0.35,
-        "avg7": 98.11,
-        "avg7Delta": -0.3
+        "previousDelta": 0.37,
+        "avg7": 98.06,
+        "avg7Delta": 0.12
       }
     }
   },
   "days": [
     {
       "date": "2026-06-01",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 56.0,
       "bodyFat": null,
       "activeCalories": null,
@@ -267,8 +267,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-02",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 57.0,
       "bodyFat": 10.6,
       "activeCalories": null,
@@ -340,8 +340,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-03",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 56.9,
       "bodyFat": 13.0,
       "activeCalories": null,
@@ -413,8 +413,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-04",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 56.4,
       "bodyFat": 10.0,
       "activeCalories": null,
@@ -486,8 +486,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-05",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 56.9,
       "bodyFat": 12.1,
       "activeCalories": null,
@@ -559,8 +559,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-06",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 56.0,
       "bodyFat": 13.4,
       "activeCalories": 62.0,
@@ -632,8 +632,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-07",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": null,
       "bodyFat": null,
       "activeCalories": 195.0,
@@ -705,8 +705,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-08",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 56.6,
       "bodyFat": 12.2,
       "activeCalories": 242.2,
@@ -778,8 +778,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-09",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 56.8,
       "bodyFat": 12.9,
       "activeCalories": 567.22,
@@ -851,8 +851,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-10",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 56.1,
       "bodyFat": 13.8,
       "activeCalories": 249.41,
@@ -924,8 +924,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-11",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": null,
       "bodyFat": null,
       "activeCalories": 233.67,
@@ -997,8 +997,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-12",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 56.6,
       "bodyFat": 12.7,
       "activeCalories": 238.0,
@@ -1070,8 +1070,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-13",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": null,
       "bodyFat": null,
       "activeCalories": 487.19,
@@ -1143,8 +1143,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-14",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 55.9,
       "bodyFat": 11.1,
       "activeCalories": 599.45,
@@ -1216,8 +1216,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-15",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 55.7,
       "bodyFat": 11.7,
       "activeCalories": 319.0,
@@ -1289,8 +1289,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-16",
-      "sourceExportedAt": "2026-06-16T23:54:01.449365Z",
-      "sourceReceivedAt": "2026-06-16T23:54:01.885Z",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
       "weight": 55.9,
       "bodyFat": 11.6,
       "activeCalories": 565.99,
@@ -1357,6 +1357,79 @@ window.HEALTH_SITE_DATA = {
           "previousDelta": -0.35,
           "avg7": 98.11,
           "avg7Delta": -0.3
+        }
+      }
+    },
+    {
+      "date": "2026-06-17",
+      "sourceExportedAt": "2026-06-18T02:25:22.986652Z",
+      "sourceReceivedAt": "2026-06-18T02:25:23.469Z",
+      "weight": 56.1,
+      "bodyFat": 11.3,
+      "activeCalories": 237.25,
+      "heartRateAvg": 59.59,
+      "sleepMinutes": 7.67,
+      "steps": 5989.0,
+      "exerciseMinutes": 0.27,
+      "restingHeartRate": 48.0,
+      "hrv": null,
+      "respiratoryRate": null,
+      "oxygenAvg": 98.18,
+      "comparisons": {
+        "weight": {
+          "previousDelta": 0.2,
+          "avg7": 56.04,
+          "avg7Delta": 0.06
+        },
+        "bodyFat": {
+          "previousDelta": -0.3,
+          "avg7": 12.18,
+          "avg7Delta": -0.88
+        },
+        "activeCalories": {
+          "previousDelta": -328.74,
+          "avg7": 384.67,
+          "avg7Delta": -147.42
+        },
+        "heartRateAvg": {
+          "previousDelta": -1.42,
+          "avg7": 63.48,
+          "avg7Delta": -3.89
+        },
+        "sleepMinutes": {
+          "previousDelta": -0.66,
+          "avg7": 7.75,
+          "avg7Delta": -0.08
+        },
+        "steps": {
+          "previousDelta": -1975.0,
+          "avg7": 7500.0,
+          "avg7Delta": -1511.0
+        },
+        "exerciseMinutes": {
+          "previousDelta": -0.72,
+          "avg7": 0.63,
+          "avg7Delta": -0.36
+        },
+        "restingHeartRate": {
+          "previousDelta": 1.0,
+          "avg7": 49.29,
+          "avg7Delta": -1.29
+        },
+        "hrv": {
+          "previousDelta": null,
+          "avg7": null,
+          "avg7Delta": null
+        },
+        "respiratoryRate": {
+          "previousDelta": null,
+          "avg7": null,
+          "avg7Delta": null
+        },
+        "oxygenAvg": {
+          "previousDelta": 0.37,
+          "avg7": 98.06,
+          "avg7Delta": 0.12
         }
       }
     }
@@ -1558,11 +1631,26 @@ window.HEALTH_SITE_DATA = {
           "sourcePackage": "com.gdjztech.ringconn"
         }
       ]
+    },
+    {
+      "date": "2026-06-17",
+      "strengthMinutes": 0,
+      "walkingMinutes": 16,
+      "workouts": [],
+      "walks": [
+        {
+          "id": "037bbaf6-5963-4a78-92bf-09ab992a3892",
+          "startTime": "2026-06-17T03:24:45Z",
+          "endTime": "2026-06-17T03:40:45Z",
+          "minutes": 16,
+          "sourcePackage": "com.gdjztech.ringconn"
+        }
+      ]
     }
   ],
   "exports": {
-    "count": 1,
-    "latestExportedAt": "2026-06-16T23:54:01.449365Z",
-    "latestReceivedAt": "2026-06-16T23:54:01.885Z"
+    "count": 2,
+    "latestExportedAt": "2026-06-18T02:25:22.986652Z",
+    "latestReceivedAt": "2026-06-18T02:25:23.469Z"
   }
 };
