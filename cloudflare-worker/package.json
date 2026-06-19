@@ -1,0 +1,16 @@
+{
+  "name": "health-connect-receiver-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "HOME=.wrangler-home wrangler dev",
+    "deploy": "HOME=.wrangler-home wrangler deploy",
+    "db:create": "HOME=.wrangler-home wrangler d1 create health_receiver",
+    "db:migrate": "HOME=.wrangler-home wrangler d1 migrations apply health_receiver --remote",
+    "db:recent": "HOME=.wrangler-home wrangler d1 execute health_receiver --remote --command \"SELECT device_id, exported_at, received_at FROM exports ORDER BY received_at DESC LIMIT 10\"",
+    "db:count": "HOME=.wrangler-home wrangler d1 execute health_receiver --remote --command \"SELECT COUNT(*) AS count FROM exports\""
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

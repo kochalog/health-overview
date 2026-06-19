@@ -1,0 +1,80 @@
+name: Refresh health site daily
+
+on:
+  schedule:
+    # GitHub Actions uses UTC. 03:00 UTC = 12:00 JST.
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  refresh-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: cloudflare-worker/package-lock.json
+
+      - name: Install Wrangler
+        working-directory: cloudflare-worker
+        run: npm ci
+
+      - name: Verify Cloudflare credentials
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "Repository secret CLOUDFLARE_API_TOKEN is not configured."
+            exit 1
+          fi
+          if [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "Repository secret CLOUDFLARE_ACCOUNT_ID is not configured."
+            exit 1
+          fi
+
+      - name: Build latest health data
+        run: |
+          python3 scripts/generate_daily_health_report.py --force
+          python3 scripts/build_health_site.py
+
+      - name: Verify generated site
+        run: |
+          python3 -m unittest scripts/test_build_health_site.py
+          node --check site/data.js
+          node --check site/assets/app.js
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
