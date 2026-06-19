@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rationaleRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Health Connectデータの利用目的"
+        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="このアプリは、あなた自身が健康状態を分析できるように、許可されたHealth Connectデータを読み取り、JSONファイルとして保存します。データは端末内で処理され、アプリから外部サーバーへ自動送信されません。"
+        android:textAppearance="?attr/textAppearanceBodyLarge" />
+</LinearLayout>
