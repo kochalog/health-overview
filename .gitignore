@@ -14,3 +14,6 @@ cloudflare-worker/node_modules/
 cloudflare-worker/.wrangler/
 cloudflare-worker/.wrangler-home/
 cloudflare-worker/.receiver-token
+cloudflare-worker/.env
+cloudflare-worker/.env.*
+!cloudflare-worker/.env.example

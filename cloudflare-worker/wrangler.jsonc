@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "health-receiver",
+  "main": "src/index.js",
+  "compatibility_date": "2026-06-01",
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "health_receiver",
+      "database_id": "f9234875-06c4-48f2-bc23-a9537aa0e179"
+    }
+  ]
+}
