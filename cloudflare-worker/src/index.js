@@ -1,4 +1,5 @@
 const MAX_BODY_BYTES = 25 * 1024 * 1024;
+const MAX_D1_VALUE_BYTES = 1_900_000;
 
 export default {
   async fetch(request, env) {
@@ -58,19 +59,83 @@ async function receiveExport(request, env) {
   const exportedAt = payload.export.exportedAt;
   const identityJson = canonicalJson({ deviceId, export: payload.export });
   const exportHash = await sha256Hex(identityJson);
-  const canonicalPayload = canonicalJson(payload);
   const receivedAt = new Date().toISOString();
+  let storedPayload;
+  try {
+    storedPayload = await encodePayload(canonicalJson(payload));
+  } catch (error) {
+    if (error instanceof PayloadTooLargeError) {
+      return jsonResponse(413, { error: "payload_too_large", message: error.message });
+    }
+    return jsonResponse(500, { error: "payload_encoding_failed" });
+  }
 
-  const result = await env.DB.prepare(
-    `INSERT OR IGNORE INTO exports
-      (export_hash, device_id, exported_at, received_at, payload_json)
-     VALUES (?, ?, ?, ?, ?)`
-  )
-    .bind(exportHash, deviceId, exportedAt, receivedAt, canonicalPayload)
-    .run();
+  let result;
+  try {
+    result = await env.DB.prepare(
+      `INSERT OR IGNORE INTO exports
+        (export_hash, device_id, exported_at, received_at, payload_json, payload_encoding, payload_data)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`
+    )
+      .bind(
+        exportHash,
+        deviceId,
+        exportedAt,
+        receivedAt,
+        storedPayload.payloadJson,
+        storedPayload.encoding,
+        storedPayload.payloadData,
+      )
+      .run();
+  } catch (error) {
+    console.error("D1 insert failed", error);
+    return jsonResponse(500, {
+      error: "storage_error",
+      message: error instanceof Error ? error.message : "Failed to store payload.",
+    });
+  }
 
   const created = (result.meta?.changes || 0) > 0;
   return jsonResponse(created ? 201 : 200, { id: exportHash, created });
+}
+
+class PayloadTooLargeError extends Error {}
+
+async function encodePayload(canonicalPayload) {
+  const jsonBytes = new TextEncoder().encode(canonicalPayload);
+  if (jsonBytes.byteLength <= MAX_D1_VALUE_BYTES) {
+    return {
+      encoding: "json",
+      payloadJson: canonicalPayload,
+      payloadData: null,
+    };
+  }
+
+  const compressed = await gzip(canonicalPayload);
+  const payloadData = bytesToBase64(compressed);
+  const encodedBytes = new TextEncoder().encode(payloadData).byteLength;
+  if (encodedBytes > MAX_D1_VALUE_BYTES) {
+    throw new PayloadTooLargeError("Payload is too large to store even after compression.");
+  }
+  return {
+    encoding: "gzip+base64",
+    payloadJson: "",
+    payloadData,
+  };
+}
+
+async function gzip(content) {
+  const stream = new Blob([content]).stream().pipeThrough(new CompressionStream("gzip"));
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
+function bytesToBase64(bytes) {
+  let binary = "";
+  const chunkSize = 0x8000;
+  for (let index = 0; index < bytes.length; index += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(index, index + chunkSize));
+  }
+  return btoa(binary);
 }
 
 function isAuthorized(request, env) {

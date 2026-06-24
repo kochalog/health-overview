@@ -141,13 +141,21 @@ SEGMENT_MENUS = {
 
 
 def load_exports() -> list[dict]:
-    rows = report.run_wrangler_query(
-        "SELECT export_hash, exported_at, received_at, payload_json "
-        "FROM exports ORDER BY received_at ASC"
-    )
+    try:
+        rows = report.run_wrangler_query(
+            "SELECT export_hash, exported_at, received_at, payload_json, payload_encoding, payload_data "
+            "FROM exports ORDER BY received_at ASC"
+        )
+    except RuntimeError as error:
+        if "no such column" not in str(error):
+            raise
+        rows = report.run_wrangler_query(
+            "SELECT export_hash, exported_at, received_at, payload_json "
+            "FROM exports ORDER BY received_at ASC"
+        )
     exports = []
     for row in rows:
-        payload = json.loads(row["payload_json"])
+        payload = report.decode_payload(row)
         exports.append(
             {
                 "exportHash": row["export_hash"],

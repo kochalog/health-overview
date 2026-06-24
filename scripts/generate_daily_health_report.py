@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import argparse
+import base64
+import gzip
 import json
 import os
 import subprocess
@@ -119,11 +121,30 @@ def run_wrangler_query(sql: str) -> list[dict]:
     return data[0].get("results", [])
 
 
+def decode_payload(row: dict) -> dict:
+    encoding = row.get("payload_encoding") or "json"
+    if encoding == "json":
+        return json.loads(row["payload_json"])
+    if encoding == "gzip+base64":
+        compressed = base64.b64decode(row["payload_data"])
+        return json.loads(gzip.decompress(compressed).decode("utf-8"))
+    raise ValueError(f"Unsupported payload encoding: {encoding}")
+
+
 def load_latest_export() -> LatestExport | None:
-    rows = run_wrangler_query(
-        "SELECT export_hash, device_id, exported_at, received_at, payload_json "
-        "FROM exports ORDER BY received_at DESC LIMIT 1"
-    )
+    try:
+        rows = run_wrangler_query(
+            "SELECT export_hash, device_id, exported_at, received_at, "
+            "payload_json, payload_encoding, payload_data "
+            "FROM exports ORDER BY received_at DESC LIMIT 1"
+        )
+    except RuntimeError as error:
+        if "no such column" not in str(error):
+            raise
+        rows = run_wrangler_query(
+            "SELECT export_hash, device_id, exported_at, received_at, payload_json "
+            "FROM exports ORDER BY received_at DESC LIMIT 1"
+        )
     if not rows:
         return None
     row = rows[0]
@@ -132,7 +153,7 @@ def load_latest_export() -> LatestExport | None:
         device_id=row["device_id"],
         exported_at=row["exported_at"],
         received_at=row["received_at"],
-        payload=json.loads(row["payload_json"]),
+        payload=decode_payload(row),
     )
 
 

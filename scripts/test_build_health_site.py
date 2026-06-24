@@ -1,3 +1,6 @@
+import base64
+import gzip
+import json
 import unittest
 from datetime import datetime
 from pathlib import Path
@@ -8,6 +11,23 @@ import build_health_site as site
 
 
 class BuildHealthSiteTests(unittest.TestCase):
+    def test_decode_payload_supports_compressed_rows(self):
+        payload = {"deviceId": "test-device", "export": {"records": []}}
+        compressed = base64.b64encode(
+            gzip.compress(json.dumps(payload).encode("utf-8"))
+        ).decode("ascii")
+
+        self.assertEqual(
+            site.report.decode_payload(
+                {
+                    "payload_json": "",
+                    "payload_encoding": "gzip+base64",
+                    "payload_data": compressed,
+                }
+            ),
+            payload,
+        )
+
     def test_workout_details_extracts_menu_and_body_parts(self):
         menus, body_parts = site.workout_details(
             {

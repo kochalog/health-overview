@@ -38,13 +38,27 @@ class HealthDataUploader {
             connection.outputStream.use { it.write(payload.toByteArray(Charsets.UTF_8)) }
             when (val status = connection.responseCode) {
                 in 200..299 -> UploadResult.Success
-                408, 425, 429, in 500..599 -> UploadResult.RetryableFailure("受信APIがHTTP $status を返しました。")
-                else -> UploadResult.PermanentFailure("受信APIがHTTP $status を返しました。設定を確認してください。")
+                408, 425, 429, in 500..599 -> UploadResult.RetryableFailure(
+                    "受信APIがHTTP $status を返しました。${responseMessage(connection)}"
+                )
+                else -> UploadResult.PermanentFailure(
+                    "受信APIがHTTP $status を返しました。${responseMessage(connection)}"
+                )
             }
         } catch (error: Exception) {
             UploadResult.RetryableFailure(error.localizedMessage ?: "受信APIへ接続できませんでした。")
         } finally {
             connection.disconnect()
         }
+    }
+
+    private fun responseMessage(connection: HttpURLConnection): String {
+        val stream = connection.errorStream ?: try {
+            connection.inputStream
+        } catch (_: Exception) {
+            null
+        } ?: return "設定を確認してください。"
+        val body = stream.bufferedReader(Charsets.UTF_8).use { it.readText() }.trim()
+        return if (body.isBlank()) "設定を確認してください。" else body.take(500)
     }
 }
