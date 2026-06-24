@@ -4,6 +4,14 @@ on:
   schedule:
     # GitHub Actions uses UTC. 23:00 UTC = 08:00 JST.
     - cron: "0 23 * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - "site/**"
+      - "scripts/**"
+      - "cloudflare-worker/package*.json"
+      - ".github/workflows/daily-health-site.yml"
   workflow_dispatch:
 
 permissions:
