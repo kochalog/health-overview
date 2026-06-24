@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime
 from pathlib import Path
 import sys
 
@@ -62,6 +63,48 @@ class BuildHealthSiteTests(unittest.TestCase):
         self.assertEqual(activities[0]["workouts"][0]["bodyParts"], ["背中"])
         self.assertEqual(activities[1]["walkingMinutes"], 35)
         self.assertEqual(activities[1]["workouts"], [])
+
+    def test_build_days_uses_latest_completed_day_even_after_noon(self):
+        export = {
+            "rangeStart": "2026-06-03T00:00:00Z",
+            "rangeEnd": "2026-06-04T04:00:00Z",
+            "records": [
+                {
+                    "type": "StepsRecord",
+                    "sourcePackage": "com.example",
+                    "startTime": "2026-06-03T03:00:00Z",
+                    "endTime": "2026-06-03T03:10:00Z",
+                    "count": 8000,
+                },
+                {
+                    "type": "StepsRecord",
+                    "sourcePackage": "com.example",
+                    "startTime": "2026-06-04T03:00:00Z",
+                    "endTime": "2026-06-04T03:10:00Z",
+                    "count": 1200,
+                },
+            ],
+        }
+
+        days = site.build_days(
+            [
+                {
+                    "exportedAt": "2026-06-04T04:00:00Z",
+                    "receivedAt": "2026-06-04T04:00:01Z",
+                    "export": export,
+                }
+            ]
+        )
+
+        self.assertEqual([day["date"] for day in days], ["2026-06-03"])
+        self.assertEqual(days[0]["steps"], 8000)
+
+    def test_fixed_update_time_uses_8am_jst(self):
+        update_time = site.fixed_update_time(
+            datetime(2026, 6, 4, 15, 30, tzinfo=site.report.JST)
+        )
+
+        self.assertEqual(update_time.isoformat(), "2026-06-04T08:00:00+09:00")
 
     def test_other_workout_with_strength_menu_is_treated_as_strength(self):
         self.assertTrue(

@@ -129,6 +129,123 @@ function sparkline(points, color) {
   </svg>`;
 }
 
+function numericValue(source, key) {
+  const value = source?.[key];
+  return typeof value === "number" && !Number.isNaN(value) ? value : null;
+}
+
+function comparisonValue(source, key, type) {
+  const value = source?.comparisons?.[key]?.[type];
+  return typeof value === "number" && !Number.isNaN(value) ? value : null;
+}
+
+function buildConditionNotes(latest) {
+  const notes = [];
+  const usedKeys = new Set();
+  const addNote = (score, key, text) => {
+    if (!text || usedKeys.has(key)) return;
+    usedKeys.add(key);
+    notes.push({ score, text });
+  };
+
+  const sleep = numericValue(latest, "sleepMinutes");
+  const sleepAvgDelta = comparisonValue(latest, "sleepMinutes", "avg7Delta");
+  if (sleep != null && sleep < 6.5) {
+    addNote(100, "sleepMinutes", `睡眠は${formatters.sleepMinutes(sleep)}で短め。今日は予定を詰めすぎず、回復を優先したい日です。`);
+  } else if (sleepAvgDelta != null && sleepAvgDelta <= -0.5) {
+    addNote(86, "sleepMinutes", `睡眠は7日平均より${Math.abs(sleepAvgDelta).toFixed(1)}h少なめ。就寝前の刺激を減らすと戻しやすそうです。`);
+  } else if (sleep != null && sleep >= 7.5) {
+    addNote(66, "sleepMinutes", `睡眠は${formatters.sleepMinutes(sleep)}で十分。回復の土台はかなり良い状態です。`);
+  }
+
+  const steps = numericValue(latest, "steps");
+  const stepsAvgDelta = comparisonValue(latest, "steps", "avg7Delta");
+  if (steps != null && steps < 5000) {
+    addNote(88, "steps", `歩数は${formatters.steps(steps)}で少なめ。短い散歩を1回足すだけでも活動量を戻せます。`);
+  } else if (stepsAvgDelta != null && stepsAvgDelta <= -1500) {
+    addNote(78, "steps", `歩数は7日平均より${formatters.steps(Math.abs(stepsAvgDelta))}少なめ。移動や散歩の余白を少し作るとよさそうです。`);
+  } else if (stepsAvgDelta != null && stepsAvgDelta >= 1500) {
+    addNote(70, "steps", `歩数は7日平均より${formatters.steps(stepsAvgDelta)}多め。日中の活動量はしっかり確保できています。`);
+  }
+
+  const activeCalories = numericValue(latest, "activeCalories");
+  const activeCaloriesAvgDelta = comparisonValue(latest, "activeCalories", "avg7Delta");
+  if (activeCaloriesAvgDelta != null && activeCaloriesAvgDelta <= -120) {
+    addNote(76, "activeCalories", `活動カロリーは7日平均より${formatters.activeCalories(Math.abs(activeCaloriesAvgDelta))}低め。軽い家事や移動で底上げできます。`);
+  } else if (activeCaloriesAvgDelta != null && activeCaloriesAvgDelta >= 120) {
+    addNote(64, "activeCalories", `活動カロリーは${formatters.activeCalories(activeCalories)}で平均より高め。よく動けた日です。`);
+  }
+
+  const latestActivity = activityByDate.get(latest.date);
+  const strengthMinutes = latestActivity?.strengthMinutes || 0;
+  const walkingMinutes = latestActivity?.walkingMinutes || 0;
+  if (strengthMinutes && walkingMinutes) {
+    addNote(74, "activity", `筋トレ${formatDuration(strengthMinutes)}とウォーキング${formatDuration(walkingMinutes)}を実施。生活習慣のリズムはかなり良好です。`);
+  } else if (strengthMinutes) {
+    addNote(68, "activity", `筋トレ${formatDuration(strengthMinutes)}を実施。翌日は睡眠と軽めの活動で回復を見たいところです。`);
+  } else if (walkingMinutes) {
+    addNote(58, "activity", `ウォーキング${formatDuration(walkingMinutes)}を実施。低強度の活動を入れられているのは良い流れです。`);
+  } else if (steps != null && steps < 5000) {
+    addNote(54, "activity", "運動記録は少なめ。今日は強度より、外に出る・歩くなど小さな習慣を優先で十分です。");
+  }
+
+  const heartRateAvg = numericValue(latest, "heartRateAvg");
+  const heartRateAvgDelta = comparisonValue(latest, "heartRateAvg", "avg7Delta");
+  if (heartRateAvgDelta != null && heartRateAvgDelta >= 5) {
+    addNote(82, "heartRateAvg", `平均心拍は7日平均より${formatters.heartRateAvg(heartRateAvgDelta)}高め。疲労・暑さ・ストレスの影響を少し疑ってよさそうです。`);
+  } else if (heartRateAvgDelta != null && heartRateAvgDelta <= -5) {
+    addNote(62, "heartRateAvg", `平均心拍は${formatters.heartRateAvg(heartRateAvg)}で平均より低め。落ち着いたコンディションに見えます。`);
+  }
+
+  const restingHeartRate = numericValue(latest, "restingHeartRate");
+  const restingHeartRateAvgDelta = comparisonValue(latest, "restingHeartRate", "avg7Delta");
+  if (restingHeartRateAvgDelta != null && restingHeartRateAvgDelta >= 3) {
+    addNote(80, "restingHeartRate", `安静時心拍は平均より${formatters.restingHeartRate(restingHeartRateAvgDelta)}高め。今日は追い込みすぎない判断が合いそうです。`);
+  } else if (restingHeartRateAvgDelta != null && restingHeartRateAvgDelta <= -3) {
+    addNote(60, "restingHeartRate", `安静時心拍は${formatters.restingHeartRate(restingHeartRate)}で低め。回復寄りのサインです。`);
+  }
+
+  const hrv = numericValue(latest, "hrv");
+  const hrvAvgDelta = comparisonValue(latest, "hrv", "avg7Delta");
+  if (hrvAvgDelta != null && hrvAvgDelta <= -8) {
+    addNote(72, "hrv", `HRVは平均より${formatters.hrv(Math.abs(hrvAvgDelta))}低め。睡眠・水分・休息を厚めに見たい日です。`);
+  } else if (hrvAvgDelta != null && hrvAvgDelta >= 8) {
+    addNote(56, "hrv", `HRVは${formatters.hrv(hrv)}で平均より高め。回復状態は悪くなさそうです。`);
+  }
+
+  const respiratoryRateAvgDelta = comparisonValue(latest, "respiratoryRate", "avg7Delta");
+  if (respiratoryRateAvgDelta != null && respiratoryRateAvgDelta >= 1.5) {
+    addNote(70, "respiratoryRate", `呼吸数が7日平均より${formatters.respiratoryRate(respiratoryRateAvgDelta)}高め。体調や睡眠の質を少し気にしておきたいです。`);
+  }
+
+  const oxygenAvg = numericValue(latest, "oxygenAvg");
+  const oxygenAvgDelta = comparisonValue(latest, "oxygenAvg", "avg7Delta");
+  if (oxygenAvg != null && oxygenAvg < 96) {
+    addNote(90, "oxygenAvg", `血中酸素は${formatters.oxygenAvg(oxygenAvg)}で低め。体調に違和感があれば無理せず休む判断を。`);
+  } else if (oxygenAvgDelta != null && oxygenAvgDelta <= -1) {
+    addNote(64, "oxygenAvg", `血中酸素は平均より${Math.abs(oxygenAvgDelta).toFixed(1)}pt低め。大きな変化が続くかだけ見ておきましょう。`);
+  }
+
+  const weightPreviousDelta = comparisonValue(latest, "weight", "previousDelta");
+  if (weightPreviousDelta != null && Math.abs(weightPreviousDelta) >= 0.6) {
+    addNote(52, "weight", `体重は前日から${weightPreviousDelta > 0 ? "+" : ""}${weightPreviousDelta.toFixed(1)}kg。短期変動なので、食事量や水分の影響も込みで見ましょう。`);
+  }
+
+  const bodyFatPreviousDelta = comparisonValue(latest, "bodyFat", "previousDelta");
+  if (bodyFatPreviousDelta != null && Math.abs(bodyFatPreviousDelta) >= 0.5) {
+    const direction = bodyFatPreviousDelta > 0 ? "上昇" : "低下";
+    addNote(50, "bodyFat", `体脂肪率は前日から${Math.abs(bodyFatPreviousDelta).toFixed(1)}pt${direction}。単日より数日単位の流れで見るのがよさそうです。`);
+  }
+
+  const selected = notes
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5)
+    .map((note) => note.text);
+
+  if (selected.length) return selected;
+  return ["大きく崩れた指標はありません。睡眠・活動量・心拍の流れをこのまま見ていきましょう。"];
+}
+
 function renderSummary() {
   const latest = latestDay();
   const updated = document.getElementById("updatedAt");
@@ -140,17 +257,7 @@ function renderSummary() {
   }
 
   updated.textContent = `生成 ${new Date(data.generatedAt).toLocaleString("ja-JP", { dateStyle: "short", timeStyle: "short" })}`;
-
-  const sleep = latest.sleepMinutes;
-  const steps = latest.steps;
-  const heart = latest.heartRateAvg;
-  const notes = [];
-  if (sleep != null && sleep >= 7) notes.push("睡眠は十分");
-  if (steps != null && steps >= 7000) notes.push("歩数は良好");
-  if (heart != null) notes.push(`平均心拍${formatters.heartRateAvg(heart)}`);
-  summaryText.innerHTML = notes.length
-    ? `${notes.slice(0, 2).join(" / ")}。<br>${notes.slice(2).join(" / ")}。<br>大きな崩れはありません。`
-    : "最新日の主要指標を確認できます。";
+  summaryText.innerHTML = buildConditionNotes(latest).map(escapeHtml).join("<br>");
 }
 
 function renderCharts() {
@@ -250,7 +357,7 @@ function renderCalendar() {
     </span>`);
   }
   calendarDays.innerHTML = cells.join("");
-  summary.innerHTML = `<span><b>${strengthDays}</b>日・${formatDuration(strengthMinutes)}</span><span>ウォーキング <b>${walkingDays}</b>日</span>`;
+  summary.innerHTML = `<span>筋トレ <b>${strengthDays}</b>日・${formatDuration(strengthMinutes)}</span><span>ウォーキング <b>${walkingDays}</b>日</span>`;
 }
 
 function renderWorkouts() {

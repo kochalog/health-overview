@@ -167,11 +167,21 @@ def value_for_site(key: str, value: float | None) -> float | None:
     return round(value, 2)
 
 
+def completed_day_cutoff(export: dict) -> date:
+    range_end = report.parse_instant(export["rangeEnd"]).astimezone(report.JST)
+    return range_end.date() - timedelta(days=1)
+
+
+def fixed_update_time(now: datetime | None = None) -> datetime:
+    base = now.astimezone(report.JST) if now else datetime.now(report.JST)
+    return base.replace(hour=8, minute=0, second=0, microsecond=0)
+
+
 def build_days(exports: list[dict]) -> list[dict]:
     by_day = {}
     for item in exports:
         metrics, _ = report.aggregate(item["export"])
-        cutoff = report.choose_target_day(item["export"], metrics)
+        cutoff = completed_day_cutoff(item["export"])
         for day, values in metrics.items():
             if day > cutoff:
                 continue
@@ -324,7 +334,7 @@ def build_activities(exports: list[dict]) -> list[dict]:
     for item in exports:
         export = item["export"]
         metrics, _ = report.aggregate(export)
-        cutoff = report.choose_target_day(export, metrics)
+        cutoff = completed_day_cutoff(export)
         range_start_raw = export.get("rangeStart")
         range_start = report.local_date(range_start_raw) if range_start_raw else cutoff - timedelta(days=30)
 
@@ -374,7 +384,7 @@ def build_payload(exports: list[dict]) -> dict:
     days = enrich(build_days(exports))
     latest = days[-1] if days else None
     return {
-        "generatedAt": datetime.now(report.JST).isoformat(),
+        "generatedAt": fixed_update_time().isoformat(),
         "metrics": METRICS,
         "detailMetrics": DETAIL_METRICS,
         "latest": latest,
