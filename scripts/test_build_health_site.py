@@ -20,9 +20,12 @@ class BuildHealthSiteTests(unittest.TestCase):
         self.assertEqual(
             site.report.decode_payload(
                 {
-                    "payload_json": "",
-                    "payload_encoding": "gzip+base64",
-                    "payload_data": compressed,
+                    "payload_json": json.dumps(
+                        {
+                            "payloadEncoding": "gzip+base64",
+                            "payloadData": compressed,
+                        }
+                    ),
                 }
             ),
             payload,

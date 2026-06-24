@@ -74,17 +74,15 @@ async function receiveExport(request, env) {
   try {
     result = await env.DB.prepare(
       `INSERT OR IGNORE INTO exports
-        (export_hash, device_id, exported_at, received_at, payload_json, payload_encoding, payload_data)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`
+        (export_hash, device_id, exported_at, received_at, payload_json)
+       VALUES (?, ?, ?, ?, ?)`
     )
       .bind(
         exportHash,
         deviceId,
         exportedAt,
         receivedAt,
-        storedPayload.payloadJson,
-        storedPayload.encoding,
-        storedPayload.payloadData,
+        storedPayload,
       )
       .run();
   } catch (error) {
@@ -104,24 +102,19 @@ class PayloadTooLargeError extends Error {}
 async function encodePayload(canonicalPayload) {
   const jsonBytes = new TextEncoder().encode(canonicalPayload);
   if (jsonBytes.byteLength <= MAX_D1_VALUE_BYTES) {
-    return {
-      encoding: "json",
-      payloadJson: canonicalPayload,
-      payloadData: null,
-    };
+    return canonicalPayload;
   }
 
   const compressed = await gzip(canonicalPayload);
-  const payloadData = bytesToBase64(compressed);
-  const encodedBytes = new TextEncoder().encode(payloadData).byteLength;
+  const storedPayload = canonicalJson({
+    payloadData: bytesToBase64(compressed),
+    payloadEncoding: "gzip+base64",
+  });
+  const encodedBytes = new TextEncoder().encode(storedPayload).byteLength;
   if (encodedBytes > MAX_D1_VALUE_BYTES) {
     throw new PayloadTooLargeError("Payload is too large to store even after compression.");
   }
-  return {
-    encoding: "gzip+base64",
-    payloadJson: "",
-    payloadData,
-  };
+  return storedPayload;
 }
 
 async function gzip(content) {
