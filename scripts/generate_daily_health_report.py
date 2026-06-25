@@ -132,7 +132,8 @@ def decode_payload(row: dict) -> dict:
 def load_latest_export() -> LatestExport | None:
     rows = run_wrangler_query(
         "SELECT export_hash, device_id, exported_at, received_at, payload_json "
-        "FROM exports ORDER BY received_at DESC LIMIT 1"
+        "FROM exports WHERE device_id != 'codex-smoke-test' "
+        "ORDER BY received_at DESC LIMIT 1"
     )
     if not rows:
         return None

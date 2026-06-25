@@ -143,7 +143,8 @@ SEGMENT_MENUS = {
 def load_exports() -> list[dict]:
     rows = report.run_wrangler_query(
         "SELECT export_hash, exported_at, received_at, payload_json "
-        "FROM exports ORDER BY received_at ASC"
+        "FROM exports WHERE device_id != 'codex-smoke-test' "
+        "ORDER BY received_at ASC"
     )
     exports = []
     for row in rows:
