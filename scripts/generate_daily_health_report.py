@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import argparse
 import base64
 import gzip
 import json
 import os
+import statistics
 import subprocess
 import sys
 from collections import defaultdict
@@ -19,8 +22,18 @@ REPORTS_DIR = ROOT / "reports"
 STATE_PATH = REPORTS_DIR / ".daily-health-report-state.json"
 JST = ZoneInfo("Asia/Tokyo")
 RINGCONN_PACKAGE = "com.gdjztech.ringconn"
+WALKING_EXERCISE_TYPE = 79
+INFERRED_WALK_MIN_STEPS = 200
+INFERRED_WALK_MIN_MINUTES = 2
+INFERRED_WALK_MIN_CADENCE = 60
+INFERRED_WALK_MAX_RECORD_MINUTES = 30
+INFERRED_WALK_MERGE_GAP_MINUTES = 3
 SLEEP_STAGE_AWAKE = 1
 SLEEP_STAGE_OUT_OF_BED = 3
+SLEEP_STAGE_LIGHT = 4
+SLEEP_STAGE_DEEP = 5
+SLEEP_STAGE_REM = 6
+SLEEP_GOAL_MINUTES = 450
 
 COUNT_LABELS = {
     "WeightRecord": "体重",
@@ -259,6 +272,109 @@ def average(values: list[float]) -> float | None:
     return sum(clean) / len(clean)
 
 
+def clamp(value: float, minimum: float = 0, maximum: float = 100) -> float:
+    return max(minimum, min(maximum, value))
+
+
+def weighted_average(parts: list[tuple[float | None, float]]) -> float | None:
+    available = [(value, weight) for value, weight in parts if value is not None]
+    if not available:
+        return None
+    total_weight = sum(weight for _, weight in available)
+    return sum(value * weight for value, weight in available) / total_weight
+
+
+def intervals_overlap(
+    first_start: datetime,
+    first_end: datetime,
+    second_start: datetime,
+    second_end: datetime,
+) -> bool:
+    return first_start < second_end and second_start < first_end
+
+
+def infer_walking_sessions(records: list[dict]) -> list[dict]:
+    """Infer purposeful RingConn walks from dense step intervals.
+
+    The 60 steps/min floor intentionally includes relaxed walking. A final bout
+    still needs at least 200 steps over two minutes, which filters out most
+    incidental movement. Any overlap with an explicit exercise session is
+    excluded so RingConn/Health Connect workouts are not counted twice.
+    """
+    exercise_intervals = []
+    for record in records:
+        if record.get("type") != "ExerciseSessionRecord":
+            continue
+        start_raw = record.get("startTime")
+        end_raw = record.get("endTime")
+        if not start_raw or not end_raw:
+            continue
+        exercise_intervals.append((parse_instant(start_raw), parse_instant(end_raw)))
+
+    candidates = defaultdict(list)
+    for record in records:
+        if record.get("type") != "StepsRecord":
+            continue
+        if record.get("sourcePackage") != RINGCONN_PACKAGE:
+            continue
+        start_raw = record.get("startTime")
+        end_raw = record.get("endTime")
+        count = record.get("count")
+        if not start_raw or not end_raw or not isinstance(count, (int, float)) or count <= 0:
+            continue
+        start = parse_instant(start_raw)
+        end = parse_instant(end_raw)
+        minutes = (end - start).total_seconds() / 60
+        if minutes <= 0 or minutes > INFERRED_WALK_MAX_RECORD_MINUTES:
+            continue
+        cadence = count / minutes
+        if cadence < INFERRED_WALK_MIN_CADENCE:
+            continue
+        if any(intervals_overlap(start, end, other_start, other_end) for other_start, other_end in exercise_intervals):
+            continue
+        candidates[start.astimezone(JST).date()].append(
+            {"start": start, "end": end, "steps": round(float(count))}
+        )
+
+    inferred = []
+    for day, intervals in candidates.items():
+        groups = []
+        for item in sorted(intervals, key=lambda value: value["start"]):
+            if groups:
+                gap = (item["start"] - groups[-1][-1]["end"]).total_seconds() / 60
+                if 0 <= gap <= INFERRED_WALK_MERGE_GAP_MINUTES:
+                    groups[-1].append(item)
+                    continue
+            groups.append([item])
+
+        for group in groups:
+            start = group[0]["start"]
+            end = max(item["end"] for item in group)
+            steps = sum(item["steps"] for item in group)
+            minutes = (end - start).total_seconds() / 60
+            cadence = steps / minutes if minutes > 0 else 0
+            if (
+                steps < INFERRED_WALK_MIN_STEPS
+                or minutes < INFERRED_WALK_MIN_MINUTES
+                or cadence < INFERRED_WALK_MIN_CADENCE
+            ):
+                continue
+            inferred.append(
+                {
+                    "id": f"inferred-ringconn-walk-{day.isoformat()}-{int(start.timestamp())}",
+                    "date": day,
+                    "startTime": start.isoformat(),
+                    "endTime": end.isoformat(),
+                    "minutes": max(round(minutes), 1),
+                    "steps": steps,
+                    "cadence": round(cadence),
+                    "sourcePackage": RINGCONN_PACKAGE,
+                    "inferred": True,
+                }
+            )
+    return sorted(inferred, key=lambda value: value["startTime"])
+
+
 def latest_value(records: list[dict], key: str, target: date) -> float | None:
     candidates = []
     for record in records:
@@ -286,6 +402,8 @@ def aggregate(export: dict) -> tuple[dict, dict]:
     hrv_values = defaultdict(list)
     respiratory_values = defaultdict(list)
     sleep_intervals = defaultdict(list)
+    sleep_in_bed_intervals = defaultdict(list)
+    sleep_stage_intervals = defaultdict(lambda: defaultdict(list))
     steps_by_source = defaultdict(lambda: defaultdict(float))
 
     for record in records:
@@ -308,8 +426,11 @@ def aggregate(export: dict) -> tuple[dict, dict]:
                     metrics[day]["activeCalories"] += record.get("kilocalories", 0) * (share / total_minutes)
             elif record_type == "ExerciseSessionRecord":
                 start_day = start.astimezone(JST).date()
+                duration = max((end - start).total_seconds() / 60, 0)
                 metrics[start_day]["exerciseSessions"] += 1
-                metrics[start_day]["exerciseMinutes"] += max((end - start).total_seconds() / 60, 0)
+                metrics[start_day]["exerciseMinutes"] += duration
+                if record.get("exerciseType") == WALKING_EXERCISE_TYPE:
+                    metrics[start_day]["walkingMinutes"] += duration
             elif record_type == "HeartRateRecord":
                 for sample in record.get("samples", []):
                     bpm = sample.get("beatsPerMinute")
@@ -317,6 +438,30 @@ def aggregate(export: dict) -> tuple[dict, dict]:
                     if isinstance(bpm, (int, float)) and sample_time:
                         heart_samples[local_date(sample_time)].append(float(bpm))
         elif record_type == "SleepSessionRecord":
+            start_raw = record.get("startTime")
+            end_raw = record.get("endTime")
+            if start_raw and end_raw:
+                session_start = parse_instant(start_raw)
+                session_end = parse_instant(end_raw)
+                session_day = sleep_day_for(session_start, session_end)
+                sleep_in_bed_intervals[session_day].append((session_start, session_end))
+                for stage in record.get("stages") or []:
+                    stage_start_raw = stage.get("startTime")
+                    stage_end_raw = stage.get("endTime")
+                    stage_type = stage.get("stage")
+                    if not stage_start_raw or not stage_end_raw:
+                        continue
+                    if stage_type not in {
+                        SLEEP_STAGE_AWAKE,
+                        SLEEP_STAGE_OUT_OF_BED,
+                        SLEEP_STAGE_LIGHT,
+                        SLEEP_STAGE_DEEP,
+                        SLEEP_STAGE_REM,
+                    }:
+                        continue
+                    sleep_stage_intervals[session_day][stage_type].append(
+                        (parse_instant(stage_start_raw), parse_instant(stage_end_raw))
+                    )
             for start, end in usable_sleep_intervals(record):
                 sleep_day = sleep_day_for(start, end)
                 sleep_intervals[sleep_day].append((start, end))
@@ -341,6 +486,11 @@ def aggregate(export: dict) -> tuple[dict, dict]:
             if isinstance(value, (int, float)) and record_time:
                 respiratory_values[local_date(record_time)].append(float(value))
 
+    for session in infer_walking_sessions(records):
+        metrics[session["date"]]["walkingMinutes"] += session["minutes"]
+        metrics[session["date"]]["inferredWalkingMinutes"] += session["minutes"]
+        metrics[session["date"]]["inferredWalkingSteps"] += session["steps"]
+
     for day, source_values in steps_by_source.items():
         if source_values.get(RINGCONN_PACKAGE):
             metrics[day]["steps"] = source_values[RINGCONN_PACKAGE]
@@ -349,6 +499,24 @@ def aggregate(export: dict) -> tuple[dict, dict]:
 
     for day, intervals in sleep_intervals.items():
         metrics[day]["sleepMinutes"] = merge_minutes(remove_nested_intervals(intervals))
+    for day, intervals in sleep_in_bed_intervals.items():
+        in_bed = merge_minutes(remove_nested_intervals(intervals))
+        asleep = metrics[day].get("sleepMinutes", 0)
+        metrics[day]["sleepInBedMinutes"] = in_bed
+        if in_bed > 0 and asleep > 0:
+            metrics[day]["sleepEfficiency"] = clamp(asleep / in_bed * 100)
+    for day, stages in sleep_stage_intervals.items():
+        stage_keys = {
+            SLEEP_STAGE_AWAKE: "awakeMinutes",
+            SLEEP_STAGE_OUT_OF_BED: "outOfBedMinutes",
+            SLEEP_STAGE_LIGHT: "lightSleepMinutes",
+            SLEEP_STAGE_DEEP: "deepSleepMinutes",
+            SLEEP_STAGE_REM: "remSleepMinutes",
+        }
+        for stage_type, key in stage_keys.items():
+            intervals = stages.get(stage_type) or []
+            if intervals:
+                metrics[day][key] = merge_minutes(remove_nested_intervals(intervals))
     for day, values in heart_samples.items():
         metrics[day]["heartRateAvg"] = average(values) or 0
     for day, values in oxygen_values.items():
@@ -384,6 +552,277 @@ def seven_day_average(metrics: dict, target: date, key: str) -> float | None:
     return average([metric_value(metrics, day, key) for day in days])
 
 
+def history_values(metrics: dict, target: date, key: str, window: int = 28) -> list[float]:
+    values = []
+    for offset in range(1, window + 1):
+        value = metric_value(metrics, target - timedelta(days=offset), key)
+        if value is not None:
+            values.append(value)
+    return values
+
+
+def baseline_for(metrics: dict, target: date, key: str, window: int = 28) -> dict:
+    values = history_values(metrics, target, key, window)
+    if not values:
+        return {"average": None, "deviation": None, "days": 0}
+    return {
+        "average": average(values),
+        "deviation": statistics.pstdev(values) if len(values) >= 2 else 0,
+        "days": len(values),
+    }
+
+
+def baseline_status(metrics: dict, target: date, key: str) -> dict:
+    today = metric_value(metrics, target, key)
+    baseline = baseline_for(metrics, target, key)
+    result = {**baseline, "value": today, "status": "insufficient", "delta": None}
+    if today is None or baseline["average"] is None:
+        return result
+    result["delta"] = today - baseline["average"]
+    if baseline["days"] < 3:
+        return result
+    minimum_bands = {
+        "sleepMinutes": 30,
+        "restingHeartRate": 2,
+        "hrv": 5,
+        "respiratoryRate": 0.7,
+        "oxygenAvg": 0.5,
+        "steps": 1000,
+        "activeCalories": 80,
+        "exerciseMinutes": 20,
+    }
+    band = max(baseline["deviation"] or 0, minimum_bands.get(key, 1))
+    if result["delta"] > band:
+        result["status"] = "above"
+    elif result["delta"] < -band:
+        result["status"] = "below"
+    else:
+        result["status"] = "usual"
+    return result
+
+
+def range_score(value: float | None, low: float, high: float, tolerance: float) -> float | None:
+    if value is None:
+        return None
+    if low <= value <= high:
+        return 100
+    distance = low - value if value < low else value - high
+    return clamp(100 - distance / tolerance * 100)
+
+
+def build_sleep_score(metrics: dict, target: date) -> dict:
+    asleep = metric_value(metrics, target, "sleepMinutes")
+    efficiency = metric_value(metrics, target, "sleepEfficiency")
+    deep = metric_value(metrics, target, "deepSleepMinutes")
+    rem = metric_value(metrics, target, "remSleepMinutes")
+    awake = metric_value(metrics, target, "awakeMinutes")
+    in_bed = metric_value(metrics, target, "sleepInBedMinutes")
+
+    duration_score = None if asleep is None else clamp(asleep / SLEEP_GOAL_MINUTES * 100)
+    efficiency_score = None if efficiency is None else clamp((efficiency - 70) / 20 * 100)
+    deep_share = None if asleep is None or deep is None else deep / asleep * 100
+    rem_share = None if asleep is None or rem is None else rem / asleep * 100
+    stage_score = weighted_average(
+        [
+            (range_score(deep_share, 13, 23, 13), 1),
+            (range_score(rem_share, 18, 27, 18), 1),
+        ]
+    )
+    continuity_score = None
+    if awake is not None and in_bed:
+        continuity_score = clamp(100 - awake / in_bed * 200)
+
+    score = weighted_average(
+        [
+            (duration_score, 50),
+            (efficiency_score, 25),
+            (stage_score, 15),
+            (continuity_score, 10),
+        ]
+    )
+    return {
+        "score": None if score is None else round(score),
+        "durationMinutes": asleep,
+        "efficiency": None if efficiency is None else round(efficiency, 1),
+        "deepMinutes": deep,
+        "remMinutes": rem,
+        "awakeMinutes": awake,
+        "availableFactors": sum(
+            value is not None
+            for value in (duration_score, efficiency_score, stage_score, continuity_score)
+        ),
+    }
+
+
+def baseline_component(status: dict, higher_is_better: bool | None) -> float | None:
+    value = status.get("value")
+    baseline = status.get("average")
+    if value is None or baseline is None or status.get("days", 0) < 3:
+        return None
+    floors = {
+        "higher": max(abs(baseline) * 0.1, 1),
+        "lower": max(abs(baseline) * 0.05, 1),
+        "stable": max(abs(baseline) * 0.05, 0.5),
+    }
+    delta = value - baseline
+    if higher_is_better is True:
+        return clamp(55 + delta / floors["higher"] * 15)
+    if higher_is_better is False:
+        return clamp(55 - delta / floors["lower"] * 15)
+    return clamp(80 - abs(delta) / floors["stable"] * 20)
+
+
+def build_activity_load(metrics: dict, target: date) -> dict:
+    parts = []
+    factors = []
+    for key, weight in (("activeCalories", 40), ("exerciseMinutes", 35), ("steps", 25)):
+        today = metric_value(metrics, target, key)
+        baseline = baseline_for(metrics, target, key)
+        typical = baseline["average"]
+        if today is None or typical in (None, 0):
+            continue
+        component = clamp(today / typical * 50)
+        parts.append((component, weight))
+        factors.append(key)
+    score = weighted_average(parts)
+    return {
+        "score": None if score is None else round(score),
+        "availableFactors": factors,
+    }
+
+
+def score_band(score: float | None, high: int = 75, low: int = 50) -> str:
+    if score is None:
+        return "unknown"
+    if score >= high:
+        return "high"
+    if score < low:
+        return "low"
+    return "moderate"
+
+
+def build_coaching_summary(metrics: dict, target: date) -> dict:
+    sleep = build_sleep_score(metrics, target)
+    monitor_keys = {
+        "hrv": ("HRV", True),
+        "restingHeartRate": ("安静時心拍", False),
+        "respiratoryRate": ("呼吸数", None),
+        "oxygenAvg": ("血中酸素", True),
+    }
+    monitor = {}
+    recovery_parts = [(sleep["score"], 35)]
+    physiology_components = 0
+    factor_weights = {"hrv": 25, "restingHeartRate": 20, "respiratoryRate": 10, "oxygenAvg": 10}
+    for key, (label, direction) in monitor_keys.items():
+        status = baseline_status(metrics, target, key)
+        status["label"] = label
+        monitor[key] = status
+        component = baseline_component(status, direction)
+        if component is not None:
+            physiology_components += 1
+        recovery_parts.append((component, factor_weights[key]))
+
+    recovery_value = weighted_average(recovery_parts) if physiology_components else None
+    recovery_score = None if recovery_value is None else round(recovery_value)
+    recovery_band = score_band(recovery_score)
+    activity = build_activity_load(metrics, target)
+    load_score = activity["score"]
+    if recovery_band == "high":
+        target_load = [60, 80]
+    elif recovery_band == "low":
+        target_load = [20, 45]
+    else:
+        target_load = [40, 65]
+
+    sleep_bank = 0.0
+    sleep_days = 0
+    for offset in range(0, 7):
+        value = metric_value(metrics, target - timedelta(days=offset), "sleepMinutes")
+        if value is not None:
+            sleep_bank += value - SLEEP_GOAL_MINUTES
+            sleep_days += 1
+    sleep_bank_value = round(sleep_bank) if sleep_days >= 3 else None
+    debt = max(0, -(sleep_bank_value or 0))
+    tonight_need = SLEEP_GOAL_MINUTES + min(90, debt / 3)
+    if load_score is not None and load_score >= 75:
+        tonight_need += 20
+    tonight_need = round(clamp(tonight_need, 420, 570))
+
+    warnings = []
+    positives = []
+    hrv_status = monitor["hrv"]
+    rhr_status = monitor["restingHeartRate"]
+    rr_status = monitor["respiratoryRate"]
+    oxygen_status = monitor["oxygenAvg"]
+    if sleep["score"] is not None:
+        (positives if sleep["score"] >= 75 else warnings if sleep["score"] < 55 else positives).append(
+            f"睡眠スコア {sleep['score']}"
+        )
+    if hrv_status["status"] == "below":
+        warnings.append("HRVが通常より低い")
+    elif hrv_status["status"] == "above":
+        positives.append("HRVが通常より高い")
+    if rhr_status["status"] == "above":
+        warnings.append("安静時心拍が通常より高い")
+    elif rhr_status["status"] == "below":
+        positives.append("安静時心拍が通常より低い")
+    if rr_status["status"] == "above":
+        warnings.append("呼吸数が通常より高い")
+    oxygen_value = oxygen_status["value"]
+    if oxygen_value is not None and oxygen_value < 95:
+        warnings.append("血中酸素が95%未満")
+    elif oxygen_status["status"] == "below":
+        warnings.append("血中酸素が通常より低い")
+
+    if recovery_band == "high":
+        headline = "回復状態は良好。普段通りか、少し強度を上げられる日です。"
+    elif recovery_band == "low":
+        headline = "回復サインが弱め。今日は負荷より回復を優先しましょう。"
+    elif recovery_band == "unknown":
+        headline = "回復度は較正中。今日は睡眠と活動量を中心に判断します。"
+    else:
+        headline = "回復状態は中間。普段通りでよいものの、追い込みすぎには注意です。"
+
+    actions = []
+    if recovery_band == "low":
+        actions.append("高強度運動は見送り、20〜30分の散歩か軽いモビリティにする。")
+    elif load_score is not None and load_score < target_load[0]:
+        actions.append("余力があれば30分前後の散歩または中強度の運動で、活動負荷を目安範囲へ近づける。")
+    elif load_score is not None and load_score > target_load[1]:
+        actions.append("今日の負荷は十分。追加の高強度運動は不要です。")
+    else:
+        actions.append("運動は普段通りでOK。活動負荷は目安範囲内を狙う。")
+    if sleep_bank_value is not None and sleep_bank_value < -90:
+        actions.append(f"直近7日の睡眠負債は約{round(abs(sleep_bank_value) / 60, 1)}時間。今夜は{format_minutes(tonight_need)}を目安にする。")
+    else:
+        actions.append(f"今夜の睡眠目安は{format_minutes(tonight_need)}。就寝前30分は光と刺激を抑える。")
+    if len(warnings) >= 2:
+        actions.append("複数の回復サインが同時に外れています。一単日で判断せず、明日も続くか確認する。")
+
+    confidence_count = 1 + sum(
+        value.get("value") is not None and value.get("days", 0) >= 3
+        for value in monitor.values()
+    )
+    confidence = "high" if confidence_count >= 4 else "medium" if confidence_count >= 2 else "low"
+    return {
+        "date": target.isoformat(),
+        "recoveryScore": recovery_score,
+        "recoveryBand": recovery_band,
+        "sleep": sleep,
+        "activityLoad": activity,
+        "targetLoad": target_load,
+        "sleepBankMinutes": sleep_bank_value,
+        "tonightSleepNeedMinutes": tonight_need,
+        "headline": headline,
+        "warnings": warnings,
+        "positives": positives,
+        "actions": actions[:3],
+        "monitor": monitor,
+        "confidence": confidence,
+        "baselineWindowDays": 28,
+    }
+
+
 def choose_target_day(export: dict, metrics: dict) -> date:
     range_end = parse_instant(export["rangeEnd"]).astimezone(JST)
     candidate = range_end.date()
@@ -398,7 +837,11 @@ def choose_target_day(export: dict, metrics: dict) -> date:
 def build_rows(metrics: dict, target: date) -> list[dict]:
     definitions = [
         ("睡眠", "sleepMinutes", "minutes", "7h以上を目安", True),
+        ("睡眠効率", "sleepEfficiency", "percent", "寝床で実際に眠れた割合", True),
+        ("深い睡眠", "deepSleepMinutes", "minutes", "単日より傾向を見る", True),
+        ("REM睡眠", "remSleepMinutes", "minutes", "単日より傾向を見る", True),
         ("歩数", "steps", "count", "日中の活動量", True),
+        ("ウォーキング", "walkingMinutes", "minutes", "明示記録+歩数密度から推定", True),
         ("活動カロリー", "activeCalories", "kcal", "活動量の補助指標", True),
         ("安静時心拍", "restingHeartRate", "bpm", "高い日は疲労寄り", False),
         ("平均心拍", "heartRateAvg", "bpm", "全体の心拍傾向", False),
@@ -577,11 +1020,35 @@ def build_actions(rows: list[dict]) -> list[str]:
     return actions[:3]
 
 
+def build_monitor_rows(coaching: dict, rows: list[dict]) -> list[str]:
+    by_key = {row["key"]: row for row in rows}
+    labels = {
+        "above": "通常より高い",
+        "below": "通常より低い",
+        "usual": "通常範囲",
+        "insufficient": "較正中",
+    }
+    lines = []
+    for key in ("hrv", "restingHeartRate", "respiratoryRate", "oxygenAvg"):
+        item = coaching["monitor"][key]
+        row = by_key[key]
+        baseline = item.get("average")
+        baseline_text = format_value(row, baseline)
+        if baseline is not None:
+            baseline_text += f" ({item.get('days', 0)}日)"
+        lines.append(
+            f"| {item['label']} | {format_value(row, item.get('value'))} | "
+            f"{baseline_text} | {labels.get(item.get('status'), '-')} |"
+        )
+    return lines
+
+
 def build_report(latest: LatestExport) -> tuple[str, Path]:
     export = latest.payload["export"]
     metrics, by_type = aggregate(export)
     target = choose_target_day(export, metrics)
     rows = build_rows(metrics, target)
+    coaching = build_coaching_summary(metrics, target)
     conclusion = build_conclusion(rows)
     focus = build_focus(rows)
     actions = build_actions(rows)
@@ -590,11 +1057,38 @@ def build_report(latest: LatestExport) -> tuple[str, Path]:
     report_date = parse_instant(latest.exported_at).astimezone(JST).date()
     report_path = REPORTS_DIR / f"health-report-{report_date:%Y%m%d}.md"
 
+    score_text = lambda value: "-" if value is None else f"{value}/100"
+    target_load_text = f"{coaching['targetLoad'][0]}〜{coaching['targetLoad'][1]}"
+    sleep_bank = coaching["sleepBankMinutes"]
+    sleep_bank_text = "-"
+    if sleep_bank is not None:
+        sleep_bank_text = (
+            f"+{format_minutes(sleep_bank)}の余裕"
+            if sleep_bank >= 0
+            else f"{format_minutes(abs(sleep_bank))}の睡眠負債"
+        )
+
+    reasons = [*coaching["warnings"], *coaching["positives"]]
+    if not reasons:
+        reasons = ["現在取得できる指標は、おおむね個人の通常範囲内です。"]
+
     lines = [
         f"# 体調管理レポート - {report_date:%Y-%m-%d}",
         "",
         "## 今日の結論",
-        *[f"- {line}" for line in conclusion],
+        f"- {coaching['headline']}",
+        *[f"- {line}" for line in conclusion if line != coaching["headline"]][:2],
+        "",
+        "## コンディション・サマリー",
+        "",
+        "| 回復度 | 睡眠 | 活動負荷 | 今日の負荷目安 | 判定信頼度 |",
+        "|---:|---:|---:|---:|---|",
+        f"| {score_text(coaching['recoveryScore'])} | {score_text(coaching['sleep']['score'])} | {score_text(coaching['activityLoad']['score'])} | {target_load_text} | {coaching['confidence']} |",
+        "",
+        "> スコアはBevelの独自値の複製ではなく、取得済みデータと最大28日の個人基準から算出するこのプロジェクトの参考値です。",
+        "",
+        "## 判断理由",
+        *[f"- {line}" for line in reasons[:5]],
         "",
         "## 注目ポイント",
         *[f"- {line}" for line in focus],
@@ -634,7 +1128,17 @@ def build_report(latest: LatestExport) -> tuple[str, Path]:
         [
             "",
             "## 今日のアクション",
-            *[f"- {line}" for line in actions],
+            *[f"- {line}" for line in coaching["actions"]],
+            "",
+            "## 今夜の睡眠プラン",
+            f"- 推奨睡眠時間: {format_minutes(coaching['tonightSleepNeedMinutes'])}",
+            f"- 直近7日の睡眠バンク: {sleep_bank_text}",
+            "",
+            "## ヘルスモニター",
+            "",
+            "| 指標 | 当日 | 個人基準 | 判定 |",
+            "|---|---:|---:|---|",
+            *build_monitor_rows(coaching, rows),
             "",
             "## 収集状況",
             "",

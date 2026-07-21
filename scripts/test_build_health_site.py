@@ -2,7 +2,7 @@ import base64
 import gzip
 import json
 import unittest
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 import sys
 
@@ -11,6 +11,146 @@ import build_health_site as site
 
 
 class BuildHealthSiteTests(unittest.TestCase):
+    def test_infers_ringconn_walk_from_dense_step_interval(self):
+        records = [
+            {
+                "type": "StepsRecord",
+                "sourcePackage": site.report.RINGCONN_PACKAGE,
+                "startTime": "2026-06-02T01:00:00Z",
+                "endTime": "2026-06-02T01:10:00Z",
+                "count": 850,
+            },
+            {
+                "type": "StepsRecord",
+                "sourcePackage": site.report.RINGCONN_PACKAGE,
+                "startTime": "2026-06-02T03:00:00Z",
+                "endTime": "2026-06-02T03:10:00Z",
+                "count": 90,
+            },
+        ]
+
+        inferred = site.report.infer_walking_sessions(records)
+
+        self.assertEqual(len(inferred), 1)
+        self.assertEqual(inferred[0]["date"], date(2026, 6, 2))
+        self.assertEqual(inferred[0]["minutes"], 10)
+        self.assertEqual(inferred[0]["steps"], 850)
+        self.assertEqual(inferred[0]["cadence"], 85)
+        self.assertTrue(inferred[0]["inferred"])
+        metrics, _ = site.report.aggregate({"records": records})
+        self.assertEqual(metrics[date(2026, 6, 2)]["walkingMinutes"], 10)
+        self.assertEqual(metrics[date(2026, 6, 2)]["inferredWalkingSteps"], 850)
+        walking_row = next(
+            row
+            for row in site.report.build_rows(metrics, date(2026, 6, 2))
+            if row["key"] == "walkingMinutes"
+        )
+        self.assertEqual(walking_row["today"], 10)
+
+    def test_does_not_infer_walk_overlapping_explicit_exercise(self):
+        records = [
+            {
+                "type": "StepsRecord",
+                "sourcePackage": site.report.RINGCONN_PACKAGE,
+                "startTime": "2026-06-02T01:00:00Z",
+                "endTime": "2026-06-02T01:10:00Z",
+                "count": 850,
+            },
+            {
+                "type": "ExerciseSessionRecord",
+                "startTime": "2026-06-02T00:58:00Z",
+                "endTime": "2026-06-02T01:12:00Z",
+                "exerciseType": site.WALKING_EXERCISE_TYPE,
+            },
+        ]
+
+        self.assertEqual(site.report.infer_walking_sessions(records), [])
+
+    def test_build_activities_includes_inferred_ringconn_walk(self):
+        export = {
+            "rangeStart": "2026-06-01T00:00:00Z",
+            "rangeEnd": "2026-06-04T00:00:00Z",
+            "records": [
+                {
+                    "type": "StepsRecord",
+                    "sourcePackage": site.report.RINGCONN_PACKAGE,
+                    "startTime": "2026-06-02T01:00:00Z",
+                    "endTime": "2026-06-02T01:12:00Z",
+                    "count": 960,
+                }
+            ],
+        }
+
+        activities = site.build_activities(
+            [
+                {
+                    "exportedAt": "2026-06-04T00:00:00Z",
+                    "receivedAt": "2026-06-04T00:00:01Z",
+                    "export": export,
+                }
+            ]
+        )
+
+        self.assertEqual(len(activities), 1)
+        self.assertEqual(activities[0]["date"], "2026-06-02")
+        self.assertEqual(activities[0]["walkingMinutes"], 12)
+        self.assertTrue(activities[0]["walks"][0]["inferred"])
+
+    def test_aggregate_calculates_sleep_quality_inputs(self):
+        metrics, _ = site.report.aggregate(
+            {
+                "records": [
+                    {
+                        "type": "SleepSessionRecord",
+                        "startTime": "2026-06-01T14:00:00Z",
+                        "endTime": "2026-06-01T22:00:00Z",
+                        "stages": [
+                            {"startTime": "2026-06-01T14:00:00Z", "endTime": "2026-06-01T14:30:00Z", "stage": 1},
+                            {"startTime": "2026-06-01T14:30:00Z", "endTime": "2026-06-01T18:30:00Z", "stage": 4},
+                            {"startTime": "2026-06-01T18:30:00Z", "endTime": "2026-06-01T20:00:00Z", "stage": 5},
+                            {"startTime": "2026-06-01T20:00:00Z", "endTime": "2026-06-01T22:00:00Z", "stage": 6},
+                        ],
+                    }
+                ]
+            }
+        )
+
+        sleep_day = date(2026, 6, 2)
+        self.assertEqual(metrics[sleep_day]["sleepMinutes"], 450)
+        self.assertEqual(metrics[sleep_day]["sleepInBedMinutes"], 480)
+        self.assertAlmostEqual(metrics[sleep_day]["sleepEfficiency"], 93.75)
+        self.assertEqual(metrics[sleep_day]["deepSleepMinutes"], 90)
+        self.assertEqual(metrics[sleep_day]["remSleepMinutes"], 120)
+
+    def test_coaching_summary_combines_recovery_signals_into_actions(self):
+        target = date(2026, 6, 30)
+        metrics = {}
+        for offset in range(29):
+            day = target - timedelta(days=offset)
+            metrics[day] = {
+                "sleepMinutes": 450 if offset else 330,
+                "sleepInBedMinutes": 480 if offset else 420,
+                "sleepEfficiency": 93.75 if offset else 78.6,
+                "deepSleepMinutes": 80 if offset else 35,
+                "remSleepMinutes": 100 if offset else 55,
+                "awakeMinutes": 20 if offset else 90,
+                "steps": 7000,
+                "activeCalories": 350,
+                "exerciseMinutes": 35,
+                "restingHeartRate": 50 if offset else 57,
+                "hrv": 45 if offset else 30,
+                "respiratoryRate": 14.5,
+                "oxygenAvg": 98,
+            }
+
+        summary = site.report.build_coaching_summary(metrics, target)
+
+        self.assertLess(summary["recoveryScore"], 50)
+        self.assertEqual(summary["recoveryBand"], "low")
+        self.assertIn("HRVが通常より低い", summary["warnings"])
+        self.assertIn("安静時心拍が通常より高い", summary["warnings"])
+        self.assertTrue(any("20〜30分" in action for action in summary["actions"]))
+
     def test_decode_payload_supports_compressed_rows(self):
         payload = {"deviceId": "test-device", "export": {"records": []}}
         compressed = base64.b64encode(

@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
 import json
 import re
 import sys
@@ -68,7 +71,11 @@ METRICS = [
 
 DETAIL_METRICS = [
     {"key": "sleepMinutes", "label": "睡眠", "unit": "h", "decimals": 1},
+    {"key": "sleepEfficiency", "label": "睡眠効率", "unit": "%", "decimals": 1},
+    {"key": "deepSleepMinutes", "label": "深い睡眠", "unit": "h", "decimals": 1},
+    {"key": "remSleepMinutes", "label": "REM睡眠", "unit": "h", "decimals": 1},
     {"key": "steps", "label": "歩数", "unit": "歩", "decimals": 0},
+    {"key": "walkingMinutes", "label": "ウォーキング", "unit": "h", "decimals": 1},
     {"key": "activeCalories", "label": "活動カロリー", "unit": "kcal", "decimals": 0},
     {"key": "exerciseMinutes", "label": "運動時間", "unit": "h", "decimals": 1},
     {"key": "heartRateAvg", "label": "平均心拍", "unit": "bpm", "decimals": 0},
@@ -163,7 +170,7 @@ def load_exports() -> list[dict]:
 def value_for_site(key: str, value: float | None) -> float | None:
     if value is None:
         return None
-    if key in {"sleepMinutes", "exerciseMinutes"}:
+    if key in {"sleepMinutes", "exerciseMinutes", "walkingMinutes", "deepSleepMinutes", "remSleepMinutes"}:
         return round(value / 60, 2)
     return round(value, 2)
 
@@ -197,6 +204,7 @@ def build_days(exports: list[dict]) -> list[dict]:
             if item["receivedAt"] >= summary["sourceReceivedAt"]:
                 summary["sourceExportedAt"] = item["exportedAt"]
                 summary["sourceReceivedAt"] = item["receivedAt"]
+                summary["coach"] = report.build_coaching_summary(metrics, day)
                 for metric in ALL_METRICS:
                     value = report.metric_value(metrics, day, metric["key"])
                     summary[metric["key"]] = value_for_site(metric["key"], value)
@@ -356,6 +364,14 @@ def build_activities(exports: list[dict]) -> list[dict]:
             elif exercise_type == WALKING_EXERCISE_TYPE:
                 sessions[day]["walks"].append(activity_session(record))
 
+        for inferred_walk in report.infer_walking_sessions(export.get("records", [])):
+            day = inferred_walk["date"]
+            if day > cutoff:
+                continue
+            sessions[day]["walks"].append(
+                {key: value for key, value in inferred_walk.items() if key != "date"}
+            )
+
         cursor = range_start
         while cursor <= cutoff:
             key = cursor.isoformat()
@@ -399,9 +415,56 @@ def build_payload(exports: list[dict]) -> dict:
     }
 
 
+def rebuild_from_existing_data() -> dict:
+    if not DATA_PATH.exists():
+        raise RuntimeError(f"既存のサイトデータがありません: {DATA_PATH}")
+    source = DATA_PATH.read_text(encoding="utf-8").strip()
+    prefix = "window.HEALTH_SITE_DATA = "
+    if not source.startswith(prefix) or not source.endswith(";"):
+        raise RuntimeError(f"既存データの形式を読み取れません: {DATA_PATH}")
+    payload = json.loads(source[len(prefix) : -1])
+    days = payload.get("days") or []
+    metrics = {}
+    minute_keys = {"sleepMinutes", "exerciseMinutes", "walkingMinutes", "deepSleepMinutes", "remSleepMinutes"}
+    for item in days:
+        day_metrics = {}
+        for metric in ALL_METRICS:
+            key = metric["key"]
+            value = item.get(key)
+            if not isinstance(value, (int, float)):
+                continue
+            day_metrics[key] = float(value) * 60 if key in minute_keys else float(value)
+        metrics[date.fromisoformat(item["date"])] = day_metrics
+
+    rebuilt_days = []
+    for item in days:
+        day = date.fromisoformat(item["date"])
+        rebuilt_days.append({**item, "coach": report.build_coaching_summary(metrics, day)})
+    payload.update(
+        {
+            "generatedAt": fixed_update_time().isoformat(),
+            "metrics": METRICS,
+            "detailMetrics": DETAIL_METRICS,
+            "latest": rebuilt_days[-1] if rebuilt_days else None,
+            "days": rebuilt_days,
+        }
+    )
+    return payload
+
+
 def main() -> int:
-    exports = load_exports()
-    payload = build_payload(exports)
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--offline",
+        action="store_true",
+        help="Cloudflareへ接続せず、既存のsite/data.jsへ最新の分析ロジックを適用します。",
+    )
+    args = parser.parse_args()
+    if args.offline:
+        payload = rebuild_from_existing_data()
+    else:
+        exports = load_exports()
+        payload = build_payload(exports)
     SITE_DIR.mkdir(parents=True, exist_ok=True)
     DATA_PATH.write_text(
         "window.HEALTH_SITE_DATA = "
@@ -409,7 +472,8 @@ def main() -> int:
         + ";\n",
         encoding="utf-8",
     )
-    print(f"サイトデータを生成しました: {DATA_PATH}")
+    mode = "オフライン再分析" if args.offline else "Cloudflare同期"
+    print(f"サイトデータを生成しました ({mode}): {DATA_PATH}")
     return 0
 
 
