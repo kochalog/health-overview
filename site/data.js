@@ -143,40 +143,43 @@ window.HEALTH_SITE_DATA = {
     }
   ],
   "latest": {
-    "date": "2026-07-16",
-    "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-    "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+    "date": "2026-07-20",
+    "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+    "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
     "coach": {
-      "date": "2026-07-16",
-      "recoveryScore": null,
-      "recoveryBand": "unknown",
+      "date": "2026-07-20",
+      "recoveryScore": 88,
+      "recoveryBand": "high",
       "sleep": {
-        "score": null,
-        "durationMinutes": null,
-        "efficiency": null,
-        "deepMinutes": null,
-        "remMinutes": null,
-        "awakeMinutes": null,
-        "availableFactors": 0
+        "score": 98,
+        "durationMinutes": 570.0,
+        "efficiency": 95.0,
+        "deepMinutes": 130.0,
+        "remMinutes": 165.0,
+        "awakeMinutes": 45.0,
+        "availableFactors": 4
       },
       "activityLoad": {
-        "score": 37,
+        "score": 42,
         "availableFactors": [
+          "activeCalories",
           "steps"
         ]
       },
       "targetLoad": [
-        40,
-        65
+        60,
+        80
       ],
-      "sleepBankMinutes": -150,
-      "tonightSleepNeedMinutes": 500,
-      "headline": "回復度は較正中。今日は睡眠と活動量を中心に判断します。",
+      "sleepBankMinutes": 10,
+      "tonightSleepNeedMinutes": 450,
+      "headline": "回復状態は良好。普段通りか、少し強度を上げられる日です。",
       "warnings": [],
-      "positives": [],
+      "positives": [
+        "睡眠スコア 98"
+      ],
       "actions": [
         "余力があれば30分前後の散歩または中強度の運動で、活動負荷を目安範囲へ近づける。",
-        "直近7日の睡眠負債は約2.5時間。今夜は8h20mを目安にする。"
+        "今夜の睡眠目安は7h30m。就寝前30分は光と刺激を抑える。"
       ],
       "monitor": {
         "hrv": {
@@ -189,9 +192,9 @@ window.HEALTH_SITE_DATA = {
           "label": "HRV"
         },
         "restingHeartRate": {
-          "average": 49.205882352941174,
-          "deviation": 4.076687032705571,
-          "days": 17,
+          "average": 49.39473684210526,
+          "deviation": 4.06713059128145,
+          "days": 19,
           "value": null,
           "status": "insufficient",
           "delta": null,
@@ -207,78 +210,78 @@ window.HEALTH_SITE_DATA = {
           "label": "呼吸数"
         },
         "oxygenAvg": {
-          "average": 98.32024731674929,
-          "deviation": 0.20247305593669618,
-          "days": 27,
-          "value": null,
-          "status": "insufficient",
-          "delta": null,
+          "average": 98.34600488055639,
+          "deviation": 0.19227662256726127,
+          "days": 28,
+          "value": 98.09677419354838,
+          "status": "usual",
+          "delta": -0.24923068700800854,
           "label": "血中酸素"
         }
       },
-      "confidence": "low",
+      "confidence": "medium",
       "baselineWindowDays": 28
     },
-    "weight": null,
-    "bodyFat": null,
-    "activeCalories": null,
-    "heartRateAvg": null,
-    "sleepMinutes": null,
-    "steps": 5066.29,
-    "sleepEfficiency": null,
-    "deepSleepMinutes": null,
-    "remSleepMinutes": null,
+    "weight": 56.6,
+    "bodyFat": 11.0,
+    "activeCalories": 256.0,
+    "heartRateAvg": 62.74,
+    "sleepMinutes": 9.5,
+    "steps": 5878.0,
+    "sleepEfficiency": 95.0,
+    "deepSleepMinutes": 2.17,
+    "remSleepMinutes": 2.75,
     "walkingMinutes": null,
     "exerciseMinutes": null,
     "restingHeartRate": null,
     "hrv": null,
     "respiratoryRate": null,
-    "oxygenAvg": null,
+    "oxygenAvg": 98.1,
     "comparisons": {
       "weight": {
         "previousDelta": null,
-        "avg7": 57.08,
-        "avg7Delta": null
+        "avg7": 57.3,
+        "avg7Delta": -0.7
       },
       "bodyFat": {
         "previousDelta": null,
-        "avg7": 10.24,
-        "avg7Delta": null
+        "avg7": 10.38,
+        "avg7Delta": 0.62
       },
       "activeCalories": {
-        "previousDelta": null,
-        "avg7": 187.4,
-        "avg7Delta": null
+        "previousDelta": -215.0,
+        "avg7": 283.0,
+        "avg7Delta": -27.0
       },
       "heartRateAvg": {
-        "previousDelta": null,
-        "avg7": 64.19,
-        "avg7Delta": null
+        "previousDelta": -3.78,
+        "avg7": 61.15,
+        "avg7Delta": 1.59
       },
       "sleepMinutes": {
-        "previousDelta": null,
-        "avg7": 7.08,
-        "avg7Delta": null
+        "previousDelta": 3.25,
+        "avg7": 7.13,
+        "avg7Delta": 2.37
       },
       "steps": {
-        "previousDelta": 752.48,
-        "avg7": 5936.83,
-        "avg7Delta": -870.54
+        "previousDelta": -4365.0,
+        "avg7": 6360.43,
+        "avg7Delta": -482.43
       },
       "sleepEfficiency": {
-        "previousDelta": null,
-        "avg7": 90.18,
-        "avg7Delta": null
+        "previousDelta": 7.28,
+        "avg7": 92.5,
+        "avg7Delta": 2.5
       },
       "deepSleepMinutes": {
-        "previousDelta": null,
-        "avg7": 1.47,
-        "avg7Delta": null
+        "previousDelta": 0.42,
+        "avg7": 1.7,
+        "avg7Delta": 0.47
       },
       "remSleepMinutes": {
-        "previousDelta": null,
-        "avg7": 1.65,
-        "avg7Delta": null
+        "previousDelta": 1.42,
+        "avg7": 1.77,
+        "avg7Delta": 0.98
       },
       "walkingMinutes": {
         "previousDelta": null,
@@ -287,12 +290,12 @@ window.HEALTH_SITE_DATA = {
       },
       "exerciseMinutes": {
         "previousDelta": null,
-        "avg7": 0.86,
+        "avg7": 0.91,
         "avg7Delta": null
       },
       "restingHeartRate": {
         "previousDelta": null,
-        "avg7": 52.4,
+        "avg7": 50.0,
         "avg7Delta": null
       },
       "hrv": {
@@ -306,9 +309,9 @@ window.HEALTH_SITE_DATA = {
         "avg7Delta": null
       },
       "oxygenAvg": {
-        "previousDelta": null,
-        "avg7": 98.41,
-        "avg7Delta": null
+        "previousDelta": -0.21,
+        "avg7": 98.47,
+        "avg7Delta": -0.37
       }
     }
   },
@@ -3738,44 +3741,37 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-21",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-06-21",
-        "recoveryScore": 85,
-        "recoveryBand": "high",
+        "recoveryScore": null,
+        "recoveryBand": "unknown",
         "sleep": {
-          "score": 99,
-          "durationMinutes": 470.0,
-          "efficiency": 97.4,
-          "deepMinutes": 105.0,
-          "remMinutes": 97.5,
-          "awakeMinutes": 20.0,
-          "availableFactors": 4
+          "score": null,
+          "durationMinutes": null,
+          "efficiency": null,
+          "deepMinutes": null,
+          "remMinutes": null,
+          "awakeMinutes": null,
+          "availableFactors": 0
         },
         "activityLoad": {
-          "score": 79,
-          "availableFactors": [
-            "activeCalories",
-            "exerciseMinutes",
-            "steps"
-          ]
+          "score": null,
+          "availableFactors": []
         },
         "targetLoad": [
-          60,
-          80
+          40,
+          65
         ],
-        "sleepBankMinutes": -10,
-        "tonightSleepNeedMinutes": 473,
-        "headline": "回復状態は良好。普段通りか、少し強度を上げられる日です。",
+        "sleepBankMinutes": null,
+        "tonightSleepNeedMinutes": 450,
+        "headline": "回復度は較正中。今日は睡眠と活動量を中心に判断します。",
         "warnings": [],
-        "positives": [
-          "睡眠スコア 99",
-          "安静時心拍が通常より低い"
-        ],
+        "positives": [],
         "actions": [
           "運動は普段通りでOK。活動負荷は目安範囲内を狙う。",
-          "今夜の睡眠目安は7h53m。就寝前30分は光と刺激を抑える。"
+          "今夜の睡眠目安は7h30m。就寝前30分は光と刺激を抑える。"
         ],
         "monitor": {
           "hrv": {
@@ -3788,12 +3784,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 48.5,
-            "deviation": 1.5,
-            "days": 4,
+            "average": null,
+            "deviation": null,
+            "days": 0,
             "value": 45.0,
-            "status": "below",
-            "delta": -3.5,
+            "status": "insufficient",
+            "delta": null,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -3806,27 +3802,27 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.13143818447675,
-            "deviation": 0.11001012374064977,
-            "days": 4,
-            "value": 98.42857142857143,
-            "status": "usual",
-            "delta": 0.297133244094681,
+            "average": null,
+            "deviation": null,
+            "days": 0,
+            "value": 98.43478260869566,
+            "status": "insufficient",
+            "delta": null,
             "label": "血中酸素"
           }
         },
-        "confidence": "medium",
+        "confidence": "low",
         "baselineWindowDays": 28
       },
-      "weight": 56.8,
-      "bodyFat": 9.3,
-      "activeCalories": 585.0,
-      "heartRateAvg": 63.38,
-      "sleepMinutes": 7.83,
-      "steps": 7889.0,
-      "sleepEfficiency": 97.41,
-      "deepSleepMinutes": 1.75,
-      "remSleepMinutes": 1.62,
+      "weight": null,
+      "bodyFat": null,
+      "activeCalories": 525.0,
+      "heartRateAvg": 68.67,
+      "sleepMinutes": null,
+      "steps": 6489.0,
+      "sleepEfficiency": null,
+      "deepSleepMinutes": null,
+      "remSleepMinutes": null,
       "walkingMinutes": null,
       "exerciseMinutes": 0.76,
       "restingHeartRate": 45.0,
@@ -3835,49 +3831,49 @@ window.HEALTH_SITE_DATA = {
       "oxygenAvg": 98.43,
       "comparisons": {
         "weight": {
-          "previousDelta": 0.4,
+          "previousDelta": null,
           "avg7": 56.0,
-          "avg7Delta": 0.8
+          "avg7Delta": null
         },
         "bodyFat": {
-          "previousDelta": -1.6,
+          "previousDelta": null,
           "avg7": 11.23,
-          "avg7Delta": -1.93
+          "avg7Delta": null
         },
         "activeCalories": {
-          "previousDelta": 335.0,
+          "previousDelta": 275.0,
           "avg7": 388.95,
-          "avg7Delta": 196.05
+          "avg7Delta": 136.05
         },
         "heartRateAvg": {
-          "previousDelta": 4.28,
+          "previousDelta": 9.57,
           "avg7": 61.96,
-          "avg7Delta": 1.42
+          "avg7Delta": 6.71
         },
         "sleepMinutes": {
-          "previousDelta": 0.41,
+          "previousDelta": null,
           "avg7": 7.54,
-          "avg7Delta": 0.29
+          "avg7Delta": null
         },
         "steps": {
-          "previousDelta": 1491.0,
+          "previousDelta": 91.0,
           "avg7": 7113.57,
-          "avg7Delta": 775.43
+          "avg7Delta": -624.57
         },
         "sleepEfficiency": {
-          "previousDelta": 2.22,
+          "previousDelta": null,
           "avg7": 95.15,
-          "avg7Delta": 2.26
+          "avg7Delta": null
         },
         "deepSleepMinutes": {
-          "previousDelta": 0.17,
+          "previousDelta": null,
           "avg7": 1.7,
-          "avg7Delta": 0.05
+          "avg7Delta": null
         },
         "remSleepMinutes": {
-          "previousDelta": 0.37,
+          "previousDelta": null,
           "avg7": 1.51,
-          "avg7Delta": 0.11
+          "avg7Delta": null
         },
         "walkingMinutes": {
           "previousDelta": null,
@@ -3913,12 +3909,12 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-22",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-06-22",
-        "recoveryScore": 81,
-        "recoveryBand": "high",
+        "recoveryScore": null,
+        "recoveryBand": "unknown",
         "sleep": {
           "score": 93,
           "durationMinutes": 450.0,
@@ -3929,7 +3925,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 46,
+          "score": 38,
           "availableFactors": [
             "activeCalories",
             "exerciseMinutes",
@@ -3937,20 +3933,19 @@ window.HEALTH_SITE_DATA = {
           ]
         },
         "targetLoad": [
-          60,
-          80
+          40,
+          65
         ],
-        "sleepBankMinutes": -10,
-        "tonightSleepNeedMinutes": 453,
-        "headline": "回復状態は良好。普段通りか、少し強度を上げられる日です。",
+        "sleepBankMinutes": null,
+        "tonightSleepNeedMinutes": 450,
+        "headline": "回復度は較正中。今日は睡眠と活動量を中心に判断します。",
         "warnings": [],
         "positives": [
-          "睡眠スコア 93",
-          "安静時心拍が通常より低い"
+          "睡眠スコア 93"
         ],
         "actions": [
           "余力があれば30分前後の散歩または中強度の運動で、活動負荷を目安範囲へ近づける。",
-          "今夜の睡眠目安は7h33m。就寝前30分は光と刺激を抑える。"
+          "今夜の睡眠目安は7h30m。就寝前30分は光と刺激を抑える。"
         ],
         "monitor": {
           "hrv": {
@@ -3963,12 +3958,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.8,
-            "deviation": 1.9390719429665315,
-            "days": 5,
+            "average": 45.0,
+            "deviation": 0,
+            "days": 1,
             "value": 45.0,
-            "status": "below",
-            "delta": -2.799999999999997,
+            "status": "insufficient",
+            "delta": 0.0,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -3981,16 +3976,16 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.19086483329569,
-            "deviation": 0.15429804995444418,
-            "days": 5,
+            "average": 98.43478260869566,
+            "deviation": 0,
+            "days": 1,
             "value": 98.30232558139535,
-            "status": "usual",
-            "delta": 0.11146074809965967,
+            "status": "insufficient",
+            "delta": -0.13245702730030473,
             "label": "血中酸素"
           }
         },
-        "confidence": "medium",
+        "confidence": "low",
         "baselineWindowDays": 28
       },
       "weight": 57.0,
@@ -4010,49 +4005,49 @@ window.HEALTH_SITE_DATA = {
       "oxygenAvg": 98.3,
       "comparisons": {
         "weight": {
-          "previousDelta": 0.2,
-          "avg7": 56.13,
-          "avg7Delta": 0.87
+          "previousDelta": null,
+          "avg7": 56.02,
+          "avg7Delta": 0.98
         },
         "bodyFat": {
-          "previousDelta": 3.0,
-          "avg7": 10.97,
-          "avg7Delta": 1.33
+          "previousDelta": null,
+          "avg7": 11.25,
+          "avg7Delta": 1.05
         },
         "activeCalories": {
-          "previousDelta": -244.97,
-          "avg7": 386.88,
-          "avg7Delta": -46.85
+          "previousDelta": -184.97,
+          "avg7": 378.31,
+          "avg7Delta": -38.28
         },
         "heartRateAvg": {
-          "previousDelta": -4.05,
-          "avg7": 61.8,
-          "avg7Delta": -2.47
+          "previousDelta": -9.34,
+          "avg7": 62.55,
+          "avg7Delta": -3.22
         },
         "sleepMinutes": {
-          "previousDelta": -0.33,
-          "avg7": 7.53,
-          "avg7Delta": -0.03
+          "previousDelta": null,
+          "avg7": 7.47,
+          "avg7Delta": 0.03
         },
         "steps": {
-          "previousDelta": 230.0,
-          "avg7": 6962.71,
-          "avg7Delta": 1156.29
+          "previousDelta": 1630.0,
+          "avg7": 6762.71,
+          "avg7Delta": 1356.29
         },
         "sleepEfficiency": {
-          "previousDelta": -10.03,
-          "avg7": 95.23,
-          "avg7Delta": -7.85
+          "previousDelta": null,
+          "avg7": 94.79,
+          "avg7Delta": -7.41
         },
         "deepSleepMinutes": {
-          "previousDelta": -0.25,
-          "avg7": 1.67,
-          "avg7Delta": -0.17
+          "previousDelta": null,
+          "avg7": 1.65,
+          "avg7Delta": -0.15
         },
         "remSleepMinutes": {
-          "previousDelta": 0.0,
-          "avg7": 1.53,
-          "avg7Delta": 0.09
+          "previousDelta": null,
+          "avg7": 1.52,
+          "avg7Delta": 0.1
         },
         "walkingMinutes": {
           "previousDelta": null,
@@ -4088,12 +4083,12 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-23",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-06-23",
-        "recoveryScore": 79,
-        "recoveryBand": "high",
+        "recoveryScore": null,
+        "recoveryBand": "unknown",
         "sleep": {
           "score": 91,
           "durationMinutes": 440.0,
@@ -4104,7 +4099,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 69,
+          "score": 63,
           "availableFactors": [
             "activeCalories",
             "exerciseMinutes",
@@ -4112,20 +4107,19 @@ window.HEALTH_SITE_DATA = {
           ]
         },
         "targetLoad": [
-          60,
-          80
+          40,
+          65
         ],
-        "sleepBankMinutes": -20,
-        "tonightSleepNeedMinutes": 457,
-        "headline": "回復状態は良好。普段通りか、少し強度を上げられる日です。",
+        "sleepBankMinutes": null,
+        "tonightSleepNeedMinutes": 450,
+        "headline": "回復度は較正中。今日は睡眠と活動量を中心に判断します。",
         "warnings": [],
         "positives": [
-          "睡眠スコア 91",
-          "安静時心拍が通常より低い"
+          "睡眠スコア 91"
         ],
         "actions": [
           "運動は普段通りでOK。活動負荷は目安範囲内を狙う。",
-          "今夜の睡眠目安は7h37m。就寝前30分は光と刺激を抑える。"
+          "今夜の睡眠目安は7h30m。就寝前30分は光と刺激を抑える。"
         ],
         "monitor": {
           "hrv": {
@@ -4138,12 +4132,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.333333333333336,
-            "deviation": 2.0548046676563256,
-            "days": 6,
+            "average": 45.0,
+            "deviation": 0.0,
+            "days": 2,
             "value": 45.0,
-            "status": "below",
-            "delta": -2.3333333333333357,
+            "status": "insufficient",
+            "delta": 0.0,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -4156,16 +4150,16 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.2094416246456,
-            "deviation": 0.1468516010606758,
-            "days": 6,
+            "average": 98.36855409504551,
+            "deviation": 0.06622851365015237,
+            "days": 2,
             "value": 98.16279069767442,
-            "status": "usual",
-            "delta": -0.046650926971182116,
+            "status": "insufficient",
+            "delta": -0.2057633973710864,
             "label": "血中酸素"
           }
         },
-        "confidence": "medium",
+        "confidence": "low",
         "baselineWindowDays": 28
       },
       "weight": 56.8,
@@ -4186,43 +4180,43 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": -0.2,
-          "avg7": 56.31,
-          "avg7Delta": 0.49
+          "avg7": 56.23,
+          "avg7Delta": 0.57
         },
         "bodyFat": {
           "previousDelta": 0.1,
-          "avg7": 11.06,
-          "avg7Delta": 1.34
+          "avg7": 11.35,
+          "avg7Delta": 1.05
         },
         "activeCalories": {
           "previousDelta": 131.24,
-          "avg7": 389.89,
-          "avg7Delta": 81.38
+          "avg7": 381.32,
+          "avg7Delta": 89.95
         },
         "heartRateAvg": {
           "previousDelta": 2.33,
-          "avg7": 61.28,
-          "avg7Delta": 0.38
+          "avg7": 62.03,
+          "avg7Delta": -0.37
         },
         "sleepMinutes": {
           "previousDelta": -0.17,
-          "avg7": 7.61,
-          "avg7Delta": -0.28
+          "avg7": 7.57,
+          "avg7Delta": -0.24
         },
         "steps": {
           "previousDelta": 2673.0,
-          "avg7": 7081.14,
-          "avg7Delta": 3710.86
+          "avg7": 6881.14,
+          "avg7Delta": 3910.86
         },
         "sleepEfficiency": {
           "previousDelta": 3.34,
-          "avg7": 93.88,
-          "avg7Delta": -3.16
+          "avg7": 93.18,
+          "avg7Delta": -2.46
         },
         "deepSleepMinutes": {
           "previousDelta": 0.83,
-          "avg7": 1.6,
-          "avg7Delta": 0.73
+          "avg7": 1.57,
+          "avg7Delta": 0.76
         },
         "remSleepMinutes": {
           "previousDelta": -0.12,
@@ -4263,11 +4257,11 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-24",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-06-24",
-        "recoveryScore": 69,
+        "recoveryScore": 65,
         "recoveryBand": "moderate",
         "sleep": {
           "score": 92,
@@ -4279,7 +4273,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 77,
+          "score": 71,
           "availableFactors": [
             "activeCalories",
             "exerciseMinutes",
@@ -4290,8 +4284,8 @@ window.HEALTH_SITE_DATA = {
           40,
           65
         ],
-        "sleepBankMinutes": -45,
-        "tonightSleepNeedMinutes": 485,
+        "sleepBankMinutes": -35,
+        "tonightSleepNeedMinutes": 462,
         "headline": "回復状態は中間。普段通りでよいものの、追い込みすぎには注意です。",
         "warnings": [
           "安静時心拍が通常より高い"
@@ -4301,7 +4295,7 @@ window.HEALTH_SITE_DATA = {
         ],
         "actions": [
           "今日の負荷は十分。追加の高強度運動は不要です。",
-          "今夜の睡眠目安は8h05m。就寝前30分は光と刺激を抑える。"
+          "今夜の睡眠目安は7h42m。就寝前30分は光と刺激を抑える。"
         ],
         "monitor": {
           "hrv": {
@@ -4314,12 +4308,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.0,
-            "deviation": 2.0701966780270626,
-            "days": 7,
+            "average": 45.0,
+            "deviation": 0.0,
+            "days": 3,
             "value": 50.0,
             "status": "above",
-            "delta": 3.0,
+            "delta": 5.0,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -4332,12 +4326,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.20277720650688,
-            "deviation": 0.13693468938975425,
-            "days": 7,
+            "average": 98.2999662959218,
+            "deviation": 0.11105276399443238,
+            "days": 3,
             "value": 98.5,
             "status": "usual",
-            "delta": 0.29722279349311975,
+            "delta": 0.20003370407819432,
             "label": "血中酸素"
           }
         },
@@ -4362,48 +4356,48 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": -0.3,
-          "avg7": 56.44,
-          "avg7Delta": 0.06
+          "avg7": 56.38,
+          "avg7Delta": 0.12
         },
         "bodyFat": {
           "previousDelta": 0.5,
-          "avg7": 11.17,
-          "avg7Delta": 1.73
+          "avg7": 11.48,
+          "avg7Delta": 1.42
         },
         "activeCalories": {
           "previousDelta": 116.6,
-          "avg7": 376.36,
-          "avg7Delta": 211.51
+          "avg7": 367.78,
+          "avg7Delta": 220.09
         },
         "heartRateAvg": {
           "previousDelta": -4.0,
-          "avg7": 61.37,
-          "avg7Delta": -3.71
+          "avg7": 62.13,
+          "avg7Delta": -4.47
         },
         "sleepMinutes": {
           "previousDelta": -0.25,
-          "avg7": 7.44,
-          "avg7Delta": -0.36
+          "avg7": 7.37,
+          "avg7Delta": -0.29
         },
         "steps": {
           "previousDelta": -4415.0,
-          "avg7": 7485.14,
-          "avg7Delta": -1108.14
+          "avg7": 7285.14,
+          "avg7Delta": -908.14
         },
         "sleepEfficiency": {
           "previousDelta": 1.67,
-          "avg7": 93.35,
-          "avg7Delta": -0.96
+          "avg7": 92.54,
+          "avg7Delta": -0.15
         },
         "deepSleepMinutes": {
           "previousDelta": -0.25,
-          "avg7": 1.67,
-          "avg7Delta": 0.41
+          "avg7": 1.65,
+          "avg7Delta": 0.43
         },
         "remSleepMinutes": {
           "previousDelta": -0.17,
-          "avg7": 1.58,
-          "avg7Delta": -0.25
+          "avg7": 1.57,
+          "avg7Delta": -0.24
         },
         "walkingMinutes": {
           "previousDelta": -0.4,
@@ -4439,11 +4433,11 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-25",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-06-25",
-        "recoveryScore": 68,
+        "recoveryScore": 66,
         "recoveryBand": "moderate",
         "sleep": {
           "score": 94,
@@ -4455,7 +4449,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 19,
+          "score": 17,
           "availableFactors": [
             "activeCalories",
             "steps"
@@ -4465,7 +4459,7 @@ window.HEALTH_SITE_DATA = {
           40,
           65
         ],
-        "sleepBankMinutes": 215,
+        "sleepBankMinutes": 130,
         "tonightSleepNeedMinutes": 450,
         "headline": "回復状態は中間。普段通りでよいものの、追い込みすぎには注意です。",
         "warnings": [
@@ -4489,12 +4483,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.375,
-            "deviation": 2.1758618981911515,
-            "days": 8,
+            "average": 46.25,
+            "deviation": 2.165063509461097,
+            "days": 4,
             "value": 51.5,
             "status": "above",
-            "delta": 4.125,
+            "delta": 5.25,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -4507,12 +4501,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.23993005569352,
-            "deviation": 0.16146070708466942,
-            "days": 8,
+            "average": 98.34997472194135,
+            "deviation": 0.12942976980571338,
+            "days": 4,
             "value": 98.5,
             "status": "usual",
-            "delta": 0.2600699443064798,
+            "delta": 0.1500252780586493,
             "label": "血中酸素"
           }
         },
@@ -4537,38 +4531,38 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": -0.1,
-          "avg7": 56.5,
-          "avg7Delta": -0.1
+          "avg7": 56.45,
+          "avg7Delta": -0.05
         },
         "bodyFat": {
           "previousDelta": -0.6,
-          "avg7": 11.4,
-          "avg7Delta": 0.9
+          "avg7": 11.75,
+          "avg7Delta": 0.55
         },
         "activeCalories": {
           "previousDelta": -460.87,
-          "avg7": 428.59,
-          "avg7Delta": -301.59
+          "avg7": 420.02,
+          "avg7Delta": -293.02
         },
         "heartRateAvg": {
           "previousDelta": 0.81,
-          "avg7": 60.66,
-          "avg7Delta": -2.19
+          "avg7": 61.42,
+          "avg7Delta": -2.95
         },
         "sleepMinutes": {
           "previousDelta": 3.17,
-          "avg7": 7.39,
-          "avg7Delta": 2.86
+          "avg7": 7.32,
+          "avg7Delta": 2.93
         },
         "steps": {
           "previousDelta": -2662.0,
-          "avg7": 7609.57,
-          "avg7Delta": -3894.57
+          "avg7": 7409.57,
+          "avg7Delta": -3694.57
         },
         "sleepEfficiency": {
           "previousDelta": -5.16,
-          "avg7": 93.22,
-          "avg7Delta": -5.99
+          "avg7": 92.52,
+          "avg7Delta": -5.29
         },
         "deepSleepMinutes": {
           "previousDelta": 0.0,
@@ -4577,8 +4571,8 @@ window.HEALTH_SITE_DATA = {
         },
         "remSleepMinutes": {
           "previousDelta": 1.34,
-          "avg7": 1.55,
-          "avg7Delta": 1.12
+          "avg7": 1.53,
+          "avg7Delta": 1.14
         },
         "walkingMinutes": {
           "previousDelta": null,
@@ -4614,8 +4608,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-26",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-06-26",
         "recoveryScore": 83,
@@ -4630,7 +4624,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 63,
+          "score": 57,
           "availableFactors": [
             "activeCalories",
             "exerciseMinutes",
@@ -4641,7 +4635,7 @@ window.HEALTH_SITE_DATA = {
           60,
           80
         ],
-        "sleepBankMinutes": 115,
+        "sleepBankMinutes": 100,
         "tonightSleepNeedMinutes": 450,
         "headline": "回復状態は良好。普段通りか、少し強度を上げられる日です。",
         "warnings": [],
@@ -4649,7 +4643,7 @@ window.HEALTH_SITE_DATA = {
           "睡眠スコア 91"
         ],
         "actions": [
-          "運動は普段通りでOK。活動負荷は目安範囲内を狙う。",
+          "余力があれば30分前後の散歩または中強度の運動で、活動負荷を目安範囲へ近づける。",
           "今夜の睡眠目安は7h30m。就寝前30分は光と刺激を抑える。"
         ],
         "monitor": {
@@ -4663,9 +4657,9 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.833333333333336,
-            "deviation": 2.4267032964268394,
-            "days": 9,
+            "average": 47.3,
+            "deviation": 2.85657137141714,
+            "days": 5,
             "value": null,
             "status": "insufficient",
             "delta": null,
@@ -4681,12 +4675,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.26882671617201,
-            "deviation": 0.17278043308344992,
-            "days": 9,
+            "average": 98.37997977755307,
+            "deviation": 0.13039503709351682,
+            "days": 5,
             "value": 98.32558139534883,
             "status": "usual",
-            "delta": 0.05675467917681942,
+            "delta": -0.05439838220424065,
             "label": "血中酸素"
           }
         },
@@ -4711,48 +4705,48 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": 0.2,
-          "avg7": 56.61,
-          "avg7Delta": -0.01
+          "avg7": 56.58,
+          "avg7Delta": 0.02
         },
         "bodyFat": {
           "previousDelta": 0.2,
-          "avg7": 11.66,
-          "avg7Delta": 0.84
+          "avg7": 12.05,
+          "avg7Delta": 0.45
         },
         "activeCalories": {
           "previousDelta": 369.0,
-          "avg7": 384.76,
-          "avg7Delta": 111.24
+          "avg7": 376.19,
+          "avg7Delta": 119.81
         },
         "heartRateAvg": {
           "previousDelta": 3.91,
-          "avg7": 60.56,
-          "avg7Delta": 1.82
+          "avg7": 61.31,
+          "avg7Delta": 1.07
         },
         "sleepMinutes": {
           "previousDelta": -3.25,
-          "avg7": 8.01,
-          "avg7Delta": -1.01
+          "avg7": 8.04,
+          "avg7Delta": -1.04
         },
         "steps": {
           "previousDelta": 4355.0,
-          "avg7": 7417.43,
-          "avg7Delta": 652.57
+          "avg7": 7217.43,
+          "avg7Delta": 852.57
         },
         "sleepEfficiency": {
           "previousDelta": 1.66,
-          "avg7": 92.06,
-          "avg7Delta": -3.17
+          "avg7": 91.17,
+          "avg7Delta": -2.28
         },
         "deepSleepMinutes": {
           "previousDelta": -0.41,
-          "avg7": 1.88,
-          "avg7Delta": -0.21
+          "avg7": 1.9,
+          "avg7Delta": -0.23
         },
         "remSleepMinutes": {
           "previousDelta": -1.55,
-          "avg7": 1.7,
-          "avg7Delta": -0.58
+          "avg7": 1.71,
+          "avg7Delta": -0.59
         },
         "walkingMinutes": {
           "previousDelta": null,
@@ -4788,11 +4782,11 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-27",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-06-27",
-        "recoveryScore": 67,
+        "recoveryScore": 65,
         "recoveryBand": "moderate",
         "sleep": {
           "score": null,
@@ -4804,7 +4798,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 0
         },
         "activityLoad": {
-          "score": 44,
+          "score": 41,
           "availableFactors": [
             "activeCalories",
             "steps"
@@ -4814,13 +4808,11 @@ window.HEALTH_SITE_DATA = {
           40,
           65
         ],
-        "sleepBankMinutes": 120,
+        "sleepBankMinutes": 100,
         "tonightSleepNeedMinutes": 450,
         "headline": "回復状態は中間。普段通りでよいものの、追い込みすぎには注意です。",
         "warnings": [],
-        "positives": [
-          "安静時心拍が通常より低い"
-        ],
+        "positives": [],
         "actions": [
           "運動は普段通りでOK。活動負荷は目安範囲内を狙う。",
           "今夜の睡眠目安は7h30m。就寝前30分は光と刺激を抑える。"
@@ -4836,12 +4828,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.833333333333336,
-            "deviation": 2.4267032964268394,
-            "days": 9,
+            "average": 47.3,
+            "deviation": 2.85657137141714,
+            "days": 5,
             "value": 45.0,
-            "status": "below",
-            "delta": -2.8333333333333357,
+            "status": "usual",
+            "delta": -2.299999999999997,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -4854,12 +4846,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.2745021840897,
-            "deviation": 0.1647958393759253,
-            "days": 10,
+            "average": 98.37091338051904,
+            "deviation": 0.12074788828275268,
+            "days": 6,
             "value": 98.26190476190476,
             "status": "usual",
-            "delta": -0.012597422184938978,
+            "delta": -0.10900861861428268,
             "label": "血中酸素"
           }
         },
@@ -4884,47 +4876,47 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": 0.6,
-          "avg7": 56.64,
-          "avg7Delta": 0.56
+          "avg7": 56.62,
+          "avg7Delta": 0.58
         },
         "bodyFat": {
           "previousDelta": -0.3,
-          "avg7": 11.8,
-          "avg7Delta": 0.4
+          "avg7": 12.22,
+          "avg7Delta": -0.02
         },
         "activeCalories": {
           "previousDelta": -221.0,
-          "avg7": 408.17,
-          "avg7Delta": -133.17
+          "avg7": 399.6,
+          "avg7Delta": -124.6
         },
         "heartRateAvg": {
           "previousDelta": -1.44,
-          "avg7": 60.28,
-          "avg7Delta": 0.66
+          "avg7": 61.04,
+          "avg7Delta": -0.1
         },
         "sleepMinutes": {
           "previousDelta": null,
-          "avg7": 7.77,
+          "avg7": 7.76,
           "avg7Delta": null
         },
         "steps": {
           "previousDelta": -153.0,
-          "avg7": 7337.14,
-          "avg7Delta": 579.86
+          "avg7": 7137.14,
+          "avg7Delta": 779.86
         },
         "sleepEfficiency": {
           "previousDelta": null,
-          "avg7": 91.32,
+          "avg7": 90.3,
           "avg7Delta": null
         },
         "deepSleepMinutes": {
           "previousDelta": null,
-          "avg7": 1.86,
+          "avg7": 1.87,
           "avg7Delta": null
         },
         "remSleepMinutes": {
           "previousDelta": null,
-          "avg7": 1.59,
+          "avg7": 1.58,
           "avg7Delta": null
         },
         "walkingMinutes": {
@@ -4961,8 +4953,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-28",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-06-28",
         "recoveryScore": 87,
@@ -4977,7 +4969,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 32,
+          "score": 30,
           "availableFactors": [
             "activeCalories",
             "steps"
@@ -5009,9 +5001,9 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.55,
-            "deviation": 2.454078238361605,
-            "days": 10,
+            "average": 46.916666666666664,
+            "deviation": 2.7449448486667674,
+            "days": 6,
             "value": null,
             "status": "insufficient",
             "delta": null,
@@ -5027,12 +5019,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.27335696389106,
-            "deviation": 0.15716839694461088,
-            "days": 11,
+            "average": 98.355340720717,
+            "deviation": 0.11811957618537527,
+            "days": 7,
             "value": 98.39024390243902,
             "status": "usual",
-            "delta": 0.11688693854796384,
+            "delta": 0.03490318172202933,
             "label": "血中酸素"
           }
         },
@@ -5057,23 +5049,23 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": -0.4,
-          "avg7": 56.76,
-          "avg7Delta": 0.04
+          "avg7": 56.75,
+          "avg7Delta": 0.05
         },
         "bodyFat": {
           "previousDelta": -1.9,
-          "avg7": 11.99,
-          "avg7Delta": -1.69
+          "avg7": 12.43,
+          "avg7Delta": -2.13
         },
         "activeCalories": {
           "previousDelta": -69.0,
-          "avg7": 411.74,
-          "avg7Delta": -205.74
+          "avg7": 403.17,
+          "avg7Delta": -197.17
         },
         "heartRateAvg": {
           "previousDelta": -5.57,
-          "avg7": 60.55,
-          "avg7Delta": -5.18
+          "avg7": 61.3,
+          "avg7Delta": -5.93
         },
         "sleepMinutes": {
           "previousDelta": null,
@@ -5082,23 +5074,23 @@ window.HEALTH_SITE_DATA = {
         },
         "steps": {
           "previousDelta": -2376.0,
-          "avg7": 7554.14,
-          "avg7Delta": -2013.14
+          "avg7": 7354.14,
+          "avg7Delta": -1813.14
         },
         "sleepEfficiency": {
           "previousDelta": null,
-          "avg7": 90.67,
-          "avg7Delta": 4.18
+          "avg7": 89.32,
+          "avg7Delta": 5.53
         },
         "deepSleepMinutes": {
           "previousDelta": null,
-          "avg7": 1.9,
-          "avg7Delta": 0.18
+          "avg7": 1.93,
+          "avg7Delta": 0.15
         },
         "remSleepMinutes": {
           "previousDelta": null,
-          "avg7": 1.64,
-          "avg7Delta": 0.11
+          "avg7": 1.65,
+          "avg7Delta": 0.1
         },
         "walkingMinutes": {
           "previousDelta": null,
@@ -5134,8 +5126,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-29",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-06-29",
         "recoveryScore": 55,
@@ -5150,7 +5142,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 0
         },
         "activityLoad": {
-          "score": 63,
+          "score": 59,
           "availableFactors": [
             "activeCalories",
             "exerciseMinutes",
@@ -5181,9 +5173,9 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.55,
-            "deviation": 2.454078238361605,
-            "days": 10,
+            "average": 46.916666666666664,
+            "deviation": 2.7449448486667674,
+            "days": 6,
             "value": null,
             "status": "insufficient",
             "delta": null,
@@ -5199,12 +5191,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.28309754210339,
-            "deviation": 0.15390607661160155,
-            "days": 12,
+            "average": 98.35970361843225,
+            "deviation": 0.11109207500426116,
+            "days": 8,
             "value": 98.36363636363636,
             "status": "usual",
-            "delta": 0.08053882153296854,
+            "delta": 0.003932745204110688,
             "label": "血中酸素"
           }
         },
@@ -5306,8 +5298,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-06-30",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-06-30",
         "recoveryScore": 55,
@@ -5322,7 +5314,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 0
         },
         "activityLoad": {
-          "score": 41,
+          "score": 40,
           "availableFactors": [
             "activeCalories",
             "steps"
@@ -5352,9 +5344,9 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.55,
-            "deviation": 2.454078238361605,
-            "days": 10,
+            "average": 46.916666666666664,
+            "deviation": 2.7449448486667674,
+            "days": 6,
             "value": null,
             "status": "insufficient",
             "delta": null,
@@ -5370,12 +5362,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.28929283606747,
-            "deviation": 0.14941745987841104,
-            "days": 13,
+            "average": 98.3601405901216,
+            "deviation": 0.10474590472850843,
+            "days": 9,
             "value": 98.4047619047619,
             "status": "usual",
-            "delta": 0.11546906869442353,
+            "delta": 0.044621314640295395,
             "label": "血中酸素"
           }
         },
@@ -5477,11 +5469,11 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-01",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-01",
-        "recoveryScore": 66,
+        "recoveryScore": 63,
         "recoveryBand": "moderate",
         "sleep": {
           "score": null,
@@ -5493,7 +5485,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 0
         },
         "activityLoad": {
-          "score": 72,
+          "score": 68,
           "availableFactors": [
             "activeCalories",
             "exerciseMinutes",
@@ -5508,9 +5500,7 @@ window.HEALTH_SITE_DATA = {
         "tonightSleepNeedMinutes": 450,
         "headline": "回復状態は中間。普段通りでよいものの、追い込みすぎには注意です。",
         "warnings": [],
-        "positives": [
-          "安静時心拍が通常より低い"
-        ],
+        "positives": [],
         "actions": [
           "今日の負荷は十分。追加の高強度運動は不要です。",
           "今夜の睡眠目安は7h30m。就寝前30分は光と刺激を抑える。"
@@ -5526,12 +5516,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.55,
-            "deviation": 2.454078238361605,
-            "days": 10,
+            "average": 46.916666666666664,
+            "deviation": 2.7449448486667674,
+            "days": 6,
             "value": 45.0,
-            "status": "below",
-            "delta": -2.549999999999997,
+            "status": "usual",
+            "delta": -1.9166666666666643,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -5544,12 +5534,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.29754062668849,
-            "deviation": 0.14702119532281158,
-            "days": 14,
+            "average": 98.36460272158563,
+            "deviation": 0.10026828838907614,
+            "days": 10,
             "value": 98.14285714285714,
             "status": "usual",
-            "delta": -0.15468348383134867,
+            "delta": -0.22174557872848766,
             "label": "血中酸素"
           }
         },
@@ -5651,8 +5641,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-02",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-02",
         "recoveryScore": 87,
@@ -5667,7 +5657,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 34,
+          "score": 33,
           "availableFactors": [
             "activeCalories",
             "steps"
@@ -5699,9 +5689,9 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.31818181818182,
-            "deviation": 2.4520189016838505,
-            "days": 11,
+            "average": 46.642857142857146,
+            "deviation": 2.6283384989963,
+            "days": 7,
             "value": null,
             "status": "insufficient",
             "delta": null,
@@ -5717,12 +5707,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.28722839443307,
-            "deviation": 0.1471835802429372,
-            "days": 15,
+            "average": 98.34444403261031,
+            "deviation": 0.1149064038476311,
+            "days": 11,
             "value": 98.4,
             "status": "usual",
-            "delta": 0.11277160556693389,
+            "delta": 0.055555967389693706,
             "label": "血中酸素"
           }
         },
@@ -5824,8 +5814,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-03",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-03",
         "recoveryScore": 55,
@@ -5840,7 +5830,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 0
         },
         "activityLoad": {
-          "score": 40,
+          "score": 39,
           "availableFactors": [
             "activeCalories",
             "steps"
@@ -5856,7 +5846,7 @@ window.HEALTH_SITE_DATA = {
         "warnings": [],
         "positives": [],
         "actions": [
-          "運動は普段通りでOK。活動負荷は目安範囲内を狙う。",
+          "余力があれば30分前後の散歩または中強度の運動で、活動負荷を目安範囲へ近づける。",
           "今夜の睡眠目安は7h30m。就寝前30分は光と刺激を抑える。"
         ],
         "monitor": {
@@ -5870,9 +5860,9 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.31818181818182,
-            "deviation": 2.4520189016838505,
-            "days": 11,
+            "average": 46.642857142857146,
+            "deviation": 2.6283384989963,
+            "days": 7,
             "value": null,
             "status": "insufficient",
             "delta": null,
@@ -5888,12 +5878,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.29427661978099,
-            "deviation": 0.1451007601914519,
-            "days": 16,
+            "average": 98.34907369655946,
+            "deviation": 0.1110808857508665,
+            "days": 12,
             "value": 98.2,
             "status": "usual",
-            "delta": -0.09427661978098456,
+            "delta": -0.14907369655945502,
             "label": "血中酸素"
           }
         },
@@ -5995,11 +5985,11 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-04",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-04",
-        "recoveryScore": 39,
+        "recoveryScore": 36,
         "recoveryBand": "low",
         "sleep": {
           "score": null,
@@ -6011,7 +6001,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 0
         },
         "activityLoad": {
-          "score": 73,
+          "score": 72,
           "availableFactors": [
             "activeCalories",
             "steps"
@@ -6043,12 +6033,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.31818181818182,
-            "deviation": 2.4520189016838505,
-            "days": 11,
+            "average": 46.642857142857146,
+            "deviation": 2.6283384989963,
+            "days": 7,
             "value": 51.0,
             "status": "above",
-            "delta": 3.68181818181818,
+            "delta": 4.357142857142854,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -6061,12 +6051,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.28873093626447,
-            "deviation": 0.1425055091754897,
-            "days": 17,
+            "average": 98.33760648913182,
+            "deviation": 0.11387613586558737,
+            "days": 13,
             "value": 98.07692307692308,
             "status": "usual",
-            "delta": -0.21180785934139124,
+            "delta": -0.2606834122087349,
             "label": "血中酸素"
           }
         },
@@ -6168,8 +6158,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-05",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-05",
         "recoveryScore": 89,
@@ -6184,7 +6174,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 12,
+          "score": 11,
           "availableFactors": [
             "activeCalories",
             "steps"
@@ -6216,9 +6206,9 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.625,
-            "deviation": 2.55868618630734,
-            "days": 12,
+            "average": 47.1875,
+            "deviation": 2.8497532787944992,
+            "days": 8,
             "value": null,
             "status": "insufficient",
             "delta": null,
@@ -6234,12 +6224,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.27696383296772,
-            "deviation": 0.14674300036118873,
-            "days": 18,
+            "average": 98.3189862454026,
+            "deviation": 0.1286420612411234,
+            "days": 14,
             "value": 98.51282051282051,
             "status": "usual",
-            "delta": 0.23585667985278747,
+            "delta": 0.19383426741791254,
             "label": "血中酸素"
           }
         },
@@ -6341,8 +6331,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-06",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-06",
         "recoveryScore": 55,
@@ -6386,9 +6376,9 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.625,
-            "deviation": 2.55868618630734,
-            "days": 12,
+            "average": 47.1875,
+            "deviation": 2.8497532787944992,
+            "days": 8,
             "value": null,
             "status": "insufficient",
             "delta": null,
@@ -6404,12 +6394,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.28937734243367,
-            "deviation": 0.15222969332960506,
-            "days": 19,
+            "average": 98.33190852989715,
+            "deviation": 0.1333541301853031,
+            "days": 15,
             "value": 98.33333333333333,
             "status": "usual",
-            "delta": 0.0439559908996614,
+            "delta": 0.0014248034361799,
             "label": "血中酸素"
           }
         },
@@ -6511,8 +6501,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-07",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-07",
         "recoveryScore": 55,
@@ -6527,7 +6517,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 0
         },
         "activityLoad": {
-          "score": 68,
+          "score": 64,
           "availableFactors": [
             "activeCalories",
             "exerciseMinutes",
@@ -6544,7 +6534,7 @@ window.HEALTH_SITE_DATA = {
         "warnings": [],
         "positives": [],
         "actions": [
-          "今日の負荷は十分。追加の高強度運動は不要です。",
+          "運動は普段通りでOK。活動負荷は目安範囲内を狙う。",
           "今夜の睡眠目安は7h30m。就寝前30分は光と刺激を抑える。"
         ],
         "monitor": {
@@ -6558,9 +6548,9 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.625,
-            "deviation": 2.55868618630734,
-            "days": 12,
+            "average": 47.1875,
+            "deviation": 2.8497532787944992,
+            "days": 8,
             "value": null,
             "status": "insufficient",
             "delta": null,
@@ -6576,12 +6566,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.29157514197864,
-            "deviation": 0.14868410032220303,
-            "days": 20,
+            "average": 98.33199758011189,
+            "deviation": 0.1291200419541737,
+            "days": 16,
             "value": 98.39024390243902,
             "status": "usual",
-            "delta": 0.09866876046038442,
+            "delta": 0.05824632232713611,
             "label": "血中酸素"
           }
         },
@@ -6683,11 +6673,11 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-08",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-08",
-        "recoveryScore": 41,
+        "recoveryScore": 39,
         "recoveryBand": "low",
         "sleep": {
           "score": null,
@@ -6731,12 +6721,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.625,
-            "deviation": 2.55868618630734,
-            "days": 12,
+            "average": 47.1875,
+            "deviation": 2.8497532787944992,
+            "days": 8,
             "value": 51.0,
             "status": "above",
-            "delta": 3.375,
+            "delta": 3.8125,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -6749,12 +6739,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.29627365438152,
-            "deviation": 0.1466143567433261,
-            "days": 21,
+            "average": 98.33542383436644,
+            "deviation": 0.12601233158677771,
+            "days": 17,
             "value": 98.26666666666667,
             "status": "usual",
-            "delta": -0.029606987714856814,
+            "delta": -0.06875716769977203,
             "label": "血中酸素"
           }
         },
@@ -6856,11 +6846,11 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-09",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-09",
-        "recoveryScore": 83,
+        "recoveryScore": 82,
         "recoveryBand": "high",
         "sleep": {
           "score": 93,
@@ -6905,12 +6895,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.88461538461539,
-            "deviation": 2.617646081103624,
-            "days": 13,
+            "average": 47.611111111111114,
+            "deviation": 2.9418227321941615,
+            "days": 9,
             "value": 44.0,
             "status": "below",
-            "delta": -3.884615384615387,
+            "delta": -3.6111111111111143,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -6923,12 +6913,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.29492788221265,
-            "deviation": 0.14337615674890788,
-            "days": 22,
+            "average": 98.33160399171645,
+            "deviation": 0.12347058526253994,
+            "days": 18,
             "value": 98.22727272727273,
             "status": "usual",
-            "delta": -0.06765515493991359,
+            "delta": -0.1043312644437151,
             "label": "血中酸素"
           }
         },
@@ -7030,8 +7020,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-10",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-10",
         "recoveryScore": 56,
@@ -7046,7 +7036,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 36,
+          "score": 35,
           "availableFactors": [
             "activeCalories",
             "steps"
@@ -7080,12 +7070,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 47.607142857142854,
-            "deviation": 2.7135807355159467,
-            "days": 14,
+            "average": 47.25,
+            "deviation": 2.993743475984541,
+            "days": 10,
             "value": 57.0,
             "status": "above",
-            "delta": 9.392857142857146,
+            "delta": 9.75,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -7098,12 +7088,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.29198635373703,
-            "deviation": 0.14090176990820508,
-            "days": 23,
+            "average": 98.32611287253519,
+            "deviation": 0.12241470822025821,
+            "days": 19,
             "value": 98.0,
             "status": "usual",
-            "delta": -0.2919863537370304,
+            "delta": -0.32611287253519095,
             "label": "血中酸素"
           }
         },
@@ -7205,8 +7195,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-11",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-11",
         "recoveryScore": 64,
@@ -7221,7 +7211,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 44,
+          "score": 41,
           "availableFactors": [
             "activeCalories",
             "exerciseMinutes",
@@ -7256,12 +7246,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 48.233333333333334,
-            "deviation": 3.5159951965584684,
-            "days": 15,
+            "average": 48.13636363636363,
+            "deviation": 4.000516495579659,
+            "days": 11,
             "value": 54.0,
             "status": "above",
-            "delta": 5.766666666666666,
+            "delta": 5.863636363636367,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -7274,12 +7264,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.27982025566466,
-            "deviation": 0.14976784781069938,
-            "days": 24,
+            "average": 98.30980722890844,
+            "deviation": 0.138880160630644,
+            "days": 20,
             "value": 98.13513513513513,
             "status": "usual",
-            "delta": -0.1446851205295303,
+            "delta": -0.17467209377331017,
             "label": "血中酸素"
           }
         },
@@ -7381,8 +7371,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-12",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-12",
         "recoveryScore": 72,
@@ -7397,7 +7387,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 69,
+          "score": 68,
           "availableFactors": [
             "steps"
           ]
@@ -7428,12 +7418,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 48.59375,
-            "deviation": 3.679413803515446,
-            "days": 16,
+            "average": 48.625,
+            "deviation": 4.158951189903531,
+            "days": 12,
             "value": 50.0,
             "status": "usual",
-            "delta": 1.40625,
+            "delta": 1.375,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -7446,12 +7436,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.27403285084347,
-            "deviation": 0.1494558437060133,
-            "days": 25,
+            "average": 98.30148951015732,
+            "deviation": 0.14054510330602868,
+            "days": 21,
             "value": 98.48780487804878,
             "status": "usual",
-            "delta": 0.21377202720530875,
+            "delta": 0.18631536789145287,
             "label": "血中酸素"
           }
         },
@@ -7553,8 +7543,8 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-13",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-13",
         "recoveryScore": 60,
@@ -7569,7 +7559,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 51,
+          "score": 49,
           "availableFactors": [
             "activeCalories",
             "exerciseMinutes",
@@ -7604,12 +7594,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 48.6764705882353,
-            "deviation": 3.584858584751198,
-            "days": 17,
+            "average": 48.73076923076923,
+            "deviation": 4.012554263306146,
+            "days": 13,
             "value": 57.0,
             "status": "above",
-            "delta": 8.323529411764703,
+            "delta": 8.269230769230766,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -7622,12 +7612,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.28225485188985,
-            "deviation": 0.1522102640114112,
-            "days": 26,
+            "average": 98.30995839051603,
+            "deviation": 0.1426927693081463,
+            "days": 22,
             "value": 98.73170731707317,
             "status": "usual",
-            "delta": 0.4494524651833274,
+            "delta": 0.421748926557143,
             "label": "血中酸素"
           }
         },
@@ -7729,11 +7719,11 @@ window.HEALTH_SITE_DATA = {
     },
     {
       "date": "2026-07-14",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-14",
-        "recoveryScore": 85,
+        "recoveryScore": 84,
         "recoveryBand": "high",
         "sleep": {
           "score": 93,
@@ -7745,7 +7735,7 @@ window.HEALTH_SITE_DATA = {
           "availableFactors": 4
         },
         "activityLoad": {
-          "score": 4,
+          "score": 27,
           "availableFactors": [
             "activeCalories",
             "steps"
@@ -7777,12 +7767,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 49.138888888888886,
-            "deviation": 3.9714451454363404,
-            "days": 18,
-            "value": null,
-            "status": "insufficient",
-            "delta": null,
+            "average": 49.32142857142857,
+            "deviation": 4.4142914932925645,
+            "days": 14,
+            "value": 45.0,
+            "status": "usual",
+            "delta": -4.321428571428569,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -7795,12 +7785,12 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.29890123948924,
-            "deviation": 0.1717979901951449,
-            "days": 27,
-            "value": 98.86666666666666,
-            "status": "above",
-            "delta": 0.5677654271774202,
+            "average": 98.32829530036635,
+            "deviation": 0.16393073379361098,
+            "days": 23,
+            "value": 98.68888888888888,
+            "status": "usual",
+            "delta": 0.36059358852253354,
             "label": "血中酸素"
           }
         },
@@ -7809,19 +7799,19 @@ window.HEALTH_SITE_DATA = {
       },
       "weight": 57.4,
       "bodyFat": 9.9,
-      "activeCalories": 25.0,
-      "heartRateAvg": 55.0,
+      "activeCalories": 174.0,
+      "heartRateAvg": 57.06,
       "sleepMinutes": 6.75,
-      "steps": 537.0,
+      "steps": 3932.0,
       "sleepEfficiency": 94.74,
       "deepSleepMinutes": 1.5,
       "remSleepMinutes": 1.67,
       "walkingMinutes": null,
       "exerciseMinutes": null,
-      "restingHeartRate": null,
+      "restingHeartRate": 45.0,
       "hrv": null,
       "respiratoryRate": null,
-      "oxygenAvg": 98.87,
+      "oxygenAvg": 98.69,
       "comparisons": {
         "weight": {
           "previousDelta": 0.1,
@@ -7834,14 +7824,14 @@ window.HEALTH_SITE_DATA = {
           "avg7Delta": -1.04
         },
         "activeCalories": {
-          "previousDelta": -316.0,
+          "previousDelta": -167.0,
           "avg7": 251.5,
-          "avg7Delta": -226.5
+          "avg7Delta": -77.5
         },
         "heartRateAvg": {
-          "previousDelta": -9.65,
+          "previousDelta": -7.59,
           "avg7": 64.61,
-          "avg7Delta": -9.61
+          "avg7Delta": -7.55
         },
         "sleepMinutes": {
           "previousDelta": 0.0,
@@ -7849,9 +7839,9 @@ window.HEALTH_SITE_DATA = {
           "avg7Delta": -0.4
         },
         "steps": {
-          "previousDelta": -5984.0,
+          "previousDelta": -2589.0,
           "avg7": 7179.0,
-          "avg7Delta": -6642.0
+          "avg7Delta": -3247.0
         },
         "sleepEfficiency": {
           "previousDelta": 0.0,
@@ -7879,9 +7869,9 @@ window.HEALTH_SITE_DATA = {
           "avg7Delta": null
         },
         "restingHeartRate": {
-          "previousDelta": null,
+          "previousDelta": -12.0,
           "avg7": 52.17,
-          "avg7Delta": null
+          "avg7Delta": -7.17
         },
         "hrv": {
           "previousDelta": null,
@@ -7894,47 +7884,50 @@ window.HEALTH_SITE_DATA = {
           "avg7Delta": null
         },
         "oxygenAvg": {
-          "previousDelta": 0.14,
+          "previousDelta": -0.04,
           "avg7": 98.32,
-          "avg7Delta": 0.55
+          "avg7Delta": 0.37
         }
       }
     },
     {
       "date": "2026-07-15",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-15",
-        "recoveryScore": null,
-        "recoveryBand": "unknown",
+        "recoveryScore": 84,
+        "recoveryBand": "high",
         "sleep": {
-          "score": null,
-          "durationMinutes": null,
-          "efficiency": null,
-          "deepMinutes": null,
-          "remMinutes": null,
-          "awakeMinutes": null,
-          "availableFactors": 0
+          "score": 95,
+          "durationMinutes": 480.0,
+          "efficiency": 92.3,
+          "deepMinutes": 130.0,
+          "remMinutes": 110.0,
+          "awakeMinutes": 60.0,
+          "availableFactors": 4
         },
         "activityLoad": {
-          "score": 31,
+          "score": 34,
           "availableFactors": [
+            "activeCalories",
             "steps"
           ]
         },
         "targetLoad": [
-          40,
-          65
+          60,
+          80
         ],
-        "sleepBankMinutes": -150,
-        "tonightSleepNeedMinutes": 500,
-        "headline": "回復度は較正中。今日は睡眠と活動量を中心に判断します。",
+        "sleepBankMinutes": -120,
+        "tonightSleepNeedMinutes": 490,
+        "headline": "回復状態は良好。普段通りか、少し強度を上げられる日です。",
         "warnings": [],
-        "positives": [],
+        "positives": [
+          "睡眠スコア 95"
+        ],
         "actions": [
           "余力があれば30分前後の散歩または中強度の運動で、活動負荷を目安範囲へ近づける。",
-          "直近7日の睡眠負債は約2.5時間。今夜は8h20mを目安にする。"
+          "直近7日の睡眠負債は約2.0時間。今夜は8h10mを目安にする。"
         ],
         "monitor": {
           "hrv": {
@@ -7947,12 +7940,12 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 49.138888888888886,
-            "deviation": 3.9714451454363404,
-            "days": 18,
-            "value": null,
-            "status": "insufficient",
-            "delta": null,
+            "average": 49.03333333333333,
+            "deviation": 4.398737192523428,
+            "days": 15,
+            "value": 45.0,
+            "status": "usual",
+            "delta": -4.033333333333331,
             "label": "安静時心拍"
           },
           "respiratoryRate": {
@@ -7965,33 +7958,33 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.31917857617415,
-            "deviation": 0.1989021335374085,
-            "days": 28,
-            "value": null,
-            "status": "insufficient",
-            "delta": null,
+            "average": 98.34332003322146,
+            "deviation": 0.17591374304794455,
+            "days": 24,
+            "value": 98.25,
+            "status": "usual",
+            "delta": -0.09332003322145965,
             "label": "血中酸素"
           }
         },
-        "confidence": "low",
+        "confidence": "medium",
         "baselineWindowDays": 28
       },
       "weight": 57.2,
       "bodyFat": 10.0,
-      "activeCalories": null,
-      "heartRateAvg": null,
-      "sleepMinutes": null,
-      "steps": 4313.81,
-      "sleepEfficiency": null,
-      "deepSleepMinutes": null,
-      "remSleepMinutes": null,
-      "walkingMinutes": null,
+      "activeCalories": 199.0,
+      "heartRateAvg": 59.1,
+      "sleepMinutes": 8.0,
+      "steps": 5605.0,
+      "sleepEfficiency": 92.31,
+      "deepSleepMinutes": 2.17,
+      "remSleepMinutes": 1.83,
+      "walkingMinutes": 0.5,
       "exerciseMinutes": null,
-      "restingHeartRate": null,
+      "restingHeartRate": 45.0,
       "hrv": null,
       "respiratoryRate": null,
-      "oxygenAvg": null,
+      "oxygenAvg": 98.25,
       "comparisons": {
         "weight": {
           "previousDelta": -0.2,
@@ -8004,44 +7997,44 @@ window.HEALTH_SITE_DATA = {
           "avg7Delta": -0.58
         },
         "activeCalories": {
-          "previousDelta": null,
-          "avg7": 189.0,
-          "avg7Delta": null
+          "previousDelta": 25.0,
+          "avg7": 213.83,
+          "avg7Delta": -14.83
         },
         "heartRateAvg": {
-          "previousDelta": null,
-          "avg7": 63.59,
-          "avg7Delta": null
+          "previousDelta": 2.04,
+          "avg7": 63.88,
+          "avg7Delta": -4.78
         },
         "sleepMinutes": {
-          "previousDelta": null,
+          "previousDelta": 1.25,
           "avg7": 7.08,
-          "avg7Delta": null
+          "avg7Delta": 0.92
         },
         "steps": {
-          "previousDelta": 3776.81,
-          "avg7": 6033.43,
-          "avg7Delta": -1719.62
+          "previousDelta": 1673.0,
+          "avg7": 6518.43,
+          "avg7Delta": -913.43
         },
         "sleepEfficiency": {
-          "previousDelta": null,
+          "previousDelta": -2.43,
           "avg7": 90.18,
-          "avg7Delta": null
+          "avg7Delta": 2.13
         },
         "deepSleepMinutes": {
-          "previousDelta": null,
+          "previousDelta": 0.67,
           "avg7": 1.47,
-          "avg7Delta": null
+          "avg7Delta": 0.7
         },
         "remSleepMinutes": {
-          "previousDelta": null,
+          "previousDelta": 0.16,
           "avg7": 1.65,
-          "avg7Delta": null
+          "avg7Delta": 0.18
         },
         "walkingMinutes": {
           "previousDelta": null,
           "avg7": 0.5,
-          "avg7Delta": null
+          "avg7Delta": 0.0
         },
         "exerciseMinutes": {
           "previousDelta": null,
@@ -8049,9 +8042,9 @@ window.HEALTH_SITE_DATA = {
           "avg7Delta": null
         },
         "restingHeartRate": {
-          "previousDelta": null,
-          "avg7": 52.17,
-          "avg7Delta": null
+          "previousDelta": 0.0,
+          "avg7": 51.14,
+          "avg7Delta": -6.14
         },
         "hrv": {
           "previousDelta": null,
@@ -8064,47 +8057,50 @@ window.HEALTH_SITE_DATA = {
           "avg7Delta": null
         },
         "oxygenAvg": {
-          "previousDelta": null,
-          "avg7": 98.39,
-          "avg7Delta": null
+          "previousDelta": -0.44,
+          "avg7": 98.36,
+          "avg7Delta": -0.11
         }
       }
     },
     {
       "date": "2026-07-16",
-      "sourceExportedAt": "2026-07-16T21:31:10.738599Z",
-      "sourceReceivedAt": "2026-07-16T21:31:11.147Z",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
       "coach": {
         "date": "2026-07-16",
-        "recoveryScore": null,
-        "recoveryBand": "unknown",
+        "recoveryScore": 76,
+        "recoveryBand": "high",
         "sleep": {
-          "score": null,
-          "durationMinutes": null,
-          "efficiency": null,
-          "deepMinutes": null,
-          "remMinutes": null,
-          "awakeMinutes": null,
-          "availableFactors": 0
+          "score": 95,
+          "durationMinutes": 450.0,
+          "efficiency": 91.4,
+          "deepMinutes": 115.0,
+          "remMinutes": 140.0,
+          "awakeMinutes": 50.0,
+          "availableFactors": 4
         },
         "activityLoad": {
-          "score": 37,
+          "score": 44,
           "availableFactors": [
+            "activeCalories",
             "steps"
           ]
         },
         "targetLoad": [
-          40,
-          65
+          60,
+          80
         ],
-        "sleepBankMinutes": -150,
-        "tonightSleepNeedMinutes": 500,
-        "headline": "回復度は較正中。今日は睡眠と活動量を中心に判断します。",
+        "sleepBankMinutes": -120,
+        "tonightSleepNeedMinutes": 490,
+        "headline": "回復状態は良好。普段通りか、少し強度を上げられる日です。",
         "warnings": [],
-        "positives": [],
+        "positives": [
+          "睡眠スコア 95"
+        ],
         "actions": [
           "余力があれば30分前後の散歩または中強度の運動で、活動負荷を目安範囲へ近づける。",
-          "直近7日の睡眠負債は約2.5時間。今夜は8h20mを目安にする。"
+          "直近7日の睡眠負債は約2.0時間。今夜は8h10mを目安にする。"
         ],
         "monitor": {
           "hrv": {
@@ -8117,9 +8113,704 @@ window.HEALTH_SITE_DATA = {
             "label": "HRV"
           },
           "restingHeartRate": {
-            "average": 49.205882352941174,
-            "deviation": 4.076687032705571,
+            "average": 48.78125,
+            "deviation": 4.369527827752101,
+            "days": 16,
+            "value": 49.0,
+            "status": "usual",
+            "delta": 0.21875,
+            "label": "安静時心拍"
+          },
+          "respiratoryRate": {
+            "average": null,
+            "deviation": null,
+            "days": 0,
+            "value": null,
+            "status": "insufficient",
+            "delta": null,
+            "label": "呼吸数"
+          },
+          "oxygenAvg": {
+            "average": 98.33958723189261,
+            "deviation": 0.17332694692883185,
+            "days": 25,
+            "value": 98.79069767441861,
+            "status": "usual",
+            "delta": 0.4511104425260015,
+            "label": "血中酸素"
+          }
+        },
+        "confidence": "medium",
+        "baselineWindowDays": 28
+      },
+      "weight": null,
+      "bodyFat": null,
+      "activeCalories": 251.0,
+      "heartRateAvg": 58.38,
+      "sleepMinutes": 7.5,
+      "steps": 7152.0,
+      "sleepEfficiency": 91.37,
+      "deepSleepMinutes": 1.92,
+      "remSleepMinutes": 2.33,
+      "walkingMinutes": 0.5,
+      "exerciseMinutes": null,
+      "restingHeartRate": 49.0,
+      "hrv": null,
+      "respiratoryRate": null,
+      "oxygenAvg": 98.79,
+      "comparisons": {
+        "weight": {
+          "previousDelta": null,
+          "avg7": 57.08,
+          "avg7Delta": null
+        },
+        "bodyFat": {
+          "previousDelta": null,
+          "avg7": 10.24,
+          "avg7Delta": null
+        },
+        "activeCalories": {
+          "previousDelta": 52.0,
+          "avg7": 214.17,
+          "avg7Delta": 36.83
+        },
+        "heartRateAvg": {
+          "previousDelta": -0.72,
+          "avg7": 63.75,
+          "avg7Delta": -5.37
+        },
+        "sleepMinutes": {
+          "previousDelta": -0.5,
+          "avg7": 7.21,
+          "avg7Delta": 0.29
+        },
+        "steps": {
+          "previousDelta": 1547.0,
+          "avg7": 6606.29,
+          "avg7Delta": 545.71
+        },
+        "sleepEfficiency": {
+          "previousDelta": -0.94,
+          "avg7": 90.48,
+          "avg7Delta": 0.89
+        },
+        "deepSleepMinutes": {
+          "previousDelta": -0.25,
+          "avg7": 1.57,
+          "avg7Delta": 0.35
+        },
+        "remSleepMinutes": {
+          "previousDelta": 0.5,
+          "avg7": 1.68,
+          "avg7Delta": 0.65
+        },
+        "walkingMinutes": {
+          "previousDelta": 0.0,
+          "avg7": 0.5,
+          "avg7Delta": 0.0
+        },
+        "exerciseMinutes": {
+          "previousDelta": null,
+          "avg7": 0.86,
+          "avg7Delta": null
+        },
+        "restingHeartRate": {
+          "previousDelta": 4.0,
+          "avg7": 50.29,
+          "avg7Delta": -1.29
+        },
+        "hrv": {
+          "previousDelta": null,
+          "avg7": null,
+          "avg7Delta": null
+        },
+        "respiratoryRate": {
+          "previousDelta": null,
+          "avg7": null,
+          "avg7Delta": null
+        },
+        "oxygenAvg": {
+          "previousDelta": 0.54,
+          "avg7": 98.36,
+          "avg7Delta": 0.43
+        }
+      }
+    },
+    {
+      "date": "2026-07-17",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
+      "coach": {
+        "date": "2026-07-17",
+        "recoveryScore": 74,
+        "recoveryBand": "moderate",
+        "sleep": {
+          "score": 94,
+          "durationMinutes": 415.0,
+          "efficiency": 92.2,
+          "deepMinutes": 100.0,
+          "remMinutes": 95.0,
+          "awakeMinutes": 37.5,
+          "availableFactors": 4
+        },
+        "activityLoad": {
+          "score": 33,
+          "availableFactors": [
+            "activeCalories",
+            "steps"
+          ]
+        },
+        "targetLoad": [
+          40,
+          65
+        ],
+        "sleepBankMinutes": -110,
+        "tonightSleepNeedMinutes": 487,
+        "headline": "回復状態は中間。普段通りでよいものの、追い込みすぎには注意です。",
+        "warnings": [],
+        "positives": [
+          "睡眠スコア 94"
+        ],
+        "actions": [
+          "余力があれば30分前後の散歩または中強度の運動で、活動負荷を目安範囲へ近づける。",
+          "直近7日の睡眠負債は約1.8時間。今夜は8h07mを目安にする。"
+        ],
+        "monitor": {
+          "hrv": {
+            "average": null,
+            "deviation": null,
+            "days": 0,
+            "value": null,
+            "status": "insufficient",
+            "delta": null,
+            "label": "HRV"
+          },
+          "restingHeartRate": {
+            "average": 48.794117647058826,
+            "deviation": 4.239377116877,
             "days": 17,
+            "value": 50.0,
+            "status": "usual",
+            "delta": 1.205882352941174,
+            "label": "安静時心拍"
+          },
+          "respiratoryRate": {
+            "average": null,
+            "deviation": null,
+            "days": 0,
+            "value": null,
+            "status": "insufficient",
+            "delta": null,
+            "label": "呼吸数"
+          },
+          "oxygenAvg": {
+            "average": 98.35693763352823,
+            "deviation": 0.19082104456672389,
+            "days": 26,
+            "value": 98.46666666666667,
+            "status": "usual",
+            "delta": 0.10972903313843574,
+            "label": "血中酸素"
+          }
+        },
+        "confidence": "medium",
+        "baselineWindowDays": 28
+      },
+      "weight": null,
+      "bodyFat": null,
+      "activeCalories": 195.0,
+      "heartRateAvg": 60.25,
+      "sleepMinutes": 6.92,
+      "steps": 5135.0,
+      "sleepEfficiency": 92.22,
+      "deepSleepMinutes": 1.67,
+      "remSleepMinutes": 1.58,
+      "walkingMinutes": null,
+      "exerciseMinutes": null,
+      "restingHeartRate": 50.0,
+      "hrv": null,
+      "respiratoryRate": null,
+      "oxygenAvg": 98.47,
+      "comparisons": {
+        "weight": {
+          "previousDelta": null,
+          "avg7": 57.08,
+          "avg7Delta": null
+        },
+        "bodyFat": {
+          "previousDelta": null,
+          "avg7": 10.24,
+          "avg7Delta": null
+        },
+        "activeCalories": {
+          "previousDelta": -56.0,
+          "avg7": 221.67,
+          "avg7Delta": -26.67
+        },
+        "heartRateAvg": {
+          "previousDelta": 1.87,
+          "avg7": 63.48,
+          "avg7Delta": -3.23
+        },
+        "sleepMinutes": {
+          "previousDelta": -0.58,
+          "avg7": 7.21,
+          "avg7Delta": -0.29
+        },
+        "steps": {
+          "previousDelta": -2017.0,
+          "avg7": 6842.0,
+          "avg7Delta": -1707.0
+        },
+        "sleepEfficiency": {
+          "previousDelta": 0.85,
+          "avg7": 91.11,
+          "avg7Delta": 1.11
+        },
+        "deepSleepMinutes": {
+          "previousDelta": -0.25,
+          "avg7": 1.63,
+          "avg7Delta": 0.04
+        },
+        "remSleepMinutes": {
+          "previousDelta": -0.75,
+          "avg7": 1.82,
+          "avg7Delta": -0.24
+        },
+        "walkingMinutes": {
+          "previousDelta": null,
+          "avg7": 0.5,
+          "avg7Delta": null
+        },
+        "exerciseMinutes": {
+          "previousDelta": null,
+          "avg7": 0.86,
+          "avg7Delta": null
+        },
+        "restingHeartRate": {
+          "previousDelta": 1.0,
+          "avg7": 51.0,
+          "avg7Delta": -1.0
+        },
+        "hrv": {
+          "previousDelta": null,
+          "avg7": null,
+          "avg7Delta": null
+        },
+        "respiratoryRate": {
+          "previousDelta": null,
+          "avg7": null,
+          "avg7Delta": null
+        },
+        "oxygenAvg": {
+          "previousDelta": -0.32,
+          "avg7": 98.44,
+          "avg7Delta": 0.03
+        }
+      }
+    },
+    {
+      "date": "2026-07-18",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
+      "coach": {
+        "date": "2026-07-18",
+        "recoveryScore": 76,
+        "recoveryBand": "high",
+        "sleep": {
+          "score": 98,
+          "durationMinutes": 465.0,
+          "efficiency": 94.4,
+          "deepMinutes": 90.0,
+          "remMinutes": 115.0,
+          "awakeMinutes": 37.5,
+          "availableFactors": 4
+        },
+        "activityLoad": {
+          "score": 51,
+          "availableFactors": [
+            "activeCalories",
+            "steps"
+          ]
+        },
+        "targetLoad": [
+          60,
+          80
+        ],
+        "sleepBankMinutes": -80,
+        "tonightSleepNeedMinutes": 477,
+        "headline": "回復状態は良好。普段通りか、少し強度を上げられる日です。",
+        "warnings": [],
+        "positives": [
+          "睡眠スコア 98"
+        ],
+        "actions": [
+          "余力があれば30分前後の散歩または中強度の運動で、活動負荷を目安範囲へ近づける。",
+          "今夜の睡眠目安は7h57m。就寝前30分は光と刺激を抑える。"
+        ],
+        "monitor": {
+          "hrv": {
+            "average": null,
+            "deviation": null,
+            "days": 0,
+            "value": null,
+            "status": "insufficient",
+            "delta": null,
+            "label": "HRV"
+          },
+          "restingHeartRate": {
+            "average": 48.861111111111114,
+            "deviation": 4.129183251078554,
+            "days": 18,
+            "value": 50.0,
+            "status": "usual",
+            "delta": 1.1388888888888857,
+            "label": "安静時心拍"
+          },
+          "respiratoryRate": {
+            "average": null,
+            "deviation": null,
+            "days": 0,
+            "value": null,
+            "status": "insufficient",
+            "delta": null,
+            "label": "呼吸数"
+          },
+          "oxygenAvg": {
+            "average": 98.3610016717926,
+            "deviation": 0.1883971342288175,
+            "days": 27,
+            "value": 98.06818181818181,
+            "status": "usual",
+            "delta": -0.29281985361078,
+            "label": "血中酸素"
+          }
+        },
+        "confidence": "medium",
+        "baselineWindowDays": 28
+      },
+      "weight": 57.3,
+      "bodyFat": 11.1,
+      "activeCalories": 350.0,
+      "heartRateAvg": 62.1,
+      "sleepMinutes": 7.75,
+      "steps": 5935.0,
+      "sleepEfficiency": 94.42,
+      "deepSleepMinutes": 1.5,
+      "remSleepMinutes": 1.92,
+      "walkingMinutes": null,
+      "exerciseMinutes": null,
+      "restingHeartRate": 50.0,
+      "hrv": null,
+      "respiratoryRate": null,
+      "oxygenAvg": 98.07,
+      "comparisons": {
+        "weight": {
+          "previousDelta": null,
+          "avg7": 57.08,
+          "avg7Delta": 0.22
+        },
+        "bodyFat": {
+          "previousDelta": null,
+          "avg7": 10.24,
+          "avg7Delta": 0.86
+        },
+        "activeCalories": {
+          "previousDelta": 155.0,
+          "avg7": 217.83,
+          "avg7Delta": 132.17
+        },
+        "heartRateAvg": {
+          "previousDelta": 1.85,
+          "avg7": 61.79,
+          "avg7Delta": 0.31
+        },
+        "sleepMinutes": {
+          "previousDelta": 0.83,
+          "avg7": 7.24,
+          "avg7Delta": 0.51
+        },
+        "steps": {
+          "previousDelta": 800.0,
+          "avg7": 6736.86,
+          "avg7Delta": -801.86
+        },
+        "sleepEfficiency": {
+          "previousDelta": 2.2,
+          "avg7": 91.71,
+          "avg7Delta": 2.71
+        },
+        "deepSleepMinutes": {
+          "previousDelta": -0.17,
+          "avg7": 1.64,
+          "avg7Delta": -0.14
+        },
+        "remSleepMinutes": {
+          "previousDelta": 0.34,
+          "avg7": 1.86,
+          "avg7Delta": 0.06
+        },
+        "walkingMinutes": {
+          "previousDelta": null,
+          "avg7": 0.5,
+          "avg7Delta": null
+        },
+        "exerciseMinutes": {
+          "previousDelta": null,
+          "avg7": 0.86,
+          "avg7Delta": null
+        },
+        "restingHeartRate": {
+          "previousDelta": 0.0,
+          "avg7": 50.0,
+          "avg7Delta": 0.0
+        },
+        "hrv": {
+          "previousDelta": null,
+          "avg7": null,
+          "avg7Delta": null
+        },
+        "respiratoryRate": {
+          "previousDelta": null,
+          "avg7": null,
+          "avg7Delta": null
+        },
+        "oxygenAvg": {
+          "previousDelta": -0.4,
+          "avg7": 98.51,
+          "avg7Delta": -0.44
+        }
+      }
+    },
+    {
+      "date": "2026-07-19",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
+      "coach": {
+        "date": "2026-07-19",
+        "recoveryScore": 60,
+        "recoveryBand": "moderate",
+        "sleep": {
+          "score": 83,
+          "durationMinutes": 375.0,
+          "efficiency": 87.7,
+          "deepMinutes": 105.0,
+          "remMinutes": 80.0,
+          "awakeMinutes": 57.5,
+          "availableFactors": 4
+        },
+        "activityLoad": {
+          "score": 67,
+          "availableFactors": [
+            "activeCalories",
+            "exerciseMinutes",
+            "steps"
+          ]
+        },
+        "targetLoad": [
+          40,
+          65
+        ],
+        "sleepBankMinutes": -155,
+        "tonightSleepNeedMinutes": 502,
+        "headline": "回復状態は中間。普段通りでよいものの、追い込みすぎには注意です。",
+        "warnings": [
+          "安静時心拍が通常より高い"
+        ],
+        "positives": [
+          "睡眠スコア 83"
+        ],
+        "actions": [
+          "今日の負荷は十分。追加の高強度運動は不要です。",
+          "直近7日の睡眠負債は約2.6時間。今夜は8h22mを目安にする。"
+        ],
+        "monitor": {
+          "hrv": {
+            "average": null,
+            "deviation": null,
+            "days": 0,
+            "value": null,
+            "status": "insufficient",
+            "delta": null,
+            "label": "HRV"
+          },
+          "restingHeartRate": {
+            "average": 48.921052631578945,
+            "deviation": 4.027089708902163,
+            "days": 19,
+            "value": 54.0,
+            "status": "above",
+            "delta": 5.078947368421055,
+            "label": "安静時心拍"
+          },
+          "respiratoryRate": {
+            "average": null,
+            "deviation": null,
+            "days": 0,
+            "value": null,
+            "status": "insufficient",
+            "delta": null,
+            "label": "呼吸数"
+          },
+          "oxygenAvg": {
+            "average": 98.35054381987793,
+            "deviation": 0.19281793457392662,
+            "days": 28,
+            "value": 98.3076923076923,
+            "status": "usual",
+            "delta": -0.04285151218562078,
+            "label": "血中酸素"
+          }
+        },
+        "confidence": "medium",
+        "baselineWindowDays": 28
+      },
+      "weight": null,
+      "bodyFat": null,
+      "activeCalories": 471.0,
+      "heartRateAvg": 66.52,
+      "sleepMinutes": 6.25,
+      "steps": 10243.0,
+      "sleepEfficiency": 87.72,
+      "deepSleepMinutes": 1.75,
+      "remSleepMinutes": 1.33,
+      "walkingMinutes": 0.5,
+      "exerciseMinutes": 0.94,
+      "restingHeartRate": 54.0,
+      "hrv": null,
+      "respiratoryRate": null,
+      "oxygenAvg": 98.31,
+      "comparisons": {
+        "weight": {
+          "previousDelta": null,
+          "avg7": 57.3,
+          "avg7Delta": null
+        },
+        "bodyFat": {
+          "previousDelta": null,
+          "avg7": 10.3,
+          "avg7Delta": null
+        },
+        "activeCalories": {
+          "previousDelta": 121.0,
+          "avg7": 251.67,
+          "avg7Delta": 219.33
+        },
+        "heartRateAvg": {
+          "previousDelta": 4.42,
+          "avg7": 60.89,
+          "avg7Delta": 5.63
+        },
+        "sleepMinutes": {
+          "previousDelta": -1.5,
+          "avg7": 7.31,
+          "avg7Delta": -1.06
+        },
+        "steps": {
+          "previousDelta": 4308.0,
+          "avg7": 6291.43,
+          "avg7Delta": 3951.57
+        },
+        "sleepEfficiency": {
+          "previousDelta": -6.7,
+          "avg7": 92.51,
+          "avg7Delta": -4.79
+        },
+        "deepSleepMinutes": {
+          "previousDelta": 0.25,
+          "avg7": 1.67,
+          "avg7Delta": 0.08
+        },
+        "remSleepMinutes": {
+          "previousDelta": -0.59,
+          "avg7": 1.95,
+          "avg7Delta": -0.62
+        },
+        "walkingMinutes": {
+          "previousDelta": null,
+          "avg7": 0.5,
+          "avg7Delta": 0.0
+        },
+        "exerciseMinutes": {
+          "previousDelta": null,
+          "avg7": 0.87,
+          "avg7Delta": 0.07
+        },
+        "restingHeartRate": {
+          "previousDelta": 4.0,
+          "avg7": 49.43,
+          "avg7Delta": 4.57
+        },
+        "hrv": {
+          "previousDelta": null,
+          "avg7": null,
+          "avg7Delta": null
+        },
+        "respiratoryRate": {
+          "previousDelta": null,
+          "avg7": null,
+          "avg7Delta": null
+        },
+        "oxygenAvg": {
+          "previousDelta": 0.24,
+          "avg7": 98.5,
+          "avg7Delta": -0.19
+        }
+      }
+    },
+    {
+      "date": "2026-07-20",
+      "sourceExportedAt": "2026-07-21T00:27:20.917614Z",
+      "sourceReceivedAt": "2026-07-21T00:27:21.575Z",
+      "coach": {
+        "date": "2026-07-20",
+        "recoveryScore": 88,
+        "recoveryBand": "high",
+        "sleep": {
+          "score": 98,
+          "durationMinutes": 570.0,
+          "efficiency": 95.0,
+          "deepMinutes": 130.0,
+          "remMinutes": 165.0,
+          "awakeMinutes": 45.0,
+          "availableFactors": 4
+        },
+        "activityLoad": {
+          "score": 42,
+          "availableFactors": [
+            "activeCalories",
+            "steps"
+          ]
+        },
+        "targetLoad": [
+          60,
+          80
+        ],
+        "sleepBankMinutes": 10,
+        "tonightSleepNeedMinutes": 450,
+        "headline": "回復状態は良好。普段通りか、少し強度を上げられる日です。",
+        "warnings": [],
+        "positives": [
+          "睡眠スコア 98"
+        ],
+        "actions": [
+          "余力があれば30分前後の散歩または中強度の運動で、活動負荷を目安範囲へ近づける。",
+          "今夜の睡眠目安は7h30m。就寝前30分は光と刺激を抑える。"
+        ],
+        "monitor": {
+          "hrv": {
+            "average": null,
+            "deviation": null,
+            "days": 0,
+            "value": null,
+            "status": "insufficient",
+            "delta": null,
+            "label": "HRV"
+          },
+          "restingHeartRate": {
+            "average": 49.39473684210526,
+            "deviation": 4.06713059128145,
+            "days": 19,
             "value": null,
             "status": "insufficient",
             "delta": null,
@@ -8135,78 +8826,78 @@ window.HEALTH_SITE_DATA = {
             "label": "呼吸数"
           },
           "oxygenAvg": {
-            "average": 98.32024731674929,
-            "deviation": 0.20247305593669618,
-            "days": 27,
-            "value": null,
-            "status": "insufficient",
-            "delta": null,
+            "average": 98.34600488055639,
+            "deviation": 0.19227662256726127,
+            "days": 28,
+            "value": 98.09677419354838,
+            "status": "usual",
+            "delta": -0.24923068700800854,
             "label": "血中酸素"
           }
         },
-        "confidence": "low",
+        "confidence": "medium",
         "baselineWindowDays": 28
       },
-      "weight": null,
-      "bodyFat": null,
-      "activeCalories": null,
-      "heartRateAvg": null,
-      "sleepMinutes": null,
-      "steps": 5066.29,
-      "sleepEfficiency": null,
-      "deepSleepMinutes": null,
-      "remSleepMinutes": null,
+      "weight": 56.6,
+      "bodyFat": 11.0,
+      "activeCalories": 256.0,
+      "heartRateAvg": 62.74,
+      "sleepMinutes": 9.5,
+      "steps": 5878.0,
+      "sleepEfficiency": 95.0,
+      "deepSleepMinutes": 2.17,
+      "remSleepMinutes": 2.75,
       "walkingMinutes": null,
       "exerciseMinutes": null,
       "restingHeartRate": null,
       "hrv": null,
       "respiratoryRate": null,
-      "oxygenAvg": null,
+      "oxygenAvg": 98.1,
       "comparisons": {
         "weight": {
           "previousDelta": null,
-          "avg7": 57.08,
-          "avg7Delta": null
+          "avg7": 57.3,
+          "avg7Delta": -0.7
         },
         "bodyFat": {
           "previousDelta": null,
-          "avg7": 10.24,
-          "avg7Delta": null
+          "avg7": 10.38,
+          "avg7Delta": 0.62
         },
         "activeCalories": {
-          "previousDelta": null,
-          "avg7": 187.4,
-          "avg7Delta": null
+          "previousDelta": -215.0,
+          "avg7": 283.0,
+          "avg7Delta": -27.0
         },
         "heartRateAvg": {
-          "previousDelta": null,
-          "avg7": 64.19,
-          "avg7Delta": null
+          "previousDelta": -3.78,
+          "avg7": 61.15,
+          "avg7Delta": 1.59
         },
         "sleepMinutes": {
-          "previousDelta": null,
-          "avg7": 7.08,
-          "avg7Delta": null
+          "previousDelta": 3.25,
+          "avg7": 7.13,
+          "avg7Delta": 2.37
         },
         "steps": {
-          "previousDelta": 752.48,
-          "avg7": 5936.83,
-          "avg7Delta": -870.54
+          "previousDelta": -4365.0,
+          "avg7": 6360.43,
+          "avg7Delta": -482.43
         },
         "sleepEfficiency": {
-          "previousDelta": null,
-          "avg7": 90.18,
-          "avg7Delta": null
+          "previousDelta": 7.28,
+          "avg7": 92.5,
+          "avg7Delta": 2.5
         },
         "deepSleepMinutes": {
-          "previousDelta": null,
-          "avg7": 1.47,
-          "avg7Delta": null
+          "previousDelta": 0.42,
+          "avg7": 1.7,
+          "avg7Delta": 0.47
         },
         "remSleepMinutes": {
-          "previousDelta": null,
-          "avg7": 1.65,
-          "avg7Delta": null
+          "previousDelta": 1.42,
+          "avg7": 1.77,
+          "avg7Delta": 0.98
         },
         "walkingMinutes": {
           "previousDelta": null,
@@ -8215,12 +8906,12 @@ window.HEALTH_SITE_DATA = {
         },
         "exerciseMinutes": {
           "previousDelta": null,
-          "avg7": 0.86,
+          "avg7": 0.91,
           "avg7Delta": null
         },
         "restingHeartRate": {
           "previousDelta": null,
-          "avg7": 52.4,
+          "avg7": 50.0,
           "avg7Delta": null
         },
         "hrv": {
@@ -8234,9 +8925,9 @@ window.HEALTH_SITE_DATA = {
           "avg7Delta": null
         },
         "oxygenAvg": {
-          "previousDelta": null,
-          "avg7": 98.41,
-          "avg7Delta": null
+          "previousDelta": -0.21,
+          "avg7": 98.47,
+          "avg7Delta": -0.37
         }
       }
     }
@@ -8772,11 +9463,84 @@ window.HEALTH_SITE_DATA = {
           "inferred": true
         }
       ]
+    },
+    {
+      "date": "2026-07-15",
+      "strengthMinutes": 0,
+      "walkingMinutes": 30,
+      "workouts": [],
+      "walks": [
+        {
+          "id": "inferred-ringconn-walk-2026-07-15-1784084400",
+          "startTime": "2026-07-15T03:00:00+00:00",
+          "endTime": "2026-07-15T03:30:00+00:00",
+          "minutes": 30,
+          "steps": 2135,
+          "cadence": 71,
+          "sourcePackage": "com.gdjztech.ringconn",
+          "inferred": true
+        }
+      ]
+    },
+    {
+      "date": "2026-07-16",
+      "strengthMinutes": 0,
+      "walkingMinutes": 30,
+      "workouts": [],
+      "walks": [
+        {
+          "id": "inferred-ringconn-walk-2026-07-16-1784172600",
+          "startTime": "2026-07-16T03:30:00+00:00",
+          "endTime": "2026-07-16T04:00:00+00:00",
+          "minutes": 30,
+          "steps": 2156,
+          "cadence": 72,
+          "sourcePackage": "com.gdjztech.ringconn",
+          "inferred": true
+        }
+      ]
+    },
+    {
+      "date": "2026-07-19",
+      "strengthMinutes": 56,
+      "walkingMinutes": 30,
+      "workouts": [
+        {
+          "id": "8adcd022-5c83-4df7-864c-d143e2009137",
+          "startTime": "2026-07-19T06:50:19Z",
+          "endTime": "2026-07-19T07:46:27Z",
+          "minutes": 56,
+          "sourcePackage": "com.hevy",
+          "title": "午後のトレーニング💪",
+          "menus": [
+            "スクワット",
+            "レッグエクステンション",
+            "ハックスクワット",
+            "レッグプレス",
+            "レッグカール"
+          ],
+          "bodyParts": [
+            "脚"
+          ]
+        }
+      ],
+      "walks": [
+        {
+          "id": "inferred-ringconn-walk-2026-07-19-1784424600",
+          "startTime": "2026-07-19T01:30:00+00:00",
+          "endTime": "2026-07-19T02:00:00+00:00",
+          "minutes": 30,
+          "steps": 1950,
+          "cadence": 65,
+          "sourcePackage": "com.gdjztech.ringconn",
+          "inferred": true
+        }
+      ]
     }
   ],
   "exports": {
-    "count": 21,
-    "latestExportedAt": "2026-07-16T21:31:10.738599Z",
-    "latestReceivedAt": "2026-07-16T21:31:11.147Z"
+    "count": 22,
+    "latestExportedAt": "2026-07-21T00:27:20.917614Z",
+    "latestReceivedAt": "2026-07-21T00:27:21.575Z"
   }
 };
