@@ -22,6 +22,24 @@ REPORTS_DIR = ROOT / "reports"
 STATE_PATH = REPORTS_DIR / ".daily-health-report-state.json"
 JST = ZoneInfo("Asia/Tokyo")
 RINGCONN_PACKAGE = "com.gdjztech.ringconn"
+OMRON_PACKAGE = "jp.co.omron.healthcare.omron_connect"
+HEVY_PACKAGE = "com.hevy"
+RINGCONN_RECORD_TYPES = {
+    "HeartRateRecord",
+    "RestingHeartRateRecord",
+    "HeartRateVariabilityRmssdRecord",
+    "OxygenSaturationRecord",
+    "RespiratoryRateRecord",
+    "SleepSessionRecord",
+    "StepsRecord",
+    "ActiveCaloriesBurnedRecord",
+}
+OMRON_RECORD_TYPES = {
+    "WeightRecord",
+    "BodyFatRecord",
+    "LeanBodyMassRecord",
+}
+ALLOWED_EXERCISE_PACKAGES = {RINGCONN_PACKAGE, HEVY_PACKAGE}
 WALKING_EXERCISE_TYPE = 79
 INFERRED_WALK_MIN_STEPS = 200
 INFERRED_WALK_MIN_MINUTES = 2
@@ -293,6 +311,26 @@ def intervals_overlap(
     return first_start < second_end and second_start < first_end
 
 
+def is_allowed_analysis_record(record: dict) -> bool:
+    """Return whether a Health Connect record may affect report analysis.
+
+    Raw exports intentionally retain every source, but analysis uses an exact
+    allowlist. This prevents phone/Android records from becoming a fallback
+    when a preferred device has no data for a day.
+    """
+    record_type = record.get("type")
+    source = record.get("sourcePackage")
+    if record_type == "BasalMetabolicRateRecord":
+        return source in {RINGCONN_PACKAGE, OMRON_PACKAGE}
+    if record_type in RINGCONN_RECORD_TYPES:
+        return source == RINGCONN_PACKAGE
+    if record_type in OMRON_RECORD_TYPES:
+        return source == OMRON_PACKAGE
+    if record_type == "ExerciseSessionRecord":
+        return source in ALLOWED_EXERCISE_PACKAGES
+    return record_type not in COUNT_LABELS
+
+
 def infer_walking_sessions(records: list[dict]) -> list[dict]:
     """Infer purposeful RingConn walks from dense step intervals.
 
@@ -304,6 +342,8 @@ def infer_walking_sessions(records: list[dict]) -> list[dict]:
     exercise_intervals = []
     for record in records:
         if record.get("type") != "ExerciseSessionRecord":
+            continue
+        if not is_allowed_analysis_record(record):
             continue
         start_raw = record.get("startTime")
         end_raw = record.get("endTime")
@@ -390,7 +430,11 @@ def latest_value(records: list[dict], key: str, target: date) -> float | None:
 
 
 def aggregate(export: dict) -> tuple[dict, dict]:
-    records = export.get("records", [])
+    records = [
+        record
+        for record in export.get("records", [])
+        if is_allowed_analysis_record(record)
+    ]
     by_type = defaultdict(list)
     for record in records:
         by_type[record.get("type")].append(record)
@@ -494,8 +538,6 @@ def aggregate(export: dict) -> tuple[dict, dict]:
     for day, source_values in steps_by_source.items():
         if source_values.get(RINGCONN_PACKAGE):
             metrics[day]["steps"] = source_values[RINGCONN_PACKAGE]
-        else:
-            metrics[day]["steps"] = sum(source_values.values())
 
     for day, intervals in sleep_intervals.items():
         metrics[day]["sleepMinutes"] = merge_minutes(remove_nested_intervals(intervals))
@@ -1052,7 +1094,7 @@ def build_report(latest: LatestExport) -> tuple[str, Path]:
     conclusion = build_conclusion(rows)
     focus = build_focus(rows)
     actions = build_actions(rows)
-    counts = export.get("counts", {})
+    counts = {key: len(by_type.get(key, [])) for key in COUNT_LABELS}
 
     report_date = parse_instant(latest.exported_at).astimezone(JST).date()
     report_path = REPORTS_DIR / f"health-report-{report_date:%Y%m%d}.md"
@@ -1140,11 +1182,13 @@ def build_report(latest: LatestExport) -> tuple[str, Path]:
             "|---|---:|---:|---|",
             *build_monitor_rows(coaching, rows),
             "",
-            "## 収集状況",
+            "## 分析対象データ",
             "",
             f"- 対象期間: {parse_instant(export['rangeStart']).astimezone(JST):%Y-%m-%d %H:%M} から {parse_instant(export['rangeEnd']).astimezone(JST):%Y-%m-%d %H:%M} JST",
             f"- レポート対象日: {target:%Y-%m-%d}",
-            f"- レコード総数: {len(export.get('records', [])):,}",
+            f"- 分析対象レコード数: {sum(counts.values()):,}",
+            f"- 許可ソース: RingConn、OMRON、Hevy（用途別の許可リスト）",
+            "- スマホ本体やその他アプリの記録は、生データに残っていても分析から除外",
             f"- {missing_text}",
             "",
             "| データ種別 | 件数 |",

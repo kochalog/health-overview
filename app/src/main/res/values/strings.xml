@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">体調データ収集</string>
+    <string name="reminder_channel_name">データ送信リマインダー</string>
+    <string name="reminder_channel_description">毎朝の体調データ送信をお知らせします</string>
+    <string name="reminder_notification_title">体調データを送信してください</string>
+    <string name="reminder_notification_text">アプリを開いて「過去30日分を収集する」をタップしてください。</string>
 </resources>

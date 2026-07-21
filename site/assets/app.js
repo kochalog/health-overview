@@ -444,7 +444,6 @@ function renderCalendar() {
   let strengthDays = 0;
   let walkingDays = 0;
   let strengthMinutes = 0;
-  let inferredWalks = 0;
 
   monthLabel.textContent = `${year}年 ${month + 1}月`;
   for (let index = 0; index < firstWeekday; index += 1) {
@@ -455,16 +454,12 @@ function renderCalendar() {
     const activity = activityByDate.get(key);
     const hasStrength = Boolean(activity?.workouts?.length);
     const hasWalking = Boolean(activity?.walks?.length);
-    const inferredCount = (activity?.walks || []).filter((walk) => walk.inferred).length;
     if (hasStrength) {
       strengthDays += 1;
       strengthMinutes += activity.strengthMinutes || 0;
     }
     if (hasWalking) walkingDays += 1;
-    inferredWalks += inferredCount;
-    const walkingLabel = hasWalking
-      ? `ウォーキング ${formatDuration(activity.walkingMinutes)}${inferredCount ? `・歩数から推定${inferredCount}件` : ""}`
-      : "";
+    const walkingLabel = hasWalking ? `ウォーキング ${formatDuration(activity.walkingMinutes)}` : "";
     const labels = [hasStrength ? `筋トレ ${formatDuration(activity.strengthMinutes)}` : "", walkingLabel].filter(Boolean);
     cells.push(`<span class="calendar-day ${key === latestKey ? "is-latest" : ""} ${hasStrength || hasWalking ? "has-activity" : ""}" aria-label="${month + 1}月${dayNumber}日${labels.length ? ` ${labels.join(" / ")}` : ""}">
       <b>${dayNumber}</b>
@@ -475,7 +470,7 @@ function renderCalendar() {
     </span>`);
   }
   calendarDays.innerHTML = cells.join("");
-  summary.innerHTML = `<span>筋トレ <b>${strengthDays}</b>日・${formatDuration(strengthMinutes)}</span><span>ウォーキング <b>${walkingDays}</b>日${inferredWalks ? `・歩数推定${inferredWalks}件` : ""}</span>`;
+  summary.innerHTML = `<span>筋トレ <b>${strengthDays}</b>日・${formatDuration(strengthMinutes)}</span><span>ウォーキング <b>${walkingDays}</b>日</span>`;
 }
 
 function renderWorkouts() {

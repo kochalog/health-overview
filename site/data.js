@@ -391,7 +391,7 @@ window.HEALTH_SITE_DATA = {
         "confidence": "low",
         "baselineWindowDays": 28
       },
-      "weight": 56.0,
+      "weight": null,
       "bodyFat": null,
       "activeCalories": null,
       "heartRateAvg": null,
@@ -576,9 +576,9 @@ window.HEALTH_SITE_DATA = {
       "oxygenAvg": null,
       "comparisons": {
         "weight": {
-          "previousDelta": 1.0,
-          "avg7": 56.0,
-          "avg7Delta": 1.0
+          "previousDelta": null,
+          "avg7": null,
+          "avg7Delta": null
         },
         "bodyFat": {
           "previousDelta": null,
@@ -747,8 +747,8 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": -0.1,
-          "avg7": 56.5,
-          "avg7Delta": 0.4
+          "avg7": 57.0,
+          "avg7Delta": -0.1
         },
         "bodyFat": {
           "previousDelta": 2.4,
@@ -915,8 +915,8 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": -0.5,
-          "avg7": 56.63,
-          "avg7Delta": -0.23
+          "avg7": 56.95,
+          "avg7Delta": -0.55
         },
         "bodyFat": {
           "previousDelta": -3.0,
@@ -1083,8 +1083,8 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": 0.5,
-          "avg7": 56.58,
-          "avg7Delta": 0.32
+          "avg7": 56.77,
+          "avg7Delta": 0.13
         },
         "bodyFat": {
           "previousDelta": 2.1,
@@ -1233,7 +1233,7 @@ window.HEALTH_SITE_DATA = {
         "confidence": "low",
         "baselineWindowDays": 28
       },
-      "weight": 56.0,
+      "weight": 56.8,
       "bodyFat": 13.4,
       "activeCalories": 62.0,
       "heartRateAvg": 55.95,
@@ -1250,9 +1250,9 @@ window.HEALTH_SITE_DATA = {
       "oxygenAvg": 98.5,
       "comparisons": {
         "weight": {
-          "previousDelta": -0.9,
-          "avg7": 56.64,
-          "avg7Delta": -0.64
+          "previousDelta": -0.1,
+          "avg7": 56.8,
+          "avg7Delta": 0.0
         },
         "bodyFat": {
           "previousDelta": 1.3,
@@ -1424,7 +1424,7 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": null,
-          "avg7": 56.53,
+          "avg7": 56.8,
           "avg7Delta": null
         },
         "bodyFat": {
@@ -1592,7 +1592,7 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": null,
-          "avg7": 56.53,
+          "avg7": 56.8,
           "avg7Delta": null
         },
         "bodyFat": {
@@ -1765,8 +1765,8 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": null,
-          "avg7": 56.64,
-          "avg7Delta": 0.16
+          "avg7": 56.8,
+          "avg7Delta": 0.0
         },
         "bodyFat": {
           "previousDelta": null,
@@ -1939,8 +1939,8 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": -0.7,
-          "avg7": 56.6,
-          "avg7Delta": -0.5
+          "avg7": 56.76,
+          "avg7Delta": -0.66
         },
         "bodyFat": {
           "previousDelta": 0.9,
@@ -2107,7 +2107,7 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": null,
-          "avg7": 56.44,
+          "avg7": 56.6,
           "avg7Delta": null
         },
         "bodyFat": {
@@ -2280,8 +2280,8 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": null,
-          "avg7": 56.45,
-          "avg7Delta": 0.15
+          "avg7": 56.65,
+          "avg7Delta": -0.05
         },
         "bodyFat": {
           "previousDelta": null,
@@ -2453,7 +2453,7 @@ window.HEALTH_SITE_DATA = {
       "comparisons": {
         "weight": {
           "previousDelta": null,
-          "avg7": 56.38,
+          "avg7": 56.57,
           "avg7Delta": null
         },
         "bodyFat": {
