@@ -25,6 +25,36 @@
         </div>
       </section>
 
+      <section class="guidance-section" aria-label="今日のガイダンス">
+        <div class="section-heading">
+          <h2>Today’s Guidance</h2>
+          <span id="guidanceConfidence">個人基準を計算中</span>
+        </div>
+        <div class="score-grid" id="scoreGrid"></div>
+        <div class="guidance-grid">
+          <article class="guidance-card action-card">
+            <span class="panel-kicker">Today’s Plan</span>
+            <h3>今日やること</h3>
+            <ul id="actionList"></ul>
+          </article>
+          <article class="guidance-card factor-card">
+            <span class="panel-kicker">Why</span>
+            <h3>この判断の理由</h3>
+            <ul id="factorList"></ul>
+          </article>
+        </div>
+        <article class="monitor-card">
+          <div class="monitor-head">
+            <div>
+              <span class="panel-kicker">Health Monitor</span>
+              <h3>個人の通常範囲と比較</h3>
+            </div>
+            <span>最大28日</span>
+          </div>
+          <div class="monitor-grid" id="monitorGrid"></div>
+        </article>
+      </section>
+
       <section class="chart-section" aria-label="主要グラフ">
         <div class="section-heading">
           <h2>Metric Trends</h2>

@@ -16,7 +16,11 @@ const formatters = {
   activeCalories: (v) => formatNumber(v, 0, "kcal"),
   heartRateAvg: (v) => formatNumber(v, 0, "bpm"),
   sleepMinutes: (v) => v == null ? "-" : `${Number(v).toFixed(1)}h`,
+  sleepEfficiency: (v) => formatNumber(v, 1, "%"),
+  deepSleepMinutes: (v) => v == null ? "-" : `${Number(v).toFixed(1)}h`,
+  remSleepMinutes: (v) => v == null ? "-" : `${Number(v).toFixed(1)}h`,
   steps: (v) => formatNumber(v, 0, "歩"),
+  walkingMinutes: (v) => v == null ? "-" : `${Number(v).toFixed(1)}h`,
   exerciseMinutes: (v) => v == null ? "-" : `${Number(v).toFixed(1)}h`,
   restingHeartRate: (v) => formatNumber(v, 0, "bpm"),
   hrv: (v) => formatNumber(v, 0, "ms"),
@@ -78,6 +82,25 @@ function formatDuration(minutes) {
   const rest = minutes % 60;
   if (!hours) return `${rest}分`;
   return rest ? `${hours}時間${rest}分` : `${hours}時間`;
+}
+
+function formatHourMinutes(minutes) {
+  if (minutes == null || Number.isNaN(minutes)) return "-";
+  const rounded = Math.round(Math.abs(minutes));
+  const hours = Math.floor(rounded / 60);
+  const rest = rounded % 60;
+  return `${hours}h${String(rest).padStart(2, "0")}m`;
+}
+
+function scoreTone(score) {
+  if (score == null) return "unknown";
+  if (score >= 75) return "high";
+  if (score < 50) return "low";
+  return "moderate";
+}
+
+function scoreLabel(tone) {
+  return { high: "良好", moderate: "中間", low: "回復優先", unknown: "較正中" }[tone] || "-";
 }
 
 function formatWorkoutDate(value) {
@@ -260,6 +283,95 @@ function renderSummary() {
   summaryText.innerHTML = buildConditionNotes(latest).map(escapeHtml).join("<br>");
 }
 
+function renderGuidance() {
+  const latest = latestDay();
+  const coach = latest?.coach;
+  const scoreGrid = document.getElementById("scoreGrid");
+  const actionList = document.getElementById("actionList");
+  const factorList = document.getElementById("factorList");
+  const monitorGrid = document.getElementById("monitorGrid");
+  const confidence = document.getElementById("guidanceConfidence");
+  if (!coach) {
+    scoreGrid.innerHTML = '<div class="guidance-empty">分析に必要な履歴データを読み込み中です。</div>';
+    actionList.innerHTML = "<li>次回のデータ更新後に表示します。</li>";
+    factorList.innerHTML = "<li>判断材料がまだありません。</li>";
+    monitorGrid.innerHTML = "";
+    return;
+  }
+
+  const confidenceLabels = { high: "判定信頼度：高", medium: "判定信頼度：中", low: "判定信頼度：低" };
+  confidence.textContent = `${confidenceLabels[coach.confidence] || "判定信頼度：-"}・${coach.baselineWindowDays}日基準`;
+
+  const sleepBank = coach.sleepBankMinutes;
+  const bankText = sleepBank == null
+    ? "積み上げ中"
+    : sleepBank < 0
+      ? `睡眠負債 ${formatHourMinutes(sleepBank)}`
+      : `睡眠余裕 +${formatHourMinutes(sleepBank)}`;
+  const cards = [
+    {
+      label: "回復度",
+      score: coach.recoveryScore,
+      tone: coach.recoveryBand,
+      detail: scoreLabel(coach.recoveryBand),
+      sub: "睡眠・HRV・安静時心拍・呼吸・SpO₂",
+    },
+    {
+      label: "睡眠",
+      score: coach.sleep?.score,
+      tone: scoreTone(coach.sleep?.score),
+      detail: `今夜の目安 ${formatHourMinutes(coach.tonightSleepNeedMinutes)}`,
+      sub: bankText,
+    },
+    {
+      label: "活動負荷",
+      score: coach.activityLoad?.score,
+      tone: scoreTone(coach.activityLoad?.score),
+      detail: `今日の目安 ${coach.targetLoad?.[0] ?? "-"}〜${coach.targetLoad?.[1] ?? "-"}`,
+      sub: "歩数・活動カロリー・運動時間",
+    },
+  ];
+  scoreGrid.innerHTML = cards.map((card) => `<article class="score-card tone-${escapeHtml(card.tone || "unknown")}">
+    <div class="score-card-head"><span>${escapeHtml(card.label)}</span><b>${card.score == null ? "-" : `${card.score}<small>/100</small>`}</b></div>
+    <strong>${escapeHtml(card.detail)}</strong>
+    <p>${escapeHtml(card.sub)}</p>
+  </article>`).join("");
+
+  actionList.innerHTML = (coach.actions || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+  const factors = [
+    ...(coach.warnings || []).map((text) => ({ text, tone: "watch", label: "注意" })),
+    ...(coach.positives || []).map((text) => ({ text, tone: "good", label: "良好" })),
+  ];
+  factorList.innerHTML = (factors.length ? factors : [{ text: "主要指標は個人の通常範囲内です。", tone: "neutral", label: "安定" }])
+    .slice(0, 5)
+    .map((item) => `<li><span class="factor-pill ${item.tone}">${item.label}</span>${escapeHtml(item.text)}</li>`).join("");
+
+  const monitorFormatters = {
+    hrv: formatters.hrv,
+    restingHeartRate: formatters.restingHeartRate,
+    respiratoryRate: formatters.respiratoryRate,
+    oxygenAvg: formatters.oxygenAvg,
+  };
+  const monitorTone = (key, status) => {
+    if (status === "usual") return "usual";
+    if (status === "insufficient") return "unknown";
+    if ((key === "hrv" && status === "above") || (key === "restingHeartRate" && status === "below") || (key === "oxygenAvg" && status === "above")) return "good";
+    return "watch";
+  };
+  const statusLabels = { above: "高い", below: "低い", usual: "通常範囲", insufficient: "較正中" };
+  monitorGrid.innerHTML = Object.entries(coach.monitor || {}).map(([key, item]) => {
+    const formatter = monitorFormatters[key] || ((value) => formatNumber(value, 1));
+    const tone = monitorTone(key, item.status);
+    const baseline = item.average == null ? "基準なし" : `基準 ${formatter(item.average)}・${item.days}日`;
+    return `<div class="monitor-item tone-${tone}">
+      <span>${escapeHtml(item.label)}</span>
+      <b>${formatter(item.value)}</b>
+      <small>${escapeHtml(baseline)}</small>
+      <em>${statusLabels[item.status] || "-"}</em>
+    </div>`;
+  }).join("");
+}
+
 function renderCharts() {
   const container = document.getElementById("chartStrip");
   const range = document.getElementById("rangeLabel");
@@ -332,6 +444,7 @@ function renderCalendar() {
   let strengthDays = 0;
   let walkingDays = 0;
   let strengthMinutes = 0;
+  let inferredWalks = 0;
 
   monthLabel.textContent = `${year}年 ${month + 1}月`;
   for (let index = 0; index < firstWeekday; index += 1) {
@@ -342,12 +455,17 @@ function renderCalendar() {
     const activity = activityByDate.get(key);
     const hasStrength = Boolean(activity?.workouts?.length);
     const hasWalking = Boolean(activity?.walks?.length);
+    const inferredCount = (activity?.walks || []).filter((walk) => walk.inferred).length;
     if (hasStrength) {
       strengthDays += 1;
       strengthMinutes += activity.strengthMinutes || 0;
     }
     if (hasWalking) walkingDays += 1;
-    const labels = [hasStrength ? `筋トレ ${formatDuration(activity.strengthMinutes)}` : "", hasWalking ? `ウォーキング ${formatDuration(activity.walkingMinutes)}` : ""].filter(Boolean);
+    inferredWalks += inferredCount;
+    const walkingLabel = hasWalking
+      ? `ウォーキング ${formatDuration(activity.walkingMinutes)}${inferredCount ? `・歩数から推定${inferredCount}件` : ""}`
+      : "";
+    const labels = [hasStrength ? `筋トレ ${formatDuration(activity.strengthMinutes)}` : "", walkingLabel].filter(Boolean);
     cells.push(`<span class="calendar-day ${key === latestKey ? "is-latest" : ""} ${hasStrength || hasWalking ? "has-activity" : ""}" aria-label="${month + 1}月${dayNumber}日${labels.length ? ` ${labels.join(" / ")}` : ""}">
       <b>${dayNumber}</b>
       <span class="day-markers">
@@ -357,7 +475,7 @@ function renderCalendar() {
     </span>`);
   }
   calendarDays.innerHTML = cells.join("");
-  summary.innerHTML = `<span>筋トレ <b>${strengthDays}</b>日・${formatDuration(strengthMinutes)}</span><span>ウォーキング <b>${walkingDays}</b>日</span>`;
+  summary.innerHTML = `<span>筋トレ <b>${strengthDays}</b>日・${formatDuration(strengthMinutes)}</span><span>ウォーキング <b>${walkingDays}</b>日${inferredWalks ? `・歩数推定${inferredWalks}件` : ""}</span>`;
 }
 
 function renderWorkouts() {
@@ -395,6 +513,7 @@ document.getElementById("calendarNext")?.addEventListener("click", () => {
 });
 
 renderSummary();
+renderGuidance();
 renderCharts();
 renderDetail();
 renderHistory();
