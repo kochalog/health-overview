@@ -1,6 +1,9 @@
 package jp.local.healthcollector
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +26,7 @@ import androidx.health.connect.client.records.SleepSessionRecord
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.records.WeightRecord
 import androidx.lifecycle.lifecycleScope
+import androidx.core.content.ContextCompat
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.Constraints
@@ -36,7 +40,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import java.time.Duration
 import java.time.Instant
+import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import java.time.ZonedDateTime
 import java.time.ZoneId
@@ -48,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     private var client: HealthConnectClient? = null
     private var latestExport: JSONObject? = null
     private var periodicWorkInfos: List<WorkInfo> = emptyList()
+    private var autoCollectScheduleRefreshed = false
 
     private val dataPermissions = setOf(
         HealthPermission.getReadPermission(WeightRecord::class),
@@ -68,6 +75,16 @@ class MainActivity : AppCompatActivity() {
     private val permissionLauncher = registerForActivityResult(
         PermissionController.createRequestPermissionResultContract()
     ) { updatePermissionStatus() }
+
+    private val notificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        binding.statusText.text = if (granted) {
+            "毎朝07:30頃のデータ送信通知を設定しました。"
+        } else {
+            "通知が許可されていないため、毎朝のデータ送信通知は表示されません。"
+        }
+    }
 
     private val saveLauncher = registerForActivityResult(
         ActivityResultContracts.CreateDocument("application/json")
@@ -101,6 +118,7 @@ class MainActivity : AppCompatActivity() {
         observeAutoCollectWork()
         refreshAutoCollectStatus()
         checkAvailability()
+        setupDailySendReminder()
     }
 
     override fun onResume() {
@@ -227,18 +245,9 @@ class MainActivity : AppCompatActivity() {
                 return@launch
             }
 
-            val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build()
-            val periodicRequest = PeriodicWorkRequestBuilder<HealthCollectWorker>(24, TimeUnit.HOURS)
-                .setConstraints(constraints)
-                .build()
             val workManager = WorkManager.getInstance(this@MainActivity)
-            workManager.enqueueUniquePeriodicWork(
-                HealthWork.PERIODIC_NAME,
-                ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
-                periodicRequest,
-            )
+            val constraints = autoCollectConstraints()
+            enqueueDailyAutoCollect(workManager, constraints)
 
             val immediateRequest = OneTimeWorkRequestBuilder<HealthCollectWorker>()
                 .setConstraints(constraints)
@@ -250,7 +259,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             binding.autoCollectButton.text = "自動収集を再設定・テストする"
-            binding.statusText.text = "毎日の自動収集を再登録し、即時テストを開始しました。"
+            binding.statusText.text = "毎日07:50 JSTを目標に自動収集を再登録し、即時テストを開始しました。"
             refreshAutoCollectStatus()
         }
     }
@@ -259,6 +268,10 @@ class MainActivity : AppCompatActivity() {
         val workManager = WorkManager.getInstance(this)
         workManager.getWorkInfosForUniqueWorkLiveData(HealthWork.PERIODIC_NAME).observe(this) { workInfos ->
             periodicWorkInfos = workInfos
+            if (!autoCollectScheduleRefreshed && workInfos.any { it.isScheduledForAutoCollect() }) {
+                autoCollectScheduleRefreshed = true
+                enqueueDailyAutoCollect(workManager, autoCollectConstraints())
+            }
             refreshAutoCollectStatus()
         }
         workManager.getWorkInfosForUniqueWorkLiveData(HealthWork.IMMEDIATE_NAME).observe(this) {
@@ -267,11 +280,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refreshAutoCollectStatus() {
-        val scheduled = periodicWorkInfos.any {
-            it.state == WorkInfo.State.ENQUEUED ||
-                it.state == WorkInfo.State.RUNNING ||
-                it.state == WorkInfo.State.BLOCKED
-        }
+        val scheduled = periodicWorkInfos.any { it.isScheduledForAutoCollect() }
         binding.autoCollectButton.text = if (scheduled) {
             "自動収集を再設定・テストする"
         } else {
@@ -282,6 +291,9 @@ class MainActivity : AppCompatActivity() {
         binding.autoCollectStatusText.text = buildString {
             append("定期実行: ")
             append(if (scheduled) "登録済み" else "未登録")
+            if (scheduled) {
+                append("（毎日07:50 JST目標）")
+            }
             append("\n最終試行: ")
             append(formatStatusTime(status.lastAttemptAt))
             append("\n最終成功: ")
@@ -297,5 +309,58 @@ class MainActivity : AppCompatActivity() {
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 .format(Instant.parse(raw).atZone(ZoneId.systemDefault()))
         }.getOrDefault(raw)
+    }
+
+    private fun setupDailySendReminder() {
+        DailySendReminder.schedule(this)
+        if (
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
+                PackageManager.PERMISSION_GRANTED
+        ) {
+            val preferences = getSharedPreferences(REMINDER_PREFERENCES, MODE_PRIVATE)
+            if (!preferences.getBoolean(KEY_NOTIFICATION_PERMISSION_REQUESTED, false)) {
+                preferences.edit().putBoolean(KEY_NOTIFICATION_PERMISSION_REQUESTED, true).apply()
+                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    private fun millisUntilNextAutoCollect(): Long {
+        val now = ZonedDateTime.now(AUTO_COLLECT_ZONE)
+        var next = now.toLocalDate().atTime(AUTO_COLLECT_TIME).atZone(AUTO_COLLECT_ZONE)
+        if (!next.isAfter(now)) {
+            next = next.plusDays(1)
+        }
+        return Duration.between(now, next).toMillis()
+    }
+
+    private fun autoCollectConstraints(): Constraints =
+        Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+    private fun enqueueDailyAutoCollect(workManager: WorkManager, constraints: Constraints) {
+        val periodicRequest = PeriodicWorkRequestBuilder<HealthCollectWorker>(24, TimeUnit.HOURS)
+            .setConstraints(constraints)
+            .setInitialDelay(millisUntilNextAutoCollect(), TimeUnit.MILLISECONDS)
+            .build()
+        workManager.enqueueUniquePeriodicWork(
+            HealthWork.PERIODIC_NAME,
+            ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
+            periodicRequest,
+        )
+    }
+
+    private fun WorkInfo.isScheduledForAutoCollect(): Boolean =
+        state == WorkInfo.State.ENQUEUED ||
+            state == WorkInfo.State.RUNNING ||
+            state == WorkInfo.State.BLOCKED
+
+    companion object {
+        private const val REMINDER_PREFERENCES = "daily-send-reminder"
+        private const val KEY_NOTIFICATION_PERMISSION_REQUESTED = "notification-permission-requested"
+        private val AUTO_COLLECT_ZONE: ZoneId = ZoneId.of("Asia/Tokyo")
+        private val AUTO_COLLECT_TIME: LocalTime = LocalTime.of(7, 50)
     }
 }

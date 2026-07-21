@@ -58,6 +58,7 @@ class BuildHealthSiteTests(unittest.TestCase):
             },
             {
                 "type": "ExerciseSessionRecord",
+                "sourcePackage": site.report.RINGCONN_PACKAGE,
                 "startTime": "2026-06-02T00:58:00Z",
                 "endTime": "2026-06-02T01:12:00Z",
                 "exerciseType": site.WALKING_EXERCISE_TYPE,
@@ -102,6 +103,7 @@ class BuildHealthSiteTests(unittest.TestCase):
                 "records": [
                     {
                         "type": "SleepSessionRecord",
+                        "sourcePackage": site.report.RINGCONN_PACKAGE,
                         "startTime": "2026-06-01T14:00:00Z",
                         "endTime": "2026-06-01T22:00:00Z",
                         "stages": [
@@ -121,6 +123,141 @@ class BuildHealthSiteTests(unittest.TestCase):
         self.assertAlmostEqual(metrics[sleep_day]["sleepEfficiency"], 93.75)
         self.assertEqual(metrics[sleep_day]["deepSleepMinutes"], 90)
         self.assertEqual(metrics[sleep_day]["remSleepMinutes"], 120)
+
+    def test_phone_steps_are_never_used_even_as_fallback(self):
+        ringconn_day = date(2026, 6, 2)
+        phone_only_day = date(2026, 6, 3)
+        metrics, by_type = site.report.aggregate(
+            {
+                "records": [
+                    {
+                        "type": "StepsRecord",
+                        "sourcePackage": "android",
+                        "startTime": "2026-06-02T01:00:00Z",
+                        "endTime": "2026-06-02T01:10:00Z",
+                        "count": 10000,
+                    },
+                    {
+                        "type": "StepsRecord",
+                        "sourcePackage": site.report.RINGCONN_PACKAGE,
+                        "startTime": "2026-06-02T01:00:00Z",
+                        "endTime": "2026-06-02T01:10:00Z",
+                        "count": 500,
+                    },
+                    {
+                        "type": "StepsRecord",
+                        "sourcePackage": "android",
+                        "startTime": "2026-06-03T01:00:00Z",
+                        "endTime": "2026-06-03T01:10:00Z",
+                        "count": 12000,
+                    },
+                ]
+            }
+        )
+
+        self.assertEqual(metrics[ringconn_day]["steps"], 500)
+        self.assertNotIn("steps", metrics.get(phone_only_day, {}))
+        self.assertEqual(len(by_type["StepsRecord"]), 1)
+
+    def test_phone_sleep_is_excluded_from_analysis(self):
+        metrics, by_type = site.report.aggregate(
+            {
+                "records": [
+                    {
+                        "type": "SleepSessionRecord",
+                        "sourcePackage": "android",
+                        "startTime": "2026-06-01T14:00:00Z",
+                        "endTime": "2026-06-01T22:00:00Z",
+                    },
+                    {
+                        "type": "SleepSessionRecord",
+                        "sourcePackage": site.report.RINGCONN_PACKAGE,
+                        "startTime": "2026-06-02T14:00:00Z",
+                        "endTime": "2026-06-02T21:00:00Z",
+                    },
+                ]
+            }
+        )
+
+        self.assertNotIn("sleepMinutes", metrics.get(date(2026, 6, 2), {}))
+        self.assertEqual(metrics[date(2026, 6, 3)]["sleepMinutes"], 420)
+        self.assertEqual(len(by_type["SleepSessionRecord"]), 1)
+
+    def test_body_measurements_only_use_omron(self):
+        target = date(2026, 6, 2)
+        metrics, _ = site.report.aggregate(
+            {
+                "records": [
+                    {
+                        "type": "WeightRecord",
+                        "sourcePackage": "android",
+                        "time": "2026-06-02T01:00:00Z",
+                        "kilograms": 99,
+                    },
+                    {
+                        "type": "WeightRecord",
+                        "sourcePackage": site.report.OMRON_PACKAGE,
+                        "time": "2026-06-02T02:00:00Z",
+                        "kilograms": 70,
+                    },
+                    {
+                        "type": "BodyFatRecord",
+                        "sourcePackage": site.report.OMRON_PACKAGE,
+                        "time": "2026-06-02T02:00:00Z",
+                        "percentage": 18,
+                    },
+                ]
+            }
+        )
+
+        self.assertEqual(metrics[target]["weight"], 70)
+        self.assertEqual(metrics[target]["bodyFat"], 18)
+
+    def test_ringconn_basal_metabolic_rate_is_allowed(self):
+        self.assertTrue(
+            site.report.is_allowed_analysis_record(
+                {
+                    "type": "BasalMetabolicRateRecord",
+                    "sourcePackage": site.report.RINGCONN_PACKAGE,
+                }
+            )
+        )
+        self.assertTrue(
+            site.report.is_allowed_analysis_record(
+                {
+                    "type": "BasalMetabolicRateRecord",
+                    "sourcePackage": site.report.OMRON_PACKAGE,
+                }
+            )
+        )
+        self.assertFalse(
+            site.report.is_allowed_analysis_record(
+                {
+                    "type": "BasalMetabolicRateRecord",
+                    "sourcePackage": "android",
+                }
+            )
+        )
+
+    def test_phone_exercise_does_not_block_ringconn_walk_inference(self):
+        records = [
+            {
+                "type": "StepsRecord",
+                "sourcePackage": site.report.RINGCONN_PACKAGE,
+                "startTime": "2026-06-02T01:00:00Z",
+                "endTime": "2026-06-02T01:10:00Z",
+                "count": 850,
+            },
+            {
+                "type": "ExerciseSessionRecord",
+                "sourcePackage": "android",
+                "startTime": "2026-06-02T00:58:00Z",
+                "endTime": "2026-06-02T01:12:00Z",
+                "exerciseType": site.WALKING_EXERCISE_TYPE,
+            },
+        ]
+
+        self.assertEqual(len(site.report.infer_walking_sessions(records)), 1)
 
     def test_coaching_summary_combines_recovery_signals_into_actions(self):
         target = date(2026, 6, 30)
@@ -204,10 +341,27 @@ class BuildHealthSiteTests(unittest.TestCase):
                 {
                     "type": "ExerciseSessionRecord",
                     "id": "walk-1",
-                    "sourcePackage": "com.example.walk",
+                    "sourcePackage": site.report.RINGCONN_PACKAGE,
                     "startTime": "2026-06-03T01:00:00Z",
                     "endTime": "2026-06-03T01:35:00Z",
                     "exerciseType": 79,
+                },
+                {
+                    "type": "ExerciseSessionRecord",
+                    "id": "phone-walk",
+                    "sourcePackage": "android",
+                    "startTime": "2026-06-03T02:00:00Z",
+                    "endTime": "2026-06-03T02:50:00Z",
+                    "exerciseType": 79,
+                },
+                {
+                    "type": "ExerciseSessionRecord",
+                    "id": "phone-strength",
+                    "sourcePackage": "android",
+                    "startTime": "2026-06-03T03:00:00Z",
+                    "endTime": "2026-06-03T04:00:00Z",
+                    "exerciseType": 70,
+                    "title": "Bench Press",
                 },
             ],
         }
@@ -234,14 +388,14 @@ class BuildHealthSiteTests(unittest.TestCase):
             "records": [
                 {
                     "type": "StepsRecord",
-                    "sourcePackage": "com.example",
+                    "sourcePackage": site.report.RINGCONN_PACKAGE,
                     "startTime": "2026-06-03T03:00:00Z",
                     "endTime": "2026-06-03T03:10:00Z",
                     "count": 8000,
                 },
                 {
                     "type": "StepsRecord",
-                    "sourcePackage": "com.example",
+                    "sourcePackage": site.report.RINGCONN_PACKAGE,
                     "startTime": "2026-06-04T03:00:00Z",
                     "endTime": "2026-06-04T03:10:00Z",
                     "count": 1200,

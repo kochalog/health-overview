@@ -351,6 +351,8 @@ def build_activities(exports: list[dict]) -> list[dict]:
         for record in export.get("records", []):
             if record.get("type") != "ExerciseSessionRecord":
                 continue
+            if not report.is_allowed_analysis_record(record):
+                continue
             start_raw = record.get("startTime")
             end_raw = record.get("endTime")
             if not start_raw or not end_raw:
